@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallDeviceMapper">
+
+	<insert id="insertBatch">
+		INSERT INTO firewall_device (
+			`device_name`,
+			`ip_address`,
+			`subnetmask`,
+			`edition`,
+			`modal`,
+			`insert_time`
+			) 
+		VALUES 
+		<foreach collection="list" item="bean" index= "index" separator =",">
+			(
+			#{bean.device_name},
+			#{bean.ip_address},
+			#{bean.subnetmask},
+			#{bean.edition},
+			#{bean.modal},
+			#{bean.insert_time}
+			)
+		</foreach>
+	</insert>
+	
+	
+	<insert id="insert">
+		INSERT INTO firewall_device (
+			`device_name`,
+			`ip_address`,
+			`subnetmask`,
+			`edition`,
+			`modal`,
+			`insert_time`
+		) 
+		VALUES (
+			#{bean.device_name},
+			#{bean.ip_address},
+			#{bean.subnetmask},
+			#{bean.edition},
+			#{bean.modal},
+			#{bean.insert_time}
+		)
+	</insert>
+	
+	
+	<select id="getByDeviceNames" resultType="com.jiuzhou.firewall.bean.FirewallDevice">
+		SELECT 
+			*
+		FROM 
+			firewall_device
+		WHERE
+			`device_name` IN
+		<foreach collection="names" item="item" separator ="," open="(" close=")">
+			#{item}
+		</foreach>		
+	</select>
+	
+	
+	<select id="getAll" resultType="com.jiuzhou.firewall.bean.FirewallDevice">
+		SELECT * FROM firewall_device ORDER BY insert_time ASC
+	</select>
+	
+	
+	<select id="getByName" resultType="com.jiuzhou.firewall.bean.FirewallDevice">
+		SELECT * FROM firewall_device WHERE device_name = #{name}
+	</select>
+	
+	
+	<update id="update">
+		UPDATE
+			firewall_device
+		SET
+			`device_mark` = #{bean.device_mark},
+			`ip_address` = #{bean.ip_address},
+			`subnetmask` = #{bean.subnetmask},
+			`gateway` = #{bean.gateway},
+			`syslog_ip` = #{bean.syslog_ip},
+			`syslog_protocol` = #{bean.syslog_protocol},
+			`syslog_port` = #{bean.syslog_port},
+			`snmp_ip` = #{bean.snmp_ip},
+			`snmp_port` = #{bean.snmp_port},
+			`snmp_version` = #{bean.snmp_version},
+			`ntp_ip` = #{bean.ntp_ip},
+			`ntp_password` = #{bean.ntp_password},
+			`mode` = #{bean.mode},
+			`anti_attack_dos` = #{bean.anti_attack_dos},
+			`anti_attack_scan` = #{bean.anti_attack_scan},
+			`default_rule_action` = #{bean.default_rule_action},
+			`default_rule_log` = #{bean.default_rule_log},
+			`dynamic_route_power` = #{bean.dynamic_route_power},
+			`dynamic_route_action` = #{bean.dynamic_route_action},
+			`auto_ip_mac` = #{bean.auto_ip_mac},
+			`ntp_power` = #{bean.ntp_power},
+			`snmp_power` = #{bean.snmp_power},
+			`syslog_power` = #{bean.syslog_power},
+			`study_mode` = #{bean.study_mode}
+		WHERE
+			`device_name` = #{bean.device_name}
+	</update>
+	
+	
+	<delete id="deleteByDeviceName">
+		DELETE FROM firewall_device WHERE `device_name`=#{device_name}
+	</delete>
+	
+</mapper>

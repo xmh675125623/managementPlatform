@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallAntiAttackMapper">
+
+	<select id="getDosByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallAntiAttackDos">
+		SELECT
+			*
+		FROM 
+			firewall_anti_attack_dos
+		WHERE 
+			`device_name`=#{device_name}
+		LIMIT 1
+	</select>
+	
+	
+	<select id="getScanByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallAntiAttackScan">
+		SELECT
+			*
+		FROM 
+			firewall_anti_attack_scan
+		WHERE 
+			`device_name`=#{device_name}
+		LIMIT 1
+	</select>
+	
+	
+	<update id="updateDos">
+		UPDATE
+			firewall_anti_attack_dos
+		SET
+			`tcp_syn_flood`=#{bean.tcp_syn_flood},
+			`win_nuke`=#{bean.win_nuke},
+			`smurf`=#{bean.smurf},
+			`land`=#{bean.land},
+			`udp_flood`=#{bean.udp_flood},
+			`icmp_flood`=#{bean.icmp_flood},
+			`teardrop`=#{bean.teardrop}
+		WHERE
+			`device_name`=#{bean.device_name}
+	</update>
+	
+	
+	<update id="updateScan">
+		UPDATE
+			firewall_anti_attack_scan
+		SET
+			`tcp_scan`=#{bean.tcp_scan},
+			`udp_scan`=#{bean.udp_scan}
+		WHERE
+			`device_name`=#{bean.device_name}
+	</update>
+	
+	
+	<insert id="insertDos">
+		INSERT INTO firewall_anti_attack_dos (
+			`device_name`,
+			`tcp_syn_flood`,
+			`win_nuke`,
+			`smurf`,
+			`land`,
+			`udp_flood`,
+			`icmp_flood`,
+			`teardrop`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.tcp_syn_flood},
+			#{bean.win_nuke},
+			#{bean.smurf},
+			#{bean.land},
+			#{bean.udp_flood},
+			#{bean.icmp_flood},
+			#{bean.teardrop}
+		)
+	</insert>
+	
+	
+	<insert id="insertScan">
+		INSERT INTO firewall_anti_attack_scan (
+			`device_name`,
+			`tcp_scan`,
+			`udp_scan`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.tcp_scan},
+			#{bean.udp_scan}
+		)
+	</insert>
+	
+	
+	<delete id="deleteDosByDeviceName">
+		DELETE FROM firewall_anti_attack_dos WHERE `device_name`=#{device_name}
+	</delete>
+	
+	
+	<delete id="deleteScanByDeviceName">
+		DELETE FROM firewall_anti_attack_scan WHERE `device_name`=#{device_name}
+	</delete>
+		
+</mapper>

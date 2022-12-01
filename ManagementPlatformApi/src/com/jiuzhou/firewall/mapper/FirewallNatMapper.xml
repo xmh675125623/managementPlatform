@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallNatMapper">
+
+	<select id="getById" resultType="com.jiuzhou.firewall.bean.FirewallNat">
+		SELECT
+			*
+		FROM 
+			firewall_nat
+		WHERE 
+			`id`=#{id} AND `delete_flag`=0
+	</select>
+	
+	
+	<select id="getByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallNat">
+		SELECT
+			*
+		FROM 
+			firewall_nat
+		WHERE 
+			`device_name`=#{device_name} AND `delete_flag`=0
+		ORDER BY 
+			`id` DESC
+	</select>
+	
+	
+	<insert id="insert">
+		INSERT INTO firewall_nat(
+			`device_name`,
+			`nat_type`,
+			`protocol`,
+			`ip_address`,
+			`port`,
+			`nat_ip_address`,
+			`nat_sip_address`,
+			`nat_dip_address`,
+			`nat_port`,
+			`add_time`,
+			`add_user`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.nat_type},
+			#{bean.protocol},
+			#{bean.ip_address},
+			#{bean.port},
+			#{bean.nat_ip_address},
+			#{bean.nat_sip_address},
+			#{bean.nat_dip_address},
+			#{bean.nat_port},
+			#{bean.add_time},
+			#{bean.add_user}
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE 
+			firewall_nat
+		SET
+			`nat_type`=#{bean.nat_type},
+			`protocol`=#{bean.protocol},
+			`ip_address`=#{bean.ip_address},
+			`port`=#{bean.port},
+			`nat_ip_address`=#{bean.nat_ip_address},
+			`nat_sip_address`=#{bean.nat_sip_address},
+			`nat_dip_address`=#{bean.nat_dip_address},
+			`nat_port`=#{bean.nat_port},
+			`update_time`=#{bean.update_time},
+			`update_user`=#{bean.update_user},
+			`delete_flag`=#{bean.delete_flag}
+		WHERE
+			`id`=#{bean.id}
+	</update>
+	
+	
+	<delete id="deleteByDeviceName">
+		DELETE FROM firewall_nat WHERE `device_name`=#{device_name}
+	</delete>
+	
+	
+</mapper>

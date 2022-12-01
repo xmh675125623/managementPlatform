@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallFlowTotalMapper">
+
+	<select id="getById" resultType="com.jiuzhou.firewall.bean.FirewallFlowTotal">
+		SELECT
+			*
+		FROM 
+			firewall_flow_total
+		WHERE 
+			`id`=#{id} AND `delete_flag`=0
+	</select>
+	
+	
+	<select id="getByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallFlowTotal">
+		SELECT
+			*
+		FROM 
+			firewall_flow_total
+		WHERE 
+			`device_name`=#{device_name} AND `delete_flag`=0
+		ORDER BY 
+			`id` DESC
+	</select>
+	
+	
+	<insert id="insert">
+		INSERT INTO firewall_flow_total(
+			`device_name`,
+			`sip`,
+			`dip`,
+			`sport`,
+			`dport`,
+			`protocol`,
+			`start_time`,
+			`end_time`,
+			`flow`,
+			`add_time`,
+			`add_user`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.sip},
+			#{bean.dip},
+			#{bean.sport},
+			#{bean.dport},
+			#{bean.protocol},
+			#{bean.start_time},
+			#{bean.end_time},
+			#{bean.flow},
+			#{bean.add_time},
+			#{bean.add_user}
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE 
+			firewall_flow_total
+		SET
+			`sip`=#{bean.sip},
+			`dip`=#{bean.dip},
+			`sport`=#{bean.sport},
+			`dport`=#{bean.dport},
+			`protocol`=#{bean.protocol},
+			`start_time`=#{bean.start_time},
+			`end_time`=#{bean.end_time},
+			`flow`=#{bean.flow},
+			`update_time`=#{bean.update_time},
+			`update_user`=#{bean.update_user},
+			`delete_flag`=#{bean.delete_flag}
+		WHERE
+			`id`=#{bean.id}
+	</update>
+	
+	
+	<update id="updateBatch">
+		<foreach collection="list" separator=";" item="bean">
+            UPDATE 
+				firewall_flow_total
+			SET
+				`sip`=#{bean.sip},
+				`dip`=#{bean.dip},
+				`sport`=#{bean.sport},
+				`dport`=#{bean.dport},
+				`protocol`=#{bean.protocol},
+				`start_time`=#{bean.start_time},
+				`end_time`=#{bean.end_time},
+				`flow`=#{bean.flow},
+				`update_time`=#{bean.update_time},
+				`update_user`=#{bean.update_user},
+				`delete_flag`=#{bean.delete_flag}
+			WHERE
+				`id`=#{bean.id}
+        </foreach>
+	</update>
+	
+	
+	<delete id="deleteByDeviceName">
+		DELETE FROM firewall_flow_total WHERE `device_name`=#{device_name};
+	</delete>
+	
+	
+</mapper>

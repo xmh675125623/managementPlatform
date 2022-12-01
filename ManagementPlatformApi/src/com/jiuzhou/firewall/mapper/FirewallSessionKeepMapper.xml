@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallSessionKeepMapper">
+
+	<select id="getById" resultType="com.jiuzhou.firewall.bean.FirewallSessionKeep">
+		SELECT
+			*
+		FROM 
+			firewall_session_keep
+		WHERE 
+			`id`=#{id} AND `delete_flag`=0
+	</select>
+	
+	
+	<select id="getByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallSessionKeep">
+		SELECT
+			*
+		FROM 
+			firewall_session_keep
+		WHERE 
+			`device_name`=#{device_name} AND `delete_flag`=0
+		ORDER BY 
+			`id` DESC
+	</select>
+	
+	
+	<insert id="insert">
+		INSERT INTO firewall_session_keep(
+			`device_name`,
+			`sip`,
+			`dip`,
+			`sport`,
+			`dport`,
+			`time`,
+			`protocol`,
+			`add_time`,
+			`add_user`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.sip},
+			#{bean.dip},
+			#{bean.sport},
+			#{bean.dport},
+			#{bean.time},
+			#{bean.protocol},
+			#{bean.add_time},
+			#{bean.add_user}
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE 
+			firewall_session_keep
+		SET
+			`sip`=#{bean.sip},
+			`dip`=#{bean.dip},
+			`sport`=#{bean.sport},
+			`dport`=#{bean.dport},
+			`time`=#{bean.time},
+			`delete_flag`=#{bean.delete_flag},
+			`protocol`=#{bean.protocol},
+			`add_time`=#{bean.add_time},
+			`add_user`=#{bean.add_user}
+		WHERE
+			`id`=#{bean.id}
+	</update>
+	
+	
+	<delete id="deleteByDeviceName">
+		DELETE FROM firewall_session_keep WHERE `device_name`=#{device_name}
+	</delete>
+	
+	
+</mapper>

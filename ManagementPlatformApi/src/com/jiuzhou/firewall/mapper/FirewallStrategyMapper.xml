@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallStrategyMapper">
+	
+	
+	<insert id="insert">
+		INSERT INTO firewall_strategy(
+			`device_name`,
+			`group_id`,
+			`strategy_name`,
+			`rule_id`,
+			`rule_type`,
+			`start_time`,
+			`end_time`,
+			`time_type`,
+			`relative_time`,
+			`rule_action`,
+			`log_power`,
+			`input_eth`,
+			`output_eth`,
+			`add_time`,
+			`add_user`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.group_id},
+			#{bean.strategy_name},
+			#{bean.rule_id},
+			#{bean.rule_type},
+			#{bean.start_time},
+			#{bean.end_time},
+			#{bean.time_type},
+			#{bean.relative_time},
+			#{bean.rule_action},
+			#{bean.log_power},
+			#{bean.input_eth},
+			#{bean.output_eth},
+			#{bean.add_time},
+			#{bean.add_user}
+		)
+	</insert>
+	
+	
+	<insert id="insertBatch">
+	    INSERT INTO firewall_strategy(
+			`device_name`,
+			`group_id`,
+			`strategy_name`,
+			`rule_id`,
+			`rule_type`,
+			`start_time`,
+			`end_time`,
+			`time_type`,
+			`relative_time`,
+			`rule_action`,
+			`log_power`,
+			`input_eth`,
+			`output_eth`,
+			`add_time`,
+			`add_user`
+		) VALUES
+	    <foreach collection="list" item="bean" separator=",">
+	        (
+	        #{bean.device_name},
+			#{bean.group_id},
+			#{bean.strategy_name},
+			#{bean.rule_id},
+			#{bean.rule_type},
+			#{bean.start_time},
+			#{bean.end_time},
+			#{bean.time_type},
+			#{bean.relative_time},
+			#{bean.rule_action},
+			#{bean.log_power},
+			#{bean.input_eth},
+			#{bean.output_eth},
+			#{bean.add_time},
+			#{bean.add_user}
+	        )
+	    </foreach>
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE 
+			firewall_strategy
+		SET
+			`strategy_name`=#{bean.strategy_name},
+			`start_time`=#{bean.start_time},
+			`end_time`=#{bean.end_time},
+			`time_type`=#{bean.time_type},
+			`relative_time`=#{bean.relative_time},
+			`rule_action`=#{bean.rule_action},
+			`log_power`=#{bean.log_power},
+			`input_eth`=#{bean.input_eth},
+			`output_eth`=#{bean.output_eth},
+			`sync_flag`=#{bean.sync_flag},
+			`update_time`=#{bean.update_time},
+			`update_user`=#{bean.update_user},
+			`delete_flag`=#{bean.delete_flag}
+		WHERE
+			`strategy_id`=#{bean.strategy_id}
+	</update>
+	
+	
+	<select id="getByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallRuleCustom">
+		SELECT
+			*
+		FROM
+			firewall_strategy
+		WHERE
+			device_name=#{device_name} AND delete_flag=0
+	</select>
+	
+	
+	<select id="getById" resultType="com.jiuzhou.firewall.bean.FirewallRuleCustom">
+		SELECT
+			*
+		FROM
+			firewall_strategy
+		WHERE
+			strategy_id=#{id}
+	</select>
+	
+	
+	<select id="getByGroupIdAndPage" resultType="com.jiuzhou.firewall.bean.FirewallRuleCustom">
+		SELECT
+			*
+		FROM
+			firewall_strategy
+		WHERE
+			`group_id`=#{groupId} AND `delete_flag`=0 
+		<if test="condition != null and condition != ''">
+			${condition}
+		</if>
+		ORDER BY 
+			`strategy_id` ASC
+		LIMIT
+			#{start},#{pageSize}
+	</select>
+	
+	
+	<select id="getCountByGroupId" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			firewall_strategy
+		WHERE
+			group_id=#{groupId} AND delete_flag=0 
+		<if test="condition != null and condition != ''">
+			${condition}
+		</if>
+	</select>
+	
+	
+	<select id="getCustomByStrategyIds" resultType="com.jiuzhou.firewall.bean.FirewallRuleCustom">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_custom r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=0
+			AND s.strategy_id IN <foreach collection="strategyIds" item="item" open="(" close=")" separator=",">#{item}</foreach>
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+	
+	<select id="getCustomByStrategyId" resultType="com.jiuzhou.firewall.bean.FirewallRuleCustom">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_custom r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=0
+			AND s.strategy_id=#{strategy_id}
+			AND s.delete_flag=0
+	</select>
+	
+	
+	<select id="getCustomByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallRuleCustom">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_custom r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=0
+			AND s.device_name = #{device_name}
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+
+	<select id="getCommonByStrategyIds" resultType="com.jiuzhou.firewall.bean.FirewallRuleTemp">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_temp r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=1
+			AND s.strategy_id IN <foreach collection="strategyIds" item="item" open="(" close=")" separator=",">#{item}</foreach>
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+	
+	<select id="getCommonByStrategyId" resultType="com.jiuzhou.firewall.bean.FirewallRuleTemp">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_temp r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=1
+			AND s.strategy_id=#{strategy_id}
+			AND s.delete_flag=0
+	</select>
+	
+	
+	<select id="getSpecialByStrategyIds" resultType="com.jiuzhou.firewall.bean.FirewallRuleTemp">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_temp r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=2
+			AND s.strategy_id IN <foreach collection="strategyIds" item="item" open="(" close=")" separator=",">#{item}</foreach>
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+	
+	<select id="getSpecialByStrategyId" resultType="com.jiuzhou.firewall.bean.FirewallRuleTemp">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_temp r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=2
+			AND s.strategy_id=#{strategy_id}
+			AND s.delete_flag=0
+	</select>
+	
+	
+	<select id="getOpcClassicTcpByStrategyIds" resultType="com.jiuzhou.firewall.bean.FirewallRuleOpcClassicTcp">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_opc_classic_tcp r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=3
+			AND s.strategy_id IN <foreach collection="strategyIds" item="item" open="(" close=")" separator=",">#{item}</foreach>
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+	
+	<select id="getOpcClassicTcpByStrategyId" resultType="com.jiuzhou.firewall.bean.FirewallRuleOpcClassicTcp">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_opc_classic_tcp r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=3
+			AND s.strategy_id=#{strategy_id}
+			AND s.delete_flag=0
+	</select>
+	
+	
+	<select id="getOpcClassicTcpByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallRuleOpcClassicTcp">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_opc_classic_tcp r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=3
+			AND s.device_name=#{device_name}
+			AND s.delete_flag=0
+	</select>
+	
+	
+	<select id="getModbusTcpByStrategyIds" resultType="com.jiuzhou.firewall.bean.FirewallRuleModbusTcp">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_modbus_tcp r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=4
+			AND s.strategy_id IN <foreach collection="strategyIds" item="item" open="(" close=")" separator=",">#{item}</foreach>
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+	
+	<select id="getModbusTcpByStrategyId" resultType="com.jiuzhou.firewall.bean.FirewallRuleModbusTcp">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_modbus_tcp r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=4
+			AND s.strategy_id=#{strategy_id}
+			AND s.delete_flag=0
+	</select>
+	
+	<select id="getModbusTcpByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallRuleModbusTcp">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_modbus_tcp r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=4
+			AND s.device_name=#{device_name}
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+	
+	<select id="getIEC104ByStrategyIds" resultType="com.jiuzhou.firewall.bean.FirewallRuleIEC104">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_iec104 r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=5
+			AND s.strategy_id IN <foreach collection="strategyIds" item="item" open="(" close=")" separator=",">#{item}</foreach>
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+	
+	<select id="getIEC104ByStrategyId" resultType="com.jiuzhou.firewall.bean.FirewallRuleIEC104">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_iec104 r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=5
+			AND s.strategy_id=#{strategy_id}
+			AND s.delete_flag=0
+	</select>
+	
+	
+	<select id="getIEC104ByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallRuleIEC104">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_iec104 r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=5
+			AND s.device_name=#{device_name}
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+	
+	<select id="getS7ByStrategyIds" resultType="com.jiuzhou.firewall.bean.FirewallRuleS7">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_s7 r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=6
+			AND s.strategy_id IN <foreach collection="strategyIds" item="item" open="(" close=")" separator=",">#{item}</foreach>
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+	
+	<select id="getS7ByStrategyId" resultType="com.jiuzhou.firewall.bean.FirewallRuleS7">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_s7 r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=6
+			AND s.strategy_id=#{strategy_id}
+			AND s.delete_flag=0
+	</select>
+	
+	<select id="getS7ByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallRuleS7">
+		SELECT
+			s.*,
+			r.*
+		FROM
+			firewall_strategy s LEFT JOIN firewall_rule_s7 r ON s.rule_id=r.id
+		WHERE
+			s.rule_type=6
+			AND s.device_name=#{device_name}
+			AND s.delete_flag=0
+		ORDER BY s.strategy_id ASC
+	</select>
+	
+	<delete id="deleteByDeviceName">
+		DELETE FROM firewall_strategy WHERE `device_name`=#{device_name}
+	</delete>
+	
+	
+	<delete id="deleteCustomByDeviceName">
+		DELETE FROM 
+			firewall_rule_custom 
+		WHERE 
+			`id` IN (
+				SELECT 
+					s.`rule_id` 
+				FROM 
+					firewall_strategy s 
+				WHERE 
+					s.`rule_type` = 0 AND s.`device_name`=#{device_name}
+			)
+	</delete>
+	
+	
+	<delete id="deleteModbusTcpByDeviceName">
+		DELETE FROM 
+			firewall_rule_modbus_tcp 
+		WHERE 
+			`id` IN (
+				SELECT 
+					s.`rule_id` 
+				FROM 
+					firewall_strategy s 
+				WHERE 
+					s.`rule_type` = 4 AND s.`device_name`=#{device_name}
+			)
+	</delete>
+	
+	
+	<delete id="deleteOpcClassicTcpByDeviceName">
+		DELETE FROM 
+			firewall_rule_opc_classic_tcp 
+		WHERE 
+			`id` IN (
+				SELECT 
+					s.`rule_id` 
+				FROM 
+					firewall_strategy s 
+				WHERE 
+					s.`rule_type` = 3 AND s.`device_name`=#{device_name}
+			)
+	</delete>
+	
+	
+	<delete id="deleteIEC104ByDeviceName">
+		DELETE FROM 
+			firewall_rule_iec104 
+		WHERE 
+			`id` IN (
+				SELECT 
+					s.`rule_id` 
+				FROM 
+					firewall_strategy s 
+				WHERE 
+					s.`rule_type` = 5 AND s.`device_name`=#{device_name}
+			)
+	</delete>
+	
+	
+	<delete id="deleteS7ByDeviceName">
+		DELETE FROM 
+			firewall_rule_s7 
+		WHERE 
+			`id` IN (
+				SELECT 
+					s.`rule_id` 
+				FROM 
+					firewall_strategy s 
+				WHERE 
+					s.`rule_type` = 6 AND s.`device_name`=#{device_name}
+			)
+	</delete>
+	
+</mapper>

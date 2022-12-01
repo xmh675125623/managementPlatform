@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallDeviceTempMapper">
+
+	<insert id="insertBatch">
+		INSERT INTO firewall_device_temp (
+			`aid`,
+			`device_name`,
+			`ip_address`,
+			`edition`,
+			`modal`,
+			`insert_time`
+			) 
+		VALUES 
+		<foreach collection="list" item="bean" index= "index" separator =",">
+			(
+			#{aid},
+			#{bean.device_name},
+			#{bean.ip_address},
+			#{bean.edition},
+			#{bean.modal},
+			#{bean.insert_time}
+			)
+		</foreach>
+	</insert>
+	
+	
+	<delete id="deleteByAid">
+		DELETE FROM firewall_device_temp WHERE `aid`=#{aid}
+	</delete>
+	
+	
+	<select id="getByDeviceNames" resultType="com.jiuzhou.firewall.bean.FirewallDevice">
+		SELECT 
+			*
+		FROM 
+			firewall_device_temp
+		WHERE
+			`aid`=#{aid} AND `device_name` IN
+		<foreach collection="names" item="item" separator ="," open="(" close=")">
+			#{item}
+		</foreach>		
+	</select>
+	
+</mapper>

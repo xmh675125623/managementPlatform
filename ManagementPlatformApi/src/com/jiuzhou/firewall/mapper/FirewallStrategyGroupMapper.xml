@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallStrategyGroupMapper">
+
+	
+	<select id="getByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallStrategyGroup">
+		SELECT
+			g.*,
+			sa.`asset_name` AS `source_asset_name`,
+			sa.`ip_address` AS `source_asset_ip`,
+			ta.`asset_name` AS `target_asset_name`,
+			ta.`ip_address` AS `target_asset_ip`
+		FROM 
+			firewall_strategy_group g 
+			LEFT JOIN firewall_asset sa ON g.`source_asset` = sa.`id`
+			LEFT JOIN firewall_asset ta ON g.`target_asset` = ta.`id`
+		WHERE 
+			g.`device_name`=#{device_name} AND g.`delete_flag`=0
+		ORDER BY 
+			g.`id` DESC
+	</select>
+	
+	
+	<select id="getByDeviceNameForPage" resultType="com.jiuzhou.firewall.bean.FirewallStrategyGroup">
+		SELECT
+			g.*,
+			sa.`asset_name` AS `source_asset_name`,
+			sa.`ip_address` AS `source_asset_ip`,
+			ta.`asset_name` AS `target_asset_name`,
+			ta.`ip_address` AS `target_asset_ip`
+		FROM 
+			firewall_strategy_group g 
+			LEFT JOIN firewall_asset sa ON g.`source_asset` = sa.`id`
+			LEFT JOIN firewall_asset ta ON g.`target_asset` = ta.`id`
+		WHERE 
+			g.`device_name`=#{device_name} AND g.`delete_flag`=0
+		ORDER BY 
+			g.`id` DESC
+		LIMIT
+			#{start},#{pageSize}
+	</select>
+	
+	
+	<select id="getCountByDeviceName" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM 
+			firewall_strategy_group
+		WHERE 
+			`device_name`=#{device_name} AND `delete_flag`=0
+	</select>
+	
+	
+	<select id="getByDeviceNameASC" resultType="com.jiuzhou.firewall.bean.FirewallStrategyGroup">
+		SELECT
+			g.*,
+			sa.`asset_name` AS `source_asset_name`,
+			sa.`ip_address` AS `source_asset_ip`,
+			ta.`asset_name` AS `target_asset_name`,
+			ta.`ip_address` AS `target_asset_ip`
+		FROM 
+			firewall_strategy_group g 
+			LEFT JOIN firewall_asset sa ON g.`source_asset` = sa.`id`
+			LEFT JOIN firewall_asset ta ON g.`target_asset` = ta.`id`
+		WHERE 
+			g.`device_name`=#{device_name} AND g.`delete_flag`=0
+		ORDER BY 
+			g.`id` ASC
+	</select>
+	
+	
+	<select id="getById" resultType="com.jiuzhou.firewall.bean.FirewallStrategyGroup">
+		SELECT
+			g.*,
+			sa.`asset_name` AS `source_asset_name`,
+			sa.`ip_address` AS `source_asset_ip`,
+			ta.`asset_name` AS `target_asset_name`,
+			ta.`ip_address` AS `target_asset_ip`
+		FROM 
+			firewall_strategy_group g 
+			LEFT JOIN firewall_asset sa ON g.`source_asset` = sa.`id`
+			LEFT JOIN firewall_asset ta ON g.`target_asset` = ta.`id`
+		WHERE 
+			g.`id`=#{id} AND g.`delete_flag`=0
+	</select>
+	
+	
+	<insert id="insert">
+		INSERT INTO firewall_strategy_group(
+			`device_name`,
+			`group_name`,
+			`source_asset`,
+			`target_asset`,
+			`add_time`,
+			`add_user`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.group_name},
+			#{bean.source_asset},
+			#{bean.target_asset},
+			#{bean.add_time},
+			#{bean.add_user}
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE 
+			firewall_strategy_group
+		SET
+			`group_name`=#{bean.group_name},
+			`source_asset`=#{bean.source_asset},
+			`target_asset`=#{bean.target_asset},
+			`update_time`=#{bean.update_time},
+			`update_user`=#{bean.update_user},
+			`delete_flag`=#{bean.delete_flag}
+		WHERE
+			`id`=#{bean.id}
+	</update>
+	
+	
+	<select id="getByAssetId" resultType="com.jiuzhou.firewall.bean.FirewallStrategyGroup">
+		SELECT
+			g.*,
+			sa.`asset_name` AS `source_asset_name`,
+			sa.`ip_address` AS `source_asset_ip`,
+			ta.`asset_name` AS `target_asset_name`,
+			ta.`ip_address` AS `target_asset_ip`
+		FROM 
+			firewall_strategy_group g 
+			LEFT JOIN firewall_asset sa ON g.`source_asset` = sa.`id`
+			LEFT JOIN firewall_asset ta ON g.`target_asset` = ta.`id`
+		WHERE 
+			(g.`source_asset`=#{asset_id} OR g.`target_asset`=#{asset_id}) AND g.`delete_flag`=0
+		ORDER BY 
+			g.`id` DESC
+	</select>
+	
+	
+	<delete id="deleteByDeviceName">
+		DELETE FROM firewall_strategy_group WHERE `device_name`=#{device_name}
+	</delete>
+	
+	
+	<insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO firewall_strategy_group(
+			`device_name`,
+			`group_name`,
+			`source_asset`,
+			`target_asset`,
+			`add_time`,
+			`add_user`
+		) VALUES
+	    <foreach collection="list" item="c" separator=",">
+	        (
+	        #{c.device_name},
+	        #{c.group_name},
+	        #{c.source_asset},
+	        #{c.target_asset},
+	        #{c.add_time},
+	        #{c.add_user}
+	        )
+	    </foreach>
+	</insert>
+	
+	
+</mapper>

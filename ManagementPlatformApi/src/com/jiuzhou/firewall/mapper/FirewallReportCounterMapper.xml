@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallReportCounterMapper">
+
+	
+	<select id="getByDateAndTypeAndTitle" resultType="com.jiuzhou.firewall.bean.FirewallReportCounter">
+		SELECT
+			*
+		FROM 
+			firewall_report_counter
+		WHERE 
+			`device_name`=#{device_name} 
+			AND `count_date`=#{count_date} 
+			AND `count_type`=#{count_type} 
+			AND `count_title`=#{count_title}
+		ORDER BY 
+			`count_title` ASC
+	</select>
+	
+	
+	<insert id="insert">
+		INSERT INTO firewall_report_counter(
+			`device_name`,
+			`count_date`,
+			`count_type`,
+			`count_title`,
+			`count_num`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.count_date},
+			#{bean.count_type},
+			#{bean.count_title},
+			#{bean.count_num}
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE 
+			firewall_report_counter
+		SET
+			`count_num`=#{bean.count_num}
+		WHERE
+			`device_name`=#{bean.device_name} 
+			AND `count_date`=#{bean.count_date} 
+			AND `count_type`=#{bean.count_type} 
+			AND `count_title`=#{bean.count_title}
+	</update>
+	
+	
+	<select id="getByDateAndType" resultType="com.jiuzhou.firewall.bean.FirewallReportCounter">
+		SELECT
+			*
+		FROM 
+			firewall_report_counter
+		WHERE 
+			`device_name`=#{device_name} 
+			AND `count_date` BETWEEN #{count_date_start} AND #{count_date_end}
+			AND `count_type`=#{count_type} 
+		ORDER BY 
+			`count_title` ASC
+	</select>
+	
+	
+	<select id="selectGroupByTitle" resultType="com.jiuzhou.firewall.bean.FirewallReportCounter">
+		SELECT
+			`count_title`, SUM(`count_num`) `count_num`
+		FROM 
+			firewall_report_counter
+		WHERE 
+			`device_name`=#{device_name} 
+			AND `count_date` BETWEEN #{count_date_start} AND #{count_date_end}
+			AND `count_type`=#{count_type} 
+		GROUP BY 
+			`count_title`
+	</select>
+	
+	
+</mapper>

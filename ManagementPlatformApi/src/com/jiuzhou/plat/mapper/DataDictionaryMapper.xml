@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.plat.mapper.DataDictionaryMapper">
+
+	<select id="getByDicCode" resultType="com.jiuzhou.plat.bean.DataDictionaryItem">
+		SELECT 
+			d.dic_code,d.dic_name,i.* 
+		FROM
+			plat_data_dictionary_item i LEFT JOIN plat_data_dictionary_dic d ON i.dic_id = d.dic_id
+		WHERE
+			d.dic_code=#{dic_code} AND i.delete_flag=0
+		ORDER BY
+			i.item_sort ASC
+	</select>
+	
+	
+	<select id="getByDicId" resultType="com.jiuzhou.plat.bean.DataDictionaryItem">
+		SELECT 
+			d.dic_code,d.dic_name,i.* 
+		FROM
+			plat_data_dictionary_item i LEFT JOIN plat_data_dictionary_dic d ON i.dic_id = d.dic_id
+		WHERE
+			d.dic_id=#{dic_id} AND i.delete_flag=0
+		ORDER BY
+			i.item_sort ASC
+	</select>
+
+</mapper>

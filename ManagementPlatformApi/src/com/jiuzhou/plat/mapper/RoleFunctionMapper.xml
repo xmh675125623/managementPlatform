@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.plat.mapper.RoleFunctionMapper">
+
+
+	<select id="getFirstMenusByRoleId" resultType="com.jiuzhou.plat.bean.Function">
+		SELECT
+			f.*,r.half
+		FROM
+			plat_role_function r LEFT JOIN plat_function f ON r.function_id = f.id 
+		WHERE 
+			r.role_id = #{role_id} AND f.is_menu = 1 AND f.level=1 AND del_flag = 0
+		ORDER BY 
+			f.sort ASC
+	</select>
+	
+	
+	<select id="getSecondMenusByRoleId" resultType="com.jiuzhou.plat.bean.Function">
+		SELECT
+			f.*,r.half
+		FROM
+			plat_role_function r LEFT JOIN plat_function f ON r.function_id = f.id 
+		WHERE 
+			r.role_id = #{role_id} AND f.is_menu = 1 AND f.level=2 AND del_flag = 0
+		ORDER BY 
+			f.id ASC, f.sort ASC
+	</select>
+	
+	
+	<select id="getThirdMenusByRoleId" resultType="com.jiuzhou.plat.bean.Function">
+		SELECT
+			f.*,r.half
+		FROM
+			plat_role_function r LEFT JOIN plat_function f ON r.function_id = f.id 
+		WHERE 
+			r.role_id = #{role_id} AND f.is_menu = 1 AND f.level=3 AND del_flag = 0
+		ORDER BY 
+			f.id ASC, f.sort ASC
+	</select>
+	
+	
+	<select id="getFunctionsByRoleId" resultType="com.jiuzhou.plat.bean.Function">
+		SELECT
+			f.*,r.half
+		FROM
+			plat_role_function r LEFT JOIN plat_function f ON r.function_id = f.id 
+		WHERE 
+			r.role_id = #{role_id} AND f.is_menu = 0 AND del_flag = 0
+	</select>
+	
+	
+	<delete id="deleteByRoleId">
+		DELETE FROM plat_role_function WHERE role_id=#{role_id}
+	</delete>
+	
+	
+	<insert id="insertBath">
+		INSERT INTO plat_role_function (
+			role_id,
+			function_id,
+			half,
+			add_time,
+			add_user
+		) VALUES 
+		<foreach collection="list" item="listItem" separator=",">
+		(
+			#{listItem.role_id},
+			#{listItem.function_id},
+			#{listItem.half},
+			#{listItem.add_time},
+			#{listItem.add_user}
+		)
+		</foreach>
+	</insert>
+
+
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallRuleCustomMapper">
+	
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="bean.id">
+		INSERT INTO firewall_rule_custom(
+			`protocol`,
+			`dport`,
+			`sport`
+		) VALUES (
+			#{bean.protocol},
+			#{bean.dport},
+			#{bean.sport}
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE 
+			firewall_rule_custom
+		SET
+			`protocol`=#{bean.protocol},
+			`dport`=#{bean.dport},
+			`sport`=#{bean.sport}
+		WHERE
+			`id`=#{bean.id}
+	</update>
+	
+	
+	<select id="getById" resultType="com.jiuzhou.firewall.bean.FirewallRuleCustom">
+		SELECT
+			*
+		FROM
+			firewall_rule_custom
+		WHERE
+			id=#{id}
+	</select>
+	
+	
+	<insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO firewall_rule_custom(
+			`protocol`,
+			`dport`,
+			`sport`
+		) VALUES
+	    <foreach collection="list" item="c" separator=",">
+	        (
+	        #{c.protocol},
+	        #{c.dport},
+	        #{c.sport}
+	        )
+	    </foreach>
+	</insert>
+	
+	
+</mapper>

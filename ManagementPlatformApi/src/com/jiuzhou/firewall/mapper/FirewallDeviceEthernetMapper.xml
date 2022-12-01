@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallDeviceEthernetMapper">
+
+
+	<select id="getByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallDeviceEthernet">
+		SELECT
+			*
+		FROM 
+			firewall_device_ethernet
+		WHERE 
+			`device_name`=#{device_name}
+		ORDER BY 
+			`number` ASC
+	</select>
+	
+	
+	<select id="getByMode" resultType="com.jiuzhou.firewall.bean.FirewallDeviceEthernet">
+		SELECT
+			*
+		FROM 
+			firewall_device_ethernet
+		WHERE 
+			`device_name`=#{device_name} AND `mode`=#{mode}
+		ORDER BY 
+			`number` ASC
+	</select>
+
+
+	<select id="getById" resultType="com.jiuzhou.firewall.bean.FirewallDeviceEthernet">
+		SELECT
+			*
+		FROM 
+			firewall_device_ethernet
+		WHERE 
+			`id`=#{id}
+	</select>
+	
+	
+	<select id="getByDeviceNameAndNumber" resultType="com.jiuzhou.firewall.bean.FirewallDeviceEthernet">
+		SELECT
+			*
+		FROM 
+			firewall_device_ethernet
+		WHERE 
+			`device_name`=#{device_name} AND `number`=#{number}
+		LIMIT 1
+	</select>
+	
+	
+	<update id="update">
+		UPDATE
+			firewall_device_ethernet
+		SET
+			`mode`=#{bean.mode},
+			`ip_address`=#{bean.ip_address},
+			`mask`=#{bean.mask},
+			`gateway`=#{bean.gateway}
+		WHERE
+			`id`=#{bean.id}
+	</update>
+	
+	
+	<insert id="insert">
+		INSERT INTO firewall_device_ethernet(
+			`device_name`,
+			`number`,
+			`mode`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.number},
+			#{bean.mode}
+		)
+	</insert>
+	
+	
+	<delete id="deleteByDeviceName">
+		DELETE FROM firewall_device_ethernet WHERE `device_name`=#{device_name}
+	</delete>
+	
+	
+</mapper>

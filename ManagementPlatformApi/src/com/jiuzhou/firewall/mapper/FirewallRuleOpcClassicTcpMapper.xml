@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallRuleOpcClassicTcpMapper">
+	
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="bean.id">
+		INSERT INTO firewall_rule_opc_classic_tcp(
+			`session`,
+			`inspect`,
+			`tos`,
+			`zcheck`,
+			`uuid`,
+			`opnum`
+		) VALUES (
+			#{bean.session},
+			#{bean.inspect},
+			#{bean.tos},
+			#{bean.zcheck},
+			#{bean.uuid},
+			#{bean.opnum}
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE 
+			firewall_rule_opc_classic_tcp
+		SET
+			`session`=#{bean.session},
+			`inspect`=#{bean.inspect},
+			`tos`=#{bean.tos},
+			`zcheck`=#{bean.zcheck},
+			`uuid`=#{bean.uuid},
+			`opnum`=#{bean.opnum}
+		WHERE
+			`id`=#{bean.id}
+	</update>
+	
+	
+	<select id="getById" resultType="com.jiuzhou.firewall.bean.FirewallRuleOpcClassicTcp">
+		SELECT
+			*
+		FROM
+			firewall_rule_opc_classic_tcp
+		WHERE
+			id=#{id}
+	</select>
+	
+	
+	<insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO firewall_rule_opc_classic_tcp(
+			`session`,
+			`inspect`,
+			`tos`,
+			`zcheck`,
+			`uuid`,
+			`opnum`
+		) VALUES
+	    <foreach collection="list" item="bean" separator=",">
+	        (
+			#{bean.session},
+			#{bean.inspect},
+			#{bean.tos},
+			#{bean.zcheck},
+			#{bean.uuid},
+			#{bean.opnum}
+			)
+	    </foreach>
+	</insert>
+	
+</mapper>

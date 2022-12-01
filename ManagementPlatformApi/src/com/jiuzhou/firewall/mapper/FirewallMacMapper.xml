@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallMacMapper">
+
+	<select id="getById" resultType="com.jiuzhou.firewall.bean.FirewallMac">
+		SELECT
+			m.*,
+			d.`device_mark`
+		FROM 
+			firewall_mac m LEFT JOIN firewall_device d ON m.`device_name`=d.`device_name`
+		WHERE 
+			m.`id`=#{id} AND m.`delete_flag`=0
+	</select>
+	
+	
+	<select id="getByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallMac">
+		SELECT
+			m.*,
+			d.`device_mark`
+		FROM 
+			firewall_mac m LEFT JOIN firewall_device d ON m.`device_name`=d.`device_name`
+		WHERE 
+			m.`device_name`=#{device_name} AND m.`delete_flag`=0
+		ORDER BY 
+			m.`id` DESC
+	</select>
+	
+	
+	<select id="getByDeviceNameAndIp" resultType="com.jiuzhou.firewall.bean.FirewallMac">
+		SELECT
+			m.*,
+			d.`device_mark`
+		FROM 
+			firewall_mac m LEFT JOIN firewall_device d ON m.`device_name`=d.`device_name`
+		WHERE 
+			m.`device_name`=#{device_name} AND m.`ip_address`=#{ip_address} AND m.`delete_flag`=0
+	</select>
+	
+	
+	<insert id="insert">
+		INSERT INTO firewall_mac(
+			`device_name`,
+			`ip_address`,
+			`mac_address`,
+			`source`,
+			`add_time`,
+			`add_user`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.ip_address},
+			#{bean.mac_address},
+			#{bean.source},
+			#{bean.add_time},
+			#{bean.add_user}
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE 
+			firewall_mac
+		SET
+			`ip_address`=#{bean.ip_address},
+			`mac_address`=#{bean.mac_address},
+			`delete_flag`=#{bean.delete_flag},
+			`update_time`=#{bean.update_time},
+			`update_user`=#{bean.update_user}
+		WHERE
+			`id`=#{bean.id}
+	</update>
+	
+	
+	<delete id="deleteByDeviceName">
+		DELETE FROM firewall_mac WHERE `device_name`=#{device_name}
+	</delete>
+	
+	
+	<select id="getScanMacByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallMac">
+		SELECT
+			*
+		FROM 
+			firewall_mac_scan
+		WHERE 
+			`device_name`=#{device_name}
+		ORDER BY 
+			`id` DESC
+	</select>
+	
+	
+	<select id="getScanMacByMacAndIp" resultType="com.jiuzhou.firewall.bean.FirewallMac">
+		SELECT
+			*
+		FROM 
+			firewall_mac_scan
+		WHERE 
+			`device_name`=#{device_name} AND `mac_address`=#{mac} AND `ip_address`=#{ip}
+		LIMIT 1
+	</select>
+	
+	
+	<delete id="deleteScanMacByDeviceName">
+		DELETE FROM firewall_mac_scan WHERE `device_name`=#{device_name}
+	</delete>
+	
+	
+	<insert id="insertScanMac">
+		INSERT INTO firewall_mac_scan(
+			`device_name`,
+			`ip_address`,
+			`mac_address`,
+			`add_time`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.ip_address},
+			#{bean.mac_address},
+			#{bean.add_time}
+		)
+	</insert>
+	
+	
+</mapper>

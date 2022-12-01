@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 注解扫描包 -->
+	<context:component-scan base-package="com.jiuzhou.plat.controller" />
+	<context:component-scan base-package="com.jiuzhou.firewall.controller" />
+
+	<!-- 开启注解 -->
+	<mvc:annotation-driven />
+	
+	<!-- 拦截器配置 -->
+	<mvc:interceptors>
+		<beans:bean class="com.jiuzhou.plat.interceptor.SystemInterceptor" />
+	</mvc:interceptors>
+
+	<!--配置静态资源，直接映射到对应的文件夹，不被DispatcherServlet处理，3.04新增功能，需要重新设置spring-mvc-3.0.xsd -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<beans:bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<beans:property name="supportedMediaTypes">
+			<beans:list>
+				<beans:value>text/html;charset=UTF-8</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	<beans:bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:ref bean="mappingJacksonHttpMessageConverter" /><!-- json转换器 -->
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+
+	<!-- 文件上传大小控制 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="utf-8" />
+		<beans:property name="maxUploadSize" value="10485760000" />
+		<beans:property name="maxInMemorySize" value="40960" />
+	</beans:bean>
+
+
+</beans:beans>

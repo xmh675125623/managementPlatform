@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallRuleS7Mapper">
+	
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="bean.id">
+		INSERT INTO firewall_rule_s7(
+			`pdu_type`,
+			`function_code`,
+			`user_data_type`,
+			`function_group_code`,
+			`sub_function_code`
+		) VALUES (
+			#{bean.pdu_type},
+			#{bean.function_code},
+			#{bean.user_data_type},
+			#{bean.function_group_code},
+			#{bean.sub_function_code}
+		)
+	</insert>
+	
+	
+	<update id="update">
+		UPDATE 
+			firewall_rule_s7
+		SET
+			`pdu_type`=#{bean.pdu_type},
+			`function_code`=#{bean.function_code},
+			`user_data_type`=#{bean.user_data_type},
+			`function_group_code`=#{bean.function_group_code},
+			`sub_function_code`=#{bean.sub_function_code}
+		WHERE
+			`id`=#{bean.id}
+	</update>
+	
+	
+	<select id="getById" resultType="com.jiuzhou.firewall.bean.FirewallRuleS7">
+		SELECT
+			*
+		FROM
+			firewall_rule_s7
+		WHERE
+			`id`=#{bean.id}
+	</select>
+	
+	
+	<insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO firewall_rule_s7(
+			`pdu_type`,
+			`function_code`,
+			`user_data_type`,
+			`function_group_code`,
+			`sub_function_code`
+		) VALUES
+	    <foreach collection="list" item="c" separator=",">
+	        (
+	        #{c.pdu_type},
+	        #{c.function_code},
+	        #{c.user_data_type},
+	        #{c.function_group_code},
+	        #{c.sub_function_code}
+	        )
+	    </foreach>
+	</insert>
+	
+	
+</mapper>

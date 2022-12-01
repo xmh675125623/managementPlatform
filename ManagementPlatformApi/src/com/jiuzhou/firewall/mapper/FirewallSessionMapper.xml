@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.FirewallSessionMapper">
+
+	<select id="getByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallSession">
+		SELECT
+			*
+		FROM 
+			firewall_session
+		WHERE 
+			`device_name`=#{device_name}
+			<if test="source_ip != null and source_ip != ''">
+			AND `source_ip`=#{source_ip}
+			</if>
+		ORDER BY
+			`add_time` ASC
+	</select>
+	
+	
+	<delete id="deleteByDeviceName">
+		DELETE FROM firewall_session WHERE `device_name`=#{device_name}
+	</delete>
+	
+
+	<insert id="insertBatch">
+		INSERT INTO firewall_session(
+			`id`,
+			`device_name`,
+			`source_ip`,
+			`source_port`,
+			`target_ip`,
+			`target_port`,
+			`tcp_name`,
+			`name`,
+			`status`,
+			`add_time`,
+			`outtime_time`
+		) VALUES 
+		<foreach collection="list" item="bean" separator="," >
+		(
+			#{bean.id},
+			#{bean.device_name},
+			#{bean.source_ip},
+			#{bean.source_port},
+			#{bean.target_ip},
+			#{bean.target_port},
+			#{bean.tcp_name},
+			#{bean.name},
+			#{bean.status},
+			#{bean.add_time},
+			#{bean.outtime_time}
+		)
+		</foreach>
+	</insert>
+	
+	
+	<select id="getSettingByDeviceName" resultType="com.jiuzhou.firewall.bean.FirewallSessionSetting">
+		SELECT 
+			* 
+		FROM
+			firewall_session_setting
+		WHERE
+			`device_name`=#{device_name}
+	
+	</select>
+	
+	
+	<insert id="insertSetting">
+		INSERT INTO firewall_session_setting (
+			`device_name`,
+			`line_complete`,
+			`tcp_time`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.line_complete},
+			#{bean.tcp_time}
+		)
+	</insert>
+	
+	
+	<update id="updateSetting">
+		UPDATE 
+			firewall_session_setting
+		SET
+			`line_complete`=#{bean.line_complete},
+			`tcp_time`=#{bean.tcp_time}
+		WHERE
+			`device_name`=#{bean.device_name}
+	</update>
+	
+	
+	<delete id="deleteSettingByDeviceName">
+		DELETE FROM firewall_session_setting WHERE `device_name`=#{device_name}
+	</delete>
+	
+</mapper>

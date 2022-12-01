@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.plat.mapper.PlatDeviceMapper">
+	
+	
+	<insert id="insert">
+		INSERT INTO plat_device (
+			`type`,
+			`device_name`,
+			`device_mark`,
+			`ip_address`,
+			`access_url`,
+			`device_mac`,
+			`subnetmask`,
+			`gateway`,
+			`insert_time`
+		) 
+		VALUES (
+			#{bean.type},
+			#{bean.device_name},
+			#{bean.device_mark},
+			#{bean.ip_address},
+			#{bean.access_url},
+			#{bean.device_mac},
+			#{bean.subnetmask},
+			#{bean.gateway},
+			#{bean.insert_time}
+		)
+	</insert>
+	
+	
+	<select id="getAll" resultType="com.jiuzhou.plat.bean.PlatDevice">
+		SELECT * FROM plat_device ORDER BY insert_time ASC
+	</select>
+	
+	
+	<select id="getById" resultType="com.jiuzhou.plat.bean.PlatDevice">
+		SELECT * FROM plat_device WHERE `id`=#{id}
+	</select>
+	
+	
+	<select id="listByPage" resultType="com.jiuzhou.plat.bean.PlatDevice">
+		SELECT 
+			*
+		FROM 
+			plat_device
+		ORDER BY id DESC 
+		LIMIT #{start},#{end}
+	</select>
+	
+	
+	<select id="getCountForPage" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			plat_device
+	</select>
+	
+	
+	<update id="update">
+		UPDATE
+			plat_device
+		SET
+			`type` = #{bean.type},
+			`device_name` = #{bean.device_name},
+			`device_mark` = #{bean.device_mark},
+			`ip_address` = #{bean.ip_address},
+			`access_url` = #{bean.access_url},
+			`device_mac` = #{bean.device_mac},
+			`subnetmask` = #{bean.subnetmask},
+			`gateway` = #{bean.gateway}
+		WHERE
+			`id` = #{bean.id}
+	</update>
+	
+	
+	<delete id="deleteById">
+		DELETE FROM plat_device WHERE `id`=#{id}
+	</delete>
+	
+</mapper>

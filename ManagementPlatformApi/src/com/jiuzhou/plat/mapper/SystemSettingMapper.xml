@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.plat.mapper.SystemSettingMapper">
+
+
+	<select id="getByName" resultType="com.jiuzhou.plat.bean.SystemSetting">
+		SELECT * FROM plat_system_setting WHERE name=#{name}
+	</select>
+	
+	
+	<select id="getById" resultType="com.jiuzhou.plat.bean.SystemSetting">
+		SELECT * FROM plat_system_setting WHERE id=#{id}
+	</select>
+	
+	
+	<select id="getList" resultType="com.jiuzhou.plat.bean.SystemSetting">
+		SELECT * FROM plat_system_setting ORDER BY id ASC
+	</select>
+	
+	
+	<update id="update">
+		UPDATE
+			plat_system_setting
+		SET
+			value=#{bean.value},
+			update_time=#{bean.update_time},
+			update_user=#{bean.update_user}
+		WHERE
+			id=#{bean.id}
+	</update>
+	
+	<select id="getDatadir" resultType="com.jiuzhou.plat.bean.DatabaseGlobalVariables">
+		SHOW GLOBAL VARIABLES LIKE "%datadir%";
+	</select>
+	
+</mapper>

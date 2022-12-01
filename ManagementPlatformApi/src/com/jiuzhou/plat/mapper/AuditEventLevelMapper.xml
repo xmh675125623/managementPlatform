@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.plat.mapper.AuditEventLevelMapper">
+
+	<select id="getById" resultType="com.jiuzhou.plat.bean.AuditEventLevel">
+		SELECT 
+			* 
+		FROM 
+			audit_event_level 
+		WHERE
+			id = #{id}
+	</select>
+
+
+	<select id="getAll" resultType="com.jiuzhou.plat.bean.AuditEventLevel">
+		SELECT 
+			* 
+		FROM 
+			audit_event_level 
+		ORDER BY 
+			id ASC
+	</select>
+	
+	
+	<update id="update">
+		UPDATE 
+			audit_event_level
+		SET
+			event_level = #{bean.event_level}
+		WHERE
+			id = #{bean.id}
+	</update>	
+	
+
+</mapper>

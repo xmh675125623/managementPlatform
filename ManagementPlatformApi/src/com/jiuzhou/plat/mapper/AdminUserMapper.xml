@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.plat.mapper.AdminUserMapper">
+
+
+	<select id="getAdminUserById" resultType="com.jiuzhou.plat.bean.AdminUser">
+		SELECT * FROM plat_admin_user WHERE id=#{id} AND del_flag=0
+	</select>
+
+
+	<select id="getAdminUserByAccount" resultType="com.jiuzhou.plat.bean.AdminUser">
+		SELECT * FROM plat_admin_user WHERE user_account=#{account} AND del_flag=0
+	</select>
+	
+	
+	<select id="getAdminUserByUserName" resultType="com.jiuzhou.plat.bean.AdminUser">
+		SELECT * FROM plat_admin_user WHERE user_name=#{userName} AND del_flag=0
+	</select>
+	
+	
+	<insert id="insert">
+		INSERT INTO plat_admin_user (
+			user_account,
+			password,
+			option_password,
+			role_id,
+			user_name,
+			add_time,
+			add_user,
+			update_time,
+			update_user,
+			remark,
+			login_password_update_time
+		) VALUES (
+			#{user.user_account},
+			#{user.password},
+			#{user.option_password},
+			#{user.role_id},
+			#{user.user_name},
+			#{user.add_time},
+			#{user.add_user},
+			#{user.update_time},
+			#{user.update_user},
+			#{user.remark},
+			#{user.login_password_update_time}
+		)
+	</insert>
+	
+	
+	<update id="updateAdminUser" parameterType="com.jiuzhou.plat.bean.AdminUser">
+		UPDATE 
+			plat_admin_user
+		SET
+			password = #{password},
+			option_password = #{option_password},
+			role_id = #{role_id},
+			user_name = #{user_name},
+			remark = #{remark},
+			del_flag = #{del_flag},
+			num = #{num},
+			update_time = #{update_time},
+			update_user = #{update_user},
+			login_time = #{login_time},
+			login_fail_time = #{login_fail_time},
+			login_password_update_time = #{login_password_update_time}
+		WHERE
+			id=#{id}
+	</update>
+	
+	
+	<select id="getListByPage" resultType="com.jiuzhou.plat.bean.AdminUser">
+		SELECT 
+			u.*,r.role_name 
+		FROM 
+			plat_admin_user u LEFT JOIN plat_role r ON u.role_id = r.id
+		WHERE 
+			u.del_flag=0 AND u.id != -1 
+		ORDER BY u.id DESC 
+		LIMIT #{start},#{end}
+	</select>
+	
+	
+	<select id="getListCount" resultType="int">
+		SELECT COUNT(*) FROM plat_admin_user WHERE del_flag=0 AND id != -1
+	</select>
+	
+	
+	<select id="getListNoPage" resultType="com.jiuzhou.plat.bean.AdminUser">
+		SELECT * FROM plat_admin_user WHERE del_flag=0 ORDER BY id DESC
+	</select>
+	
+	
+	<update id="deleteById">
+		UPDATE 
+			plat_admin_user
+		SET
+			del_flag=1
+		WHERE 
+			id=#{uid}
+	</update>
+
+
+	<select id="getListByRoleId" resultType="com.jiuzhou.plat.bean.AdminUser">
+		SELECT 
+			* 
+		FROM 
+			plat_admin_user 
+		WHERE 
+			del_flag=0 AND role_id=#{role_id} 
+		ORDER BY 
+			id DESC
+	</select>
+
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.plat.mapper.OperateLogMapper">
+
+
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="bean.id" parameterType="com.jiuzhou.plat.bean.OperateLog">
+		INSERT INTO ${table_name} (
+			`type`, 
+			`function_id`, 
+			`function_name`,
+			`description`,
+			`user_id`,
+			`user_name`,
+			`auth_result`,
+			`ip_address`,
+			`add_time`) 
+		VALUES (
+			#{bean.type},
+			#{bean.function_id},
+			#{bean.function_name},
+			#{bean.description},
+			#{bean.user_id},
+			#{bean.user_name},
+			#{bean.auth_result},
+			#{bean.ip_address},
+			#{bean.add_time})
+			<selectKey resultType="int" keyProperty="bean.id" order="AFTER">
+		        SELECT LAST_INSERT_ID()
+		    </selectKey>
+	</insert>
+	
+	<insert id="update">
+		UPDATE 
+			${table_name} 
+		SET 
+			`description` = #{bean.description}
+		WHERE
+			id = #{bean.id}
+	</insert>	
+	
+	<insert id="insertBatch">
+		INSERT INTO ${table_name} (
+			`type`, 
+			`function_id`, 
+			`function_name`,
+			`description`,
+			`user_id`,
+			`user_name`,
+			`auth_result`,
+			`ip_address`,
+			`add_time`) 
+		VALUES 
+		<foreach collection="list" item="bean" index= "index" separator =",">
+			(
+			#{bean.type},
+			#{bean.function_id},
+			#{bean.function_name},
+			#{bean.description},
+			#{bean.user_id},
+			#{bean.user_name},
+			#{bean.auth_result},
+			#{bean.ip_address},
+			#{bean.add_time}
+			)
+		</foreach>
+	</insert>
+	
+	
+	<select id="search" resultType="com.jiuzhou.plat.bean.OperateLog">
+		SELECT * FROM ${table_name} ORDER BY id DESC LIMIT #{start},#{page_size};
+	</select>
+	
+	
+	<select id="searchCount" resultType="int">
+		SELECT COUNT(*) FROM ${table_name} ORDER BY id DESC;
+	</select>
+
+</mapper>

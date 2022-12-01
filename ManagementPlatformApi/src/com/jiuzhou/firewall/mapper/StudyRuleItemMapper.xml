@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuzhou.firewall.mapper.StudyRuleItemMapper">
+
+	
+	<select id="getByDeviceName" resultType="com.jiuzhou.firewall.bean.StudyRuleItem">
+		SELECT
+			*
+		FROM 
+			study_rule_item
+		WHERE 
+			`device_name`=#{device_name}
+		ORDER BY 
+			`id` DESC
+	</select>
+	
+	
+	<insert id="insert">
+		INSERT INTO study_rule_item(
+			`device_name`,
+			`sip`,
+			`dip`,
+			`protocol`,
+			`sport`,
+			`dport`,
+			`add_time`,
+			`rule_type`,
+			`extension1`,
+			`extension2`,
+			`extension3`,
+			`extension4`,
+			`extension5`,
+			`extension6`,
+			`extension7`,
+			`extension8`,
+			`extension9`,
+			`extension10`,
+			`extension11`,
+			`extension12`,
+			`extension13`,
+			`extension14`,
+			`extension15`,
+			`extension16`,
+			`extension17`,
+			`extension18`,
+			`extension19`,
+			`extension20`
+		) VALUES (
+			#{bean.device_name},
+			#{bean.sip},
+			#{bean.dip},
+			#{bean.protocol},
+			#{bean.sport},
+			#{bean.dport},
+			#{bean.add_time},
+			#{bean.rule_type},
+			#{bean.extension1},
+			#{bean.extension2},
+			#{bean.extension3},
+			#{bean.extension4},
+			#{bean.extension5},
+			#{bean.extension6},
+			#{bean.extension7},
+			#{bean.extension8},
+			#{bean.extension9},
+			#{bean.extension10},
+			#{bean.extension11},
+			#{bean.extension12},
+			#{bean.extension13},
+			#{bean.extension14},
+			#{bean.extension15},
+			#{bean.extension16},
+			#{bean.extension17},
+			#{bean.extension18},
+			#{bean.extension19},
+			#{bean.extension20}
+		)
+	</insert>
+	
+	
+	<delete id="deleteByDeviceName">
+		DELETE FROM study_rule_item WHERE `device_name`=#{device_name}
+	</delete>
+	
+	
+	<select id="search" resultType="com.jiuzhou.firewall.bean.StudyRuleItem">
+		SELECT
+			*
+		FROM 
+			study_rule_item
+		WHERE 
+			`device_name`=#{device_name}
+			<if test="condition != null and condition != ''">
+				${condition}
+			</if> 
+		ORDER BY 
+			`id` DESC
+	</select>
+	
+	
+	<select id="searchForPage" resultType="com.jiuzhou.firewall.bean.StudyRuleItem">
+		SELECT
+			*
+		FROM 
+			study_rule_item
+		WHERE 
+			`device_name`=#{device_name}
+			<if test="condition != null and condition != ''">
+				${condition}
+			</if> 
+		ORDER BY 
+			`id` DESC
+		LIMIT #{start},#{page_size}
+	</select>
+	
+	
+	<select id="searchCount" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			study_rule_item
+		WHERE
+			`device_name`=#{device_name}
+		<if test="condition != null and condition != ''">
+			${condition}
+		</if> 
+	</select>
+	
+	
+</mapper>

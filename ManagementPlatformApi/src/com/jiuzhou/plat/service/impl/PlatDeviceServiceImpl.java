@@ -63,6 +63,12 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 		}
 		String ipAddress = paramJson.getString("ip_address");
 		
+		//端口
+		String managePort = null;
+		if (paramJson.has("manage_port")) {
+			managePort = paramJson.getString("manage_port");
+		}
+		
 		PlatDevice platDevice = new PlatDevice();
 		platDevice.setDevice_name(deviceName);
 		platDevice.setType(type);
@@ -72,6 +78,7 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 			platDevice.setAccess_url(firewallDeviceUrl);
 		}
 		platDevice.setIp_address(ipAddress);
+		platDevice.setManage_port(managePort);
 		platDevice.setInsert_time(new Date());
 		
 		int resultInt = platDeviceMapper.insert(platDevice);
@@ -137,6 +144,11 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 		//IP地址
 		if (paramJson.has("ip_address")) {
 			device.setIp_address(paramJson.getString("ip_address"));
+		}
+		
+		//管理端口
+		if (paramJson.has("manage_port")) {
+			device.setManage_port(paramJson.getString("manage_port"));
 		}
 		
 		if (device.getType() == PlatDevice.TYPE_AUDIT) {

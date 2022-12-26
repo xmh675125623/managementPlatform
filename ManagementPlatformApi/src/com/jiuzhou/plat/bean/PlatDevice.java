@@ -23,6 +23,7 @@ public class PlatDevice {
 	private String	device_name; //设备名
 	private String	device_mark; //设备别名
 	private String	ip_address;  //ip地址
+	private String  manage_port; //管理端口
 	private String	access_url; //访问url
 	private String	device_mac; //mac地址
 	private String	subnetmask; //子网掩码
@@ -46,7 +47,8 @@ public class PlatDevice {
 		return "[类型：" + this.getTypeName() + "]"
 				+ "[设备名：" + this.getDevice_name() + "]"
 				+ "[设备别名：" + this.getDevice_mark() + "]"
-				+ "[ip地址：" + this.getIp_address() + "]"
+				+ "[管理地址：" + this.getIp_address() + "]"
+				+ "[管理端口：" + this.getManage_port() + "]"
 				+ "[访问url：" + this.getAccess_url() + "]"
 				+ "[mac地址：" + this.getDevice_mac() + "]"
 				+ "[子网掩码：" + this.getSubnetmask() + "]"
@@ -143,6 +145,14 @@ public class PlatDevice {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getManage_port() {
+		return manage_port;
+	}
+
+	public void setManage_port(String manage_port) {
+		this.manage_port = manage_port;
 	}
 	
 	

@@ -14,10 +14,14 @@
           {{scope.row.type === 1 ? '防火墙':''}}
           {{scope.row.type === 2 ? '审计':''}}
           {{scope.row.type === 3 ? '网关':''}}
+          {{scope.row.type === 4 ? '漏扫':''}}
+          {{scope.row.type === 5 ? '隔离':''}}
+          {{scope.row.type === 6 ? 'IDS':''}}
         </template>
       </el-table-column>
       <el-table-column prop="device_name" label="设备名称"/>
-      <el-table-column prop="ip_address" label="IP地址"/>
+      <el-table-column prop="ip_address" label="管理地址"/>
+      <el-table-column prop="manage_port" label="管理端口"/>
       <el-table-column label="操作" width="320px">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleManage(scope.row)">管理</el-button>
@@ -65,6 +69,9 @@
             <el-option key="1" label="防火墙" :value="1"></el-option>
             <el-option key="2" label="审计" :value="2"></el-option>
             <el-option key="3" label="网关" :value="3"></el-option>
+            <el-option key="4" label="漏扫" :value="4"></el-option>
+            <el-option key="5" label="隔离" :value="5"></el-option>
+            <el-option key="6" label="IDS" :value="6"></el-option>
           </el-select>
         </el-form-item>
 
@@ -72,8 +79,12 @@
           <el-input v-model="formData.device_name" placeholder="请输入设备名称"></el-input>
         </el-form-item>
 
-        <el-form-item label="IP地址：" prop="ip_address">
-          <el-input v-model="formData.ip_address" placeholder="请输入IP地址"></el-input>
+        <el-form-item label="管理地址：" prop="ip_address">
+          <el-input v-model="formData.ip_address" placeholder="请输入管理地址"></el-input>
+        </el-form-item>
+
+        <el-form-item label="管理端口：" prop="manage_port">
+          <el-input type="number" min="0" max="65535" v-model="formData.manage_port" placeholder="请输入管理端口"></el-input>
         </el-form-item>
 
       </el-form>
@@ -134,10 +145,7 @@ export default {
       this.submitAction = 'add'
     },
     handleManage (row) {
-      if (row.type === 3) {
-        window.open('http://' + row.ip_address + ':7000')
-      }
-      window.open('http://' + row.ip_address)
+      window.open('https://' + row.ip_address + (row.manage_port ? ':' + row.manage_port : ''))
     },
     handleInfoModalVisible (row) {
       this.formData = { ...row }

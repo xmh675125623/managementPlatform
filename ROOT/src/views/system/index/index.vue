@@ -6,10 +6,10 @@
 <!--  </d2-container>-->
 
   <d2-container>
-    <div style="margin: -20px; padding-bottom: 20px; padding-top: 20px; overflow: hidden; height: 100%;display: flex;min-width: 300px; min-height: 580px;" :style="{background: 'url(' + require('./image/index_bg.jpg') + ')', backgroundSize: 'cover', backgroundPosition: 'center'}">
+    <div style="margin: -20px; padding-bottom: 40px;  overflow: hidden; height: 100%;display: flex;min-width: 300px; min-height: 580px;" :style="{background: 'url(' + require('./image/index_bg.jpg') + ')', backgroundSize: 'cover', backgroundPosition: 'center'}">
 
       <div style="flex: 1; height: 100%; margin-right: 12px;display: flex;flex-direction: column; margin-left: 12px">
-        <div class="chart-card" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
+        <div class="chart-card" style="margin-top: 50px;" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
           <div class="chart-card-name">高风险客户端</div>
           <div class="chart" ref="clientIpChart"></div>
         </div>
@@ -23,9 +23,13 @@
         </div>
       </div>
 
-      <div style="flex: 2; display: flex; flex-direction: column">
-        <div class="chart-card" style="flex: 3" :style="{background: 'url(' + require('./image/card_bg3.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
-          <div :style="{background: 'url(' + require('./image/index_main.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center', width: '100%', height: '100%'}"></div>
+      <div style=" flex: 2; display: flex; flex-direction: column">
+        <div style="letter-spacing:10px; color: #ffffff; text-align: center;padding-bottom: 8px; padding-top: 8px; border-bottom-left-radius:30px;border-bottom-right-radius:30px;background: linear-gradient(#001733, #033d73);">九州信泰工控可视化图表</div>
+        <div class="chart-card" style="flex: 3; margin-top: 14px;" :style="{background: 'url(' + require('./image/card_bg3.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
+<!--          <div :style="{background: 'url(' + require('./image/index_main.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center', width: '100%', height: '100%'}"></div>-->
+          <video id="play_video" controls autoplay="autoplay" loop name="media">
+            <source src="./image/942a5a253f8639b83c33dd0c9a3e69dd.mp4" type="video/mp4">
+          </video>
         </div>
         <div class="chart-card" style="margin-top: 12px; flex: 2;display: flex;flex-direction: column; height: 0; " :style="{background: 'url(' + require('./image/card_bg2.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
           <div class="chart-card-name" style="padding-top: 2%">实时告警</div>
@@ -49,7 +53,7 @@
       </div>
 
       <div style="flex: 1; height: 100%; margin-left: 12px; margin-right: 12px;display: flex;flex-direction: column">
-        <div class="chart-card" style="overflow:hidden;" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
+        <div class="chart-card" style="overflow:hidden;margin-top: 50px;" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
           <div class="chart-card-name">外部攻击者</div>
           <div class="chart-card-table-head">
             <div>攻击者IP</div>

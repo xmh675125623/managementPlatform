@@ -14,7 +14,7 @@ import com.jiuzhou.plat.bean.AuditReportItem;
 * 类说明
 */
 @MapperScan
-public interface AuditLogMapper {
+public interface FirewallLogMapper {
 	
 	/**
 	  *  批量插入

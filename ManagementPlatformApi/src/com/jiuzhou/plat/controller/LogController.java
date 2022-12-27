@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jiuzhou.plat.bean.CommonResult;
-import com.jiuzhou.plat.service.AuditLogService;
+import com.jiuzhou.plat.service.FirewallLogService;
 import com.jiuzhou.plat.service.OperateLogService;
 
 import net.sf.json.JSONObject;
@@ -24,7 +24,7 @@ import net.sf.json.JSONObject;
 public class LogController {
 	
 	@Autowired
-	private AuditLogService auditLogService;
+	private FirewallLogService firewallLogService;
 	@Autowired
 	private OperateLogService operateLogService;
 	
@@ -35,8 +35,8 @@ public class LogController {
 		try {
 
 			String method = paramJson.getString("method");
-			if ("audit_log.search".equals(method)) {
-				return auditLogService.search(paramJson);
+			if ("firewall_log.search".equals(method)) {
+				return firewallLogService.search(paramJson);
 				
 			} else if ("plat.operate_log.search".equals(method)) {
 				return operateLogService.search(paramJson);

@@ -5,9 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
-import com.jiuzhou.plat.bean.FirewallLog;
 import com.jiuzhou.plat.bean.DatabaseTableInfo;
-import com.jiuzhou.plat.bean.OperateLog;
 
 /**
 * @author xingmh
@@ -34,6 +32,7 @@ public interface DatabaseTableMapper {
 	 * @return
 	 */
 	public String getFirstAuditLogTableName();
+	
 	
 	/**
 	 * 获取操作日志表的信息列表
@@ -79,54 +78,7 @@ public interface DatabaseTableMapper {
 	 */
 	public void dropTable(@Param(value="table_name")String tableName);
 	
-	/**
-	 * 获取操作日志记录
-	 * @param tableName
-	 * @return
-	 */
-	public List<OperateLog> getOperateLogData(@Param(value="table_name")String tableName, 
-											@Param(value="startId")int startId, 
-											@Param(value="endId")int endId, 
-											@Param(value="limit")int limit);
 	
-	/**
-	 * 获取操作日志记录总条数
-	 * @param tableName
-	 * @return
-	 */
-	public int getOperateLogDataCount(@Param(value="table_name")String tableName, @Param(value="end_id") int endId);
-	
-	/**
-	 * 获取操作日志记录总条数
-	 * @param tableName
-	 * @return
-	 */
-	public int getLastOperateLogId(@Param(value="table_name")String tableName);
-	
-	
-	/**
-	 * 获取审计日志记录
-	 * @param tableName
-	 * @return
-	 */
-	public List<FirewallLog> getAuditLogData(@Param(value="table_name")String tableName, 
-										@Param(value="startId")long startId, 
-										@Param(value="endId")long endId, 
-										@Param(value="limit")int limit);
-	
-	/**
-	 * 获取审计日志记录总条数
-	 * @param tableName
-	 * @return
-	 */
-	public int getAuditLogDataCount(@Param(value="table_name")String tableName, @Param(value="end_id") long endId);
-	
-	/**
-	 * 获取最后一条审计记录id
-	 * @param tableName
-	 * @return
-	 */
-	public long getLastAuditLogId(@Param(value="table_name")String tableName);
 	
 	/**
 	 * 创建审计日志表

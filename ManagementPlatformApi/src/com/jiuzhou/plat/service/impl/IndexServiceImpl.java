@@ -16,7 +16,7 @@ import com.jiuzhou.firewall.service.FirewallDeviceService;
 import com.jiuzhou.plat.bean.CommonResult;
 import com.jiuzhou.plat.bean.SystemWarning;
 import com.jiuzhou.plat.cache.AdminUserLoginInfo;
-import com.jiuzhou.plat.mapper.AuditLogMapper;
+import com.jiuzhou.plat.mapper.FirewallLogMapper;
 import com.jiuzhou.plat.mapper.DatabaseTableMapper;
 import com.jiuzhou.plat.service.IndexService;
 
@@ -35,7 +35,7 @@ public class IndexServiceImpl implements IndexService {
 	DatabaseTableMapper databaseTableMapper;
 
 	@Autowired
-	AuditLogMapper auditLogMapper;
+	FirewallLogMapper auditLogMapper;
 	
 	@Autowired
 	FirewallDeviceMapper firewallDeviceMapper;

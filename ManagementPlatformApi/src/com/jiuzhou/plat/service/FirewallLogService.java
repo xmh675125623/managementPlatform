@@ -8,7 +8,7 @@ import net.sf.json.JSONObject;
  * @author xingmh
  * @version 2018年10月12日
  */
-public interface AuditLogService {
+public interface FirewallLogService {
 	
 	/**
 	  *  查询

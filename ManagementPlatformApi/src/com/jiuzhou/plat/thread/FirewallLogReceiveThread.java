@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jiuzhou.firewall.bean.FirewallReportCounter;
-import com.jiuzhou.firewall.bean.StudyRuleItem;
 import com.jiuzhou.firewall.service.StudyRuleService;
-import com.jiuzhou.firewall.utils.FirewallStudyRuleAnaylsisUtil;
 import com.jiuzhou.plat.init.SpringContextHolder;
 import com.jiuzhou.plat.util.DateUtils;
 
@@ -21,7 +19,7 @@ import com.jiuzhou.plat.util.DateUtils;
 * @version 创建时间：2018年10月31日 下午6:30:24
 * 接受审计日志线程
 */
-public class AuditLogReceiveThread implements Runnable {
+public class FirewallLogReceiveThread implements Runnable {
 	
 	public static final Map<String, String> MODULE_MAP = new HashMap<>();
 	public static final Map<String, String> LEVEL_MAP = new HashMap<>();
@@ -50,14 +48,14 @@ public class AuditLogReceiveThread implements Runnable {
 	
 	private StudyRuleService studyRuleService;
 	
-	public AuditLogReceiveThread() {
+	public FirewallLogReceiveThread() {
 		this.studyRuleService = SpringContextHolder.getBean(StudyRuleService.class);
 	}
 
 	@Override
 	public void run() {
 		try {
-			System.out.println("+++++++++++++++++++++++启动审计日志接受线程+++++++++++++++++++++++++++");
+			System.out.println("+++++++++++++++++++++++启动防火墙日志接受线程+++++++++++++++++++++++++++");
 			
 			@SuppressWarnings("resource")
 			DatagramSocket ds = new DatagramSocket(8006);
@@ -79,27 +77,8 @@ public class AuditLogReceiveThread implements Runnable {
 					
 					String tag = null;
 					
-					//判断当前设备是否为学习模式
-					if (studyRuleService.isStudyMode(origin)) {
-						
-						StudyRuleItem ruleItem = FirewallStudyRuleAnaylsisUtil.anaylsisRule(message);
-//						System.out.println(message);
-						
-						if (ruleItem != null) {
-							ruleItem.setDevice_name(origin);
-							studyRuleService.add(ruleItem);
-						}
-						
-						continue;
-					}
-					
 					if (message.indexOf("MOD=") > 0) {
 						tag = message.substring(message.indexOf("MOD=")+4, message.indexOf("MOD=")+5);
-//						if ("6".equals(tag)) {
-//							HotStandbyStartThread startThread = new HotStandbyStartThread();
-//							startThread.setDeviceName(origin);
-//							new Thread(startThread).start();
-//						}
 						message = message.substring(message.indexOf("MOD=")+5);
 					} else {
 						continue;
@@ -192,7 +171,7 @@ public class AuditLogReceiveThread implements Runnable {
             }
 			
 		} catch (Exception e) {
-			System.out.println("+++++++++++++++++++++++审计日志接收线程启动失败+++++++++++++++++++++++++++");
+			System.out.println("+++++++++++++++++++++++防火墙日志接收线程启动失败+++++++++++++++++++++++++++");
 			e.printStackTrace();
 		}
 		

@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jiuzhou.plat.bean.FirewallLog;
 import com.jiuzhou.plat.bean.CommonResult;
 import com.jiuzhou.plat.bean.DatabaseTableInfo;
-import com.jiuzhou.plat.mapper.AuditLogMapper;
+import com.jiuzhou.plat.bean.FirewallLog;
 import com.jiuzhou.plat.mapper.DatabaseTableMapper;
-import com.jiuzhou.plat.service.AuditLogService;
+import com.jiuzhou.plat.mapper.FirewallLogMapper;
+import com.jiuzhou.plat.service.FirewallLogService;
 import com.jiuzhou.plat.util.DateUtils;
 import com.jiuzhou.plat.util.SearchCondition;
 
@@ -31,13 +31,13 @@ import net.sf.json.JSONObject;
  * @author xingmh
  * @version 2018年10月12日
  */
-@Service("AuditLogService")
-public class AuditLogServiceImpl extends ServiceBase implements AuditLogService {
+@Service("FirewallLogService")
+public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogService {
 
 	@Autowired
 	private DatabaseTableMapper databaseTableMapper; 
 	@Autowired
-	private AuditLogMapper auditLogMapper;
+	private FirewallLogMapper auditLogMapper;
 	
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly=false)

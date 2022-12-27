@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
-import com.jiuzhou.plat.bean.AuditLog;
+import com.jiuzhou.plat.bean.FirewallLog;
 import com.jiuzhou.plat.bean.AuditReportItem;
 
 /**
@@ -21,7 +21,7 @@ public interface AuditLogMapper {
 	 * @param list
 	 * @param tableName
 	 */
-	public void insertBatch(@Param(value="list") List<AuditLog> list, 
+	public void insertBatch(@Param(value="list") List<FirewallLog> list, 
 			@Param(value="table_name") String tableName);
 	
 	/**
@@ -47,7 +47,7 @@ public interface AuditLogMapper {
 	 * @param pageSize
 	 * @param condition
 	 */
-	public List<AuditLog> search(@Param(value="table_name") String tableName,
+	public List<FirewallLog> search(@Param(value="table_name") String tableName,
 			@Param(value="start") long start,
 			@Param(value="page_size") int pageSize,
 			@Param(value="condition") String condition,

@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
-import com.jiuzhou.plat.bean.AuditLog;
+import com.jiuzhou.plat.bean.FirewallLog;
 import com.jiuzhou.plat.bean.DatabaseTableInfo;
 import com.jiuzhou.plat.bean.OperateLog;
 
@@ -109,7 +109,7 @@ public interface DatabaseTableMapper {
 	 * @param tableName
 	 * @return
 	 */
-	public List<AuditLog> getAuditLogData(@Param(value="table_name")String tableName, 
+	public List<FirewallLog> getAuditLogData(@Param(value="table_name")String tableName, 
 										@Param(value="startId")long startId, 
 										@Param(value="endId")long endId, 
 										@Param(value="limit")int limit);

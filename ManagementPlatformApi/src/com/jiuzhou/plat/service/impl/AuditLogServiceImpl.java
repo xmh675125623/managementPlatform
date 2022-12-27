@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jiuzhou.plat.bean.AuditLog;
+import com.jiuzhou.plat.bean.FirewallLog;
 import com.jiuzhou.plat.bean.CommonResult;
 import com.jiuzhou.plat.bean.DatabaseTableInfo;
 import com.jiuzhou.plat.mapper.AuditLogMapper;
@@ -151,7 +151,7 @@ public class AuditLogServiceImpl extends ServiceBase implements AuditLogService 
 			}
 		}
 		
-		List<AuditLog> list = auditLogMapper.search(tableName, 
+		List<FirewallLog> list = auditLogMapper.search(tableName, 
 				(page-1)*pageSize, 
 				pageSize, 
 				condition, 
@@ -255,14 +255,14 @@ public class AuditLogServiceImpl extends ServiceBase implements AuditLogService 
 		}
 		
 		//插入防火墙日志
-		AuditLog log = new AuditLog();
+		FirewallLog log = new FirewallLog();
 		log.setAdd_time(new Date());
-		log.setEvent_type(AuditLog.EVENT_TYPE_NORMAL);
-		log.setLevel(AuditLog.LEVEL_WARING);
-		log.setModule(AuditLog.MODULE_SYSTEM);
+		log.setEvent_type(FirewallLog.EVENT_TYPE_NORMAL);
+		log.setLevel(FirewallLog.LEVEL_WARING);
+		log.setModule(FirewallLog.MODULE_SYSTEM);
 		log.setContext("设备重启");
 		
-		List<AuditLog> logs = new ArrayList<>();
+		List<FirewallLog> logs = new ArrayList<>();
 		logs.add(log);
 		auditLogMapper.insertBatch(logs, tableName);
 	}

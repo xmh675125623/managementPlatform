@@ -242,7 +242,7 @@ export default {
   }
   .chart {
     width: 100%;
-    height: 100%;
+    height: 20vh;
   }
   .chart-card-table-head {
     display: flex;

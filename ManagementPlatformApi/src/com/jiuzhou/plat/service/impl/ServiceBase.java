@@ -47,6 +47,11 @@ public class ServiceBase {
 	public static final String CACHE_AUDIT_LOG_TABLE = "audit_log_table";
 	
 	/**
+	 * 防火墙日志表名
+	 */
+	public static final String CACHE_FIREWALL_LOG_TABLE = "firewall_log_table";
+	
+	/**
 	 * 系统告警列表
 	 */
 	public static final String CACHE_SYSTEM_WARNING = "cache_system_warning";

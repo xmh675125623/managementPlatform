@@ -3,13 +3,24 @@ package com.jiuzhou.plat.service.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,12 +29,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jiuzhou.plat.bean.CommonResult;
 import com.jiuzhou.plat.bean.DatabaseTableInfo;
 import com.jiuzhou.plat.bean.FirewallLog;
+import com.jiuzhou.plat.cache.FileDownloadInfo;
 import com.jiuzhou.plat.mapper.DatabaseTableMapper;
 import com.jiuzhou.plat.mapper.FirewallLogMapper;
 import com.jiuzhou.plat.service.FirewallLogService;
 import com.jiuzhou.plat.util.DateUtils;
 import com.jiuzhou.plat.util.SearchCondition;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -46,7 +59,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 		CommonResult commonResult = new CommonResult(false, "");
 		
 		//获取表信息
-		List<DatabaseTableInfo> tableList = databaseTableMapper.getAuditLogTableInfoList();
+		List<DatabaseTableInfo> tableList = databaseTableMapper.getFirewallLogTableInfoList();
 		if (tableList == null) {
 			tableList = new ArrayList<>();
 		}
@@ -147,7 +160,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 			sortField = paramJson.getString("sortField");
 			sortOrder = paramJson.getString("sortOrder");
 			if (StringUtils.isNotBlank("sortField") && StringUtils.isNotBlank("sortOrder")) {
-				sortOrder = "ascend".equals(sortOrder)?" ASC ":" DESC ";
+				sortOrder = "ascending".equals(sortOrder)?" ASC ":" DESC ";
 			}
 		}
 		
@@ -173,7 +186,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 	@Override
 	public void insertBathBySql(String sql) throws Exception {
 
-		String currentTableName = getCache(CACHE_AUDIT_LOG_TABLE, String.class);
+		String currentTableName = getCache(CACHE_FIREWALL_LOG_TABLE, String.class);
 		String tableName = "audit_log_" + DateUtils.toFormat(new Date(), "yyyyMMdd");
 		
 		//判断当天的日志表是否存在
@@ -182,7 +195,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 			if (StringUtils.isBlank(tableName_) || !tableName.equals(tableName_)) {
 				databaseTableMapper.createAuditLogTable(tableName);
 			}
-			setCache(CACHE_AUDIT_LOG_TABLE, tableName);
+			setCache(CACHE_FIREWALL_LOG_TABLE, tableName);
 		}
 		
 //		if (",".equals(sql.substring(sql.length()-1, sql.length()))) {
@@ -195,7 +208,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 
 	@Override
 	public void insertBathBySqls(String deviceName, List<String> sql) throws Exception {
-		String currentTableName = getCache(CACHE_AUDIT_LOG_TABLE, String.class);
+		String currentTableName = getCache(CACHE_FIREWALL_LOG_TABLE, String.class);
 		String tableName = "firewall_log_" + deviceName + "_" + DateUtils.toFormat(new Date(), "yyyyMMdd");
 		//判断当天的日志表是否存在
 		if (!tableName.equals(currentTableName)) {
@@ -203,7 +216,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 			if (StringUtils.isBlank(tableName_) || !tableName.equals(tableName_)) {
 				databaseTableMapper.createAuditLogTable(tableName);
 			}
-			setCache(CACHE_AUDIT_LOG_TABLE + "_" + deviceName, tableName);
+			setCache(CACHE_FIREWALL_LOG_TABLE + "_" + deviceName, tableName);
 		}
 		
 		auditLogMapper.insertBatchBySqls(sql, tableName);
@@ -243,7 +256,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 			return;
 		}
 		
-		String currentTableName = getCache(CACHE_AUDIT_LOG_TABLE, String.class);
+		String currentTableName = getCache(CACHE_FIREWALL_LOG_TABLE, String.class);
 		String tableName = "firewall_log_" + deviceName + "_" + DateUtils.toFormat(new Date(), "yyyyMMdd");
 		//判断当天的日志表是否存在
 		if (!tableName.equals(currentTableName)) {
@@ -251,7 +264,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 			if (StringUtils.isBlank(tableName_) || !tableName.equals(tableName_)) {
 				databaseTableMapper.createAuditLogTable(tableName);
 			}
-			setCache(CACHE_AUDIT_LOG_TABLE + "_" + deviceName, tableName);
+			setCache(CACHE_FIREWALL_LOG_TABLE + "_" + deviceName, tableName);
 		}
 		
 		//插入防火墙日志
@@ -267,4 +280,131 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 		auditLogMapper.insertBatch(logs, tableName);
 	}
 
+	@Override
+	public String exportSelectedLog(JSONObject paramJson) throws Exception {
+		
+		Map<String, String> eventTypeMap = new HashMap<String, String>();
+		eventTypeMap.put("1", "正常事件");
+		eventTypeMap.put("0", "异常事件");
+		
+		Map<String, String> levelMap = new HashMap<String, String>();
+		levelMap.put("1", "低");
+		levelMap.put("2", "中");
+		levelMap.put("3", "高");
+		
+		Map<String, String> moduleMap = new HashMap<String, String>();
+		moduleMap.put("11", "NET_FILTER");
+		moduleMap.put("12", "MODBUS_TCP");
+		moduleMap.put("15", "HTTP");
+		moduleMap.put("16", "FTP");
+		moduleMap.put("17", "TELNET");
+		
+		String selectedRowsStr = paramJson.getString("selectedRows");
+		
+		JSONArray selectedRows = JSONArray.fromObject(selectedRowsStr);
+		
+		//创建文件
+		String fileSavePath = DiskSpaceServiceImpl.class.getResource("/").getFile()  + "temp/file/images/";
+		String destFileName = System.currentTimeMillis() + "_exportLog";
+		File destFile = new File(fileSavePath + destFileName);
+		int i = 1;
+		while (destFile.exists()) {
+			destFileName += i;
+			destFile = new File(fileSavePath + destFileName);
+			i ++;
+		}
+		
+		
+		
+		//创建工作薄对象
+        HSSFWorkbook workbook=new HSSFWorkbook();//这里也可以设置sheet的Name
+        //创建工作表对象
+        HSSFSheet logSheet = workbook.createSheet();
+        workbook.setSheetName(0,"日志列表");//设置sheet的Name
+        
+        
+        //创建工作表的行
+        HSSFRow logRow = logSheet.createRow(0);//设置第一行表头，从零开始
+        logRow.createCell(0).setCellValue("ID");
+        logRow.createCell(1).setCellValue("事件类型");
+        logRow.createCell(2).setCellValue("源IP");
+        logRow.createCell(3).setCellValue("目的IP");
+        logRow.createCell(4).setCellValue("等级");
+        logRow.createCell(5).setCellValue("模块");
+        logRow.createCell(6).setCellValue("信息");
+        logRow.createCell(7).setCellValue("添加时间");
+        
+        
+        int logRowIndex = 1;
+        for (int j = 0; j < selectedRows.size(); j++) {
+        	JSONObject jsonObject = selectedRows.getJSONObject(j);
+    		HSSFRow row = logSheet.createRow(logRowIndex);
+    		
+    		HSSFCellStyle cellStyle = workbook.createCellStyle();
+    		HSSFFont font = workbook.createFont();
+    		if (jsonObject.getInt("level") == 2) {
+    			font.setColor(HSSFColor.YELLOW.index);
+            	
+            } else if (jsonObject.getInt("level") == 3) {
+            	font.setColor(HSSFColor.RED.index);
+            }
+    		cellStyle.setFont(font);
+    		
+    		HSSFCell cell0 = row.createCell(0);
+    		cell0.setCellValue(jsonObject.getString("id"));
+    		cell0.setCellStyle(cellStyle);
+    		
+    		HSSFCell cell1 = row.createCell(1);
+    		cell1.setCellValue(eventTypeMap.get(jsonObject.getString("event_type")));
+    		cell1.setCellStyle(cellStyle);
+    		
+    		HSSFCell cell2 = row.createCell(2);
+    		cell2.setCellValue(jsonObject.getString("source_ip"));
+    		cell2.setCellStyle(cellStyle);
+    		
+    		HSSFCell cell3 = row.createCell(3);
+    		cell3.setCellValue(jsonObject.getString("target_ip"));
+    		cell3.setCellStyle(cellStyle);
+    		
+    		HSSFCell cell4 = row.createCell(4);
+    		cell4.setCellValue(levelMap.get(jsonObject.getString("level")));
+    		cell4.setCellStyle(cellStyle);
+    		
+    		HSSFCell cell5 = row.createCell(5);
+    		cell5.setCellValue(moduleMap.get(jsonObject.getString("module")));
+    		cell5.setCellStyle(cellStyle);
+    		
+    		HSSFCell cell6 = row.createCell(6);
+    		cell6.setCellValue(jsonObject.getString("message"));
+    		cell6.setCellStyle(cellStyle);
+    		
+    		HSSFCell cell7 = row.createCell(7);
+    		cell7.setCellValue(jsonObject.getString("add_time"));
+    		cell7.setCellStyle(cellStyle);
+    		
+            logRowIndex ++;
+        	
+		}
+       
+ 
+        //文档输出
+        FileOutputStream out = new FileOutputStream(destFile);
+        workbook.write(out);
+        out.close();
+        
+        //缓存文件下载信息
+        FileDownloadInfo downloadInfo = 
+				new FileDownloadInfo(new Date().getTime(), 1*60*1000);
+		downloadInfo.setToken(UUID.randomUUID().toString());
+		downloadInfo.setJsonParam(paramJson);
+		downloadInfo.setFilePath(destFile.getParent() + File.separator + destFileName);
+		downloadInfo.setFileName("日志列表.xls");
+		setCache(FIRE_DOWNLOAD_INFO+downloadInfo.getToken(), downloadInfo);
+		
+		CommonResult commonResult = new CommonResult(false, "");
+		commonResult.setStatus(true);
+		commonResult.put("fileMark", downloadInfo.getToken());
+		return commonResult.toString();
+		
+	}
 }

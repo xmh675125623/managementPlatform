@@ -33,6 +33,24 @@ public interface DatabaseTableMapper {
 	 */
 	public String getFirstAuditLogTableName();
 	
+	/**
+	 * 获取防火墙日志表的信息列表
+	 * @return
+	 */
+	public List<DatabaseTableInfo> getFirewallLogTableInfoList();
+	
+	/**
+	 * 获取防火墙日志表的信息列表
+	 * @return
+	 */
+	public List<DatabaseTableInfo> getFirewallLogTableInfoListOrderByDate();
+	
+	/**
+	 * 获取防火墙日志记录表
+	 * @return
+	 */
+	public String getFirstFirewallLogTableName();
+	
 	
 	/**
 	 * 获取操作日志表的信息列表

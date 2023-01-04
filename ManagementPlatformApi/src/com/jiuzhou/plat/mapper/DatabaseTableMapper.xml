@@ -18,7 +18,7 @@
 		FROM 
 			TABLES 
 		WHERE 
-			table_schema='jiuzhou_management_platform' AND table_name LIKE 'firewall_log%'
+			table_schema='jiuzhou_management_platform' AND table_name LIKE 'audit_log%'
 		ORDER BY table_name DESC;
 		use jiuzhou_management_platform;
 	</select>
@@ -36,13 +36,63 @@
 		FROM 
 			TABLES 
 		WHERE 
-			table_schema='jiuzhou_management_platform' AND table_name LIKE 'firewall_log%'
+			table_schema='jiuzhou_management_platform' AND table_name LIKE 'audit_log%'
 		ORDER BY create_time DESC;
 		use jiuzhou_management_platform;
 	</select>
 	
 	
 	<select id="getFirstAuditLogTableName" resultType="String">
+		use information_schema;
+		SELECT 
+			table_name
+		FROM 
+			TABLES 
+		WHERE 
+			table_schema='jiuzhou_management_platform' AND table_name LIKE 'audit_log%'
+		ORDER BY create_time ASC 
+		LIMIT 1;
+		use jiuzhou_management_platform;
+	</select>
+	
+	
+	<select id="getFirewallLogTableInfoList" resultType="com.jiuzhou.plat.bean.DatabaseTableInfo">
+		use information_schema;
+		SELECT 
+			table_name,
+			table_rows,
+			ROUND(data_length/1024/1024,4) AS data_size,
+			ROUND(index_length/1024/1024,4) AS index_size,
+			ROUND((data_length+index_length)/1024/1024,4) AS total_size,
+			create_time
+		FROM 
+			TABLES 
+		WHERE 
+			table_schema='jiuzhou_management_platform' AND table_name LIKE 'firewall_log%'
+		ORDER BY table_name DESC;
+		use jiuzhou_management_platform;
+	</select>
+	
+	
+	<select id="getFirewallLogTableInfoListOrderByDate" resultType="com.jiuzhou.plat.bean.DatabaseTableInfo">
+		use information_schema;
+		SELECT 
+			table_name,
+			table_rows,
+			ROUND(data_length/1024/1024,4) AS data_size,
+			ROUND(index_length/1024/1024,4) AS index_size,
+			ROUND((data_length+index_length)/1024/1024,4) AS total_size,
+			create_time
+		FROM 
+			TABLES 
+		WHERE 
+			table_schema='jiuzhou_management_platform' AND table_name LIKE 'firewall_log%'
+		ORDER BY create_time DESC;
+		use jiuzhou_management_platform;
+	</select>
+	
+	
+	<select id="getFirstFirewallLogTableName" resultType="String">
 		use information_schema;
 		SELECT 
 			table_name

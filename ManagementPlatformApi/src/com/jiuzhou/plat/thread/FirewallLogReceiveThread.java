@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.jiuzhou.firewall.bean.FirewallReportCounter;
-import com.jiuzhou.firewall.service.StudyRuleService;
-import com.jiuzhou.plat.init.SpringContextHolder;
 import com.jiuzhou.plat.util.DateUtils;
 
 /**
@@ -46,12 +44,6 @@ public class FirewallLogReceiveThread implements Runnable {
 	
 	public static Map<String, List<String>> LOG_MAP = new HashMap<>();
 	
-	private StudyRuleService studyRuleService;
-	
-	public FirewallLogReceiveThread() {
-		this.studyRuleService = SpringContextHolder.getBean(StudyRuleService.class);
-	}
-
 	@Override
 	public void run() {
 		try {

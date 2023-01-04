@@ -3,7 +3,7 @@
     <template slot="header">操作日志查看</template>
     <el-row style="padding-bottom: 12px">
       表/日期：
-      <el-select placeholder="请选择" @change="handleChangeTable" :value="tableName">s
+      <el-select placeholder="请选择" @change="handleChangeTable" :value="tableName">
         <el-option
           v-for="item in tableList"
           :key="item.table_name"
@@ -63,7 +63,7 @@ export default {
   methods: {
     ...mapActions('plat/operateLog', ['getLogList']),
     handleCurrentChange (val) {
-      this.getLogList({ page: this.val, pageSize: this.pageSize })
+      this.getLogList({ page: val, pageSize: this.pageSize })
     },
     handleSizeChange (val) {
       this.getLogList({ page: this.currentPage, pageSize: val })

@@ -5,6 +5,7 @@ import plat from './modules/plat'
 import firewall from './modules/firewall'
 import device from './modules/device'
 import display from './modules/display'
+import log from './modules/log'
 
 import layoutHeaderAside from '@/layout/header-aside'
 
@@ -62,7 +63,8 @@ const frameIn = [
   plat,
   firewall,
   device,
-  display
+  display,
+  log
 ]
 
 /**

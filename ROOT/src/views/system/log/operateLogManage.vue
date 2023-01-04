@@ -177,7 +177,7 @@ export default {
         table_name: row.table_name,
         successNotice: 1,
         callback: (responseData) => {
-          window.location.href = fileDownloadUrl + responseData.fileMark;
+          window.location.href = fileDownloadUrl + responseData.fileMark
         }
       }
       this.exportTable(data)

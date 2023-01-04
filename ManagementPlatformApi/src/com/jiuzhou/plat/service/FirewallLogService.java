@@ -40,5 +40,13 @@ public interface FirewallLogService {
 	 */
 	public void insertDeviceRestartLog();
 	
+	/**
+	 * 导出选择的日志
+	 * @param paramJson
+	 * @return
+	 * @throws Exception
+	 */
+	public String exportSelectedLog(JSONObject paramJson) throws Exception;
+	
 	
 }

@@ -35,8 +35,11 @@ public class LogController {
 		try {
 
 			String method = paramJson.getString("method");
-			if ("firewall_log.search".equals(method)) {
+			if ("log.firewall.search".equals(method)) {
 				return firewallLogService.search(paramJson);
+				
+			} else if ("log.firewall.search_export".equals(method)) {
+				return firewallLogService.exportSelectedLog(paramJson);
 				
 			} else if ("plat.operate_log.search".equals(method)) {
 				return operateLogService.search(paramJson);

@@ -162,7 +162,7 @@ export default {
       if (page) {
         const { name, params, query } = page
         this.$router.push({ name, params, query })
-        console.log(page)
+        // console.log(page)
       }
     },
     /**

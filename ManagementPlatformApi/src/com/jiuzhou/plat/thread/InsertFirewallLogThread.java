@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jiuzhou.plat.init.SpringContextHolder;
-import com.jiuzhou.plat.service.FirewallLogService;
+import com.jiuzhou.plat.service.AuditLogService;
 
 /**
 * @author xingmh
@@ -14,10 +14,10 @@ import com.jiuzhou.plat.service.FirewallLogService;
 */
 public class InsertFirewallLogThread implements Runnable {
 	
-private FirewallLogService firewallLogService;  
+private AuditLogService firewallLogService;  
 	
 	public InsertFirewallLogThread() {
-		this.firewallLogService = SpringContextHolder.getBean(FirewallLogService.class);
+		this.firewallLogService = SpringContextHolder.getBean(AuditLogService.class);
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import com.jiuzhou.plat.service.FirewallLogService; 
+import com.jiuzhou.plat.service.AuditLogService; 
 
 /**
  * 用于spring容器加载完成后启动系统中的线程
@@ -20,7 +20,7 @@ public class ThreadLoader implements ApplicationListener<ContextRefreshedEvent> 
 	public static FirewallReportCounterThread firewallReportCounterThread;
 	
 	@Autowired
-	private FirewallLogService auditLogService;
+	private AuditLogService auditLogService;
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {

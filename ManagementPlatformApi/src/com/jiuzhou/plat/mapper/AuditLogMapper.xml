@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.jiuzhou.plat.mapper.FirewallLogMapper">
+<mapper namespace="com.jiuzhou.plat.mapper.AuditLogMapper">
 
 
 	<insert id="insertBatch">
@@ -40,7 +40,7 @@
 	</insert>
 	
 	
-	<select id="search" resultType="com.jiuzhou.plat.bean.FirewallLog">
+	<select id="search" resultType="com.jiuzhou.plat.bean.AuditLog">
 		SELECT * FROM ${table_name} WHERE
 		<choose>
 			<when test="sort_field != null and sort_field != '' and sort_order != null and sort_order != '' and sort_order == ' DESC '">

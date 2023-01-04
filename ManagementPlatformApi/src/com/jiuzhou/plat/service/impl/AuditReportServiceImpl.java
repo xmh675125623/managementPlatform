@@ -60,7 +60,7 @@ import com.jiuzhou.firewall.mapper.FirewallReportCounterMapper;
 import com.jiuzhou.firewall.service.FirewallDeviceService;
 import com.jiuzhou.plat.bean.CommonResult;
 import com.jiuzhou.plat.cache.FileDownloadInfo;
-import com.jiuzhou.plat.mapper.FirewallLogMapper;
+import com.jiuzhou.plat.mapper.AuditLogMapper;
 import com.jiuzhou.plat.mapper.DatabaseTableMapper;
 import com.jiuzhou.plat.pdfUtil.BackGroundImage;
 import com.jiuzhou.plat.service.AuditReportService;
@@ -80,7 +80,7 @@ public class AuditReportServiceImpl implements AuditReportService {
 	@Autowired
 	private DatabaseTableMapper databaseTableMapper;
 	@Autowired
-	private FirewallLogMapper auditLogMapper;
+	private AuditLogMapper auditLogMapper;
 	@Autowired
 	private FirewallDeviceService firewallDeviceService;
 	@Autowired

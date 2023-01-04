@@ -66,8 +66,8 @@ export function PLAT_OPERATE_LOG_TABLE_EXPORT (data = {}) {
  * @returns {*}
  * @constructor
  */
-export function PLAT_FIREWALL_LOG_SEARCH (data = {}) {
-  data.method = 'log.firewall.search'
+export function PLAT_AUDIT_LOG_SEARCH (data = {}) {
+  data.method = 'log.audit.search'
   return request({
     url: '/function/logs.do',
     method: 'POST',
@@ -81,8 +81,8 @@ export function PLAT_FIREWALL_LOG_SEARCH (data = {}) {
  * @returns {*}
  * @constructor
  */
-export function PLAT_FIREWALL_LOG_SEARCH_EXPORT (data = {}) {
-  data.method = 'log.firewall.search_export'
+export function PLAT_AUDIT_LOG_SEARCH_EXPORT (data = {}) {
+  data.method = 'log.audit.search_export'
   return request({
     url: '/function/logs.do',
     method: 'POST',

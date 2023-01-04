@@ -1,6 +1,6 @@
 <template>
   <d2-container>
-    <template slot="header">防火墙日志查看</template>
+    <template slot="header">审计日志查看</template>
     <el-row style="padding-bottom: 12px">
       <el-col :span="12">
         <span style="display:inline-block; width: 100px">表/日期：</span>
@@ -155,46 +155,46 @@ const moduleArray = [{ label: 'NET_FILTER', value: 11 }, { label: 'MODBUS_TCP', 
 
 export default {
   computed: {
-    ...mapState('plat/firewallLog', ['tableName', 'tableList', 'logList', 'logCount', 'listLoading', 'currentPage',
+    ...mapState('plat/auditLog', ['tableName', 'tableList', 'logList', 'logCount', 'listLoading', 'currentPage',
       'pageSize', 'searchCondition', 'isOpenCondition', 'exportLoading']),
     level: {
       get () {
-        return this.$store.state.plat.firewallLog.searchCondition.level
+        return this.$store.state.plat.auditLog.searchCondition.level
       },
       set (value) {
-        this.$store.commit('plat/firewallLog/setLevel', value)
+        this.$store.commit('plat/auditLog/setLevel', value)
       }
     },
     context: {
       get () {
-        return this.$store.state.plat.firewallLog.searchCondition.context
+        return this.$store.state.plat.auditLog.searchCondition.context
       },
       set (value) {
-        this.$store.commit('plat/firewallLog/setContext', value)
+        this.$store.commit('plat/auditLog/setContext', value)
       }
     },
     module: {
       get () {
-        return this.$store.state.plat.firewallLog.searchCondition.module
+        return this.$store.state.plat.auditLog.searchCondition.module
       },
       set (value) {
-        this.$store.commit('plat/firewallLog/setModule', value)
+        this.$store.commit('plat/auditLog/setModule', value)
       }
     },
     sip: {
       get () {
-        return this.$store.state.plat.firewallLog.searchCondition.sip
+        return this.$store.state.plat.auditLog.searchCondition.sip
       },
       set (value) {
-        this.$store.commit('plat/firewallLog/setSip', value)
+        this.$store.commit('plat/auditLog/setSip', value)
       }
     },
     dip: {
       get () {
-        return this.$store.state.plat.firewallLog.searchCondition.dip
+        return this.$store.state.plat.auditLog.searchCondition.dip
       },
       set (value) {
-        this.$store.commit('plat/firewallLog/setDip', value)
+        this.$store.commit('plat/auditLog/setDip', value)
       }
     }
   },
@@ -213,7 +213,7 @@ export default {
     this.getLogList({ page: this.currentPage, pageSize: this.pageSize })
   },
   methods: {
-    ...mapActions('plat/firewallLog', ['getLogList', 'exportLog']),
+    ...mapActions('plat/auditLog', ['getLogList', 'exportLog']),
     handleCurrentChange (val) {
       this.getLogList({ table_name: this.tableName, page: val, pageSize: this.pageSize })
     },
@@ -227,23 +227,23 @@ export default {
       this.getLogList({ table_name: this.tableName, page: 1, pageSize: this.pageSize })
     },
     handleResetForm () {
-      this.$store.commit('plat/firewallLog/setLevel', [])
-      this.$store.commit('plat/firewallLog/setContext', '')
-      this.$store.commit('plat/firewallLog/setModule', [])
-      this.$store.commit('plat/firewallLog/setSip', '')
-      this.$store.commit('plat/firewallLog/setDip', '')
+      this.$store.commit('plat/auditLog/setLevel', [])
+      this.$store.commit('plat/auditLog/setContext', '')
+      this.$store.commit('plat/auditLog/setModule', [])
+      this.$store.commit('plat/auditLog/setSip', '')
+      this.$store.commit('plat/auditLog/setDip', '')
     },
     rowStyle (data) {
       return levelcolors[data.row.level]
     },
     toggleForm () {
-      this.$store.commit('plat/firewallLog/toggleCondition')
+      this.$store.commit('plat/auditLog/toggleCondition')
     },
     handleSelectionChange (val) {
       this.selectedRows = val
     },
     handleSortChange (sort) {
-      this.$store.commit('plat/firewallLog/setSortField', { sortField: sort.prop, sortOrder: sort.order })
+      this.$store.commit('plat/auditLog/setSortField', { sortField: sort.prop, sortOrder: sort.order })
       this.getLogList({ table_name: this.tableName, page: 1, pageSize: this.pageSize })
     },
     printLog () {

@@ -1,6 +1,6 @@
 import {
-  PLAT_FIREWALL_LOG_SEARCH,
-  PLAT_FIREWALL_LOG_SEARCH_EXPORT
+  PLAT_AUDIT_LOG_SEARCH,
+  PLAT_AUDIT_LOG_SEARCH_EXPORT
 } from '@/api/plat.log'
 
 export default {
@@ -27,13 +27,13 @@ export default {
   },
   actions: {
     async getLogList ({ commit, dispatch, state }, data = {}) {
-      data.requestLoading = 'plat/firewallLog/listLoading'
-      const res = await PLAT_FIREWALL_LOG_SEARCH({ ...data, ...state.searchCondition })
+      data.requestLoading = 'plat/auditLog/listLoading'
+      const res = await PLAT_AUDIT_LOG_SEARCH({ ...data, ...state.searchCondition })
       commit('setLogList', res)
     },
     async exportLog ({ commit, dispatch, state }, data = {}) {
-      data.requestLoading = 'plat/firewallLog/exportLoading'
-      await PLAT_FIREWALL_LOG_SEARCH_EXPORT(data)
+      data.requestLoading = 'plat/auditLog/exportLoading'
+      await PLAT_AUDIT_LOG_SEARCH_EXPORT(data)
     }
   },
   mutations: {

@@ -3,11 +3,11 @@ package com.jiuzhou.plat.bean;
 import java.util.Date;
 
 /**
- * 防火墙日志bean类
+ * 审计日志bean类
  * @author xingmh
  * @version 2022年12月27日
  */
-public class FirewallLog {
+public class AuditLog {
 	
 	/**
 	  *  事件类型：正常事件
@@ -59,7 +59,7 @@ public class FirewallLog {
 	private String 	context;		//描述
 	private Date 	add_time;
 	
-	public FirewallLog() {
+	public AuditLog() {
 	}
 
 	public long getId() {

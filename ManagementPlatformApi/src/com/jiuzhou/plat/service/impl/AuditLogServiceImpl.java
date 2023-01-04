@@ -26,13 +26,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jiuzhou.plat.bean.AuditLog;
 import com.jiuzhou.plat.bean.CommonResult;
 import com.jiuzhou.plat.bean.DatabaseTableInfo;
-import com.jiuzhou.plat.bean.FirewallLog;
 import com.jiuzhou.plat.cache.FileDownloadInfo;
+import com.jiuzhou.plat.mapper.AuditLogMapper;
 import com.jiuzhou.plat.mapper.DatabaseTableMapper;
-import com.jiuzhou.plat.mapper.FirewallLogMapper;
-import com.jiuzhou.plat.service.FirewallLogService;
+import com.jiuzhou.plat.service.AuditLogService;
 import com.jiuzhou.plat.util.DateUtils;
 import com.jiuzhou.plat.util.SearchCondition;
 
@@ -44,13 +44,13 @@ import net.sf.json.JSONObject;
  * @author xingmh
  * @version 2018年10月12日
  */
-@Service("FirewallLogService")
-public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogService {
+@Service("AuditLogService")
+public class AuditLogServiceImpl extends ServiceBase implements AuditLogService {
 
 	@Autowired
 	private DatabaseTableMapper databaseTableMapper; 
 	@Autowired
-	private FirewallLogMapper auditLogMapper;
+	private AuditLogMapper auditLogMapper;
 	
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly=false)
@@ -59,7 +59,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 		CommonResult commonResult = new CommonResult(false, "");
 		
 		//获取表信息
-		List<DatabaseTableInfo> tableList = databaseTableMapper.getFirewallLogTableInfoList();
+		List<DatabaseTableInfo> tableList = databaseTableMapper.getAuditLogTableInfoList();
 		if (tableList == null) {
 			tableList = new ArrayList<>();
 		}
@@ -164,7 +164,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 			}
 		}
 		
-		List<FirewallLog> list = auditLogMapper.search(tableName, 
+		List<AuditLog> list = auditLogMapper.search(tableName, 
 				(page-1)*pageSize, 
 				pageSize, 
 				condition, 
@@ -186,7 +186,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 	@Override
 	public void insertBathBySql(String sql) throws Exception {
 
-		String currentTableName = getCache(CACHE_FIREWALL_LOG_TABLE, String.class);
+		String currentTableName = getCache(CACHE_AUDIT_LOG_TABLE, String.class);
 		String tableName = "audit_log_" + DateUtils.toFormat(new Date(), "yyyyMMdd");
 		
 		//判断当天的日志表是否存在
@@ -195,7 +195,7 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 			if (StringUtils.isBlank(tableName_) || !tableName.equals(tableName_)) {
 				databaseTableMapper.createAuditLogTable(tableName);
 			}
-			setCache(CACHE_FIREWALL_LOG_TABLE, tableName);
+			setCache(CACHE_AUDIT_LOG_TABLE, tableName);
 		}
 		
 //		if (",".equals(sql.substring(sql.length()-1, sql.length()))) {
@@ -208,15 +208,15 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 
 	@Override
 	public void insertBathBySqls(String deviceName, List<String> sql) throws Exception {
-		String currentTableName = getCache(CACHE_FIREWALL_LOG_TABLE, String.class);
-		String tableName = "firewall_log_" + deviceName + "_" + DateUtils.toFormat(new Date(), "yyyyMMdd");
+		String currentTableName = getCache(CACHE_AUDIT_LOG_TABLE, String.class);
+		String tableName = "audit_log_" + deviceName + "_" + DateUtils.toFormat(new Date(), "yyyyMMdd");
 		//判断当天的日志表是否存在
 		if (!tableName.equals(currentTableName)) {
 			String tableName_ = databaseTableMapper.getTableName(tableName);
 			if (StringUtils.isBlank(tableName_) || !tableName.equals(tableName_)) {
 				databaseTableMapper.createAuditLogTable(tableName);
 			}
-			setCache(CACHE_FIREWALL_LOG_TABLE + "_" + deviceName, tableName);
+			setCache(CACHE_AUDIT_LOG_TABLE + "_" + deviceName, tableName);
 		}
 		
 		auditLogMapper.insertBatchBySqls(sql, tableName);
@@ -256,26 +256,26 @@ public class FirewallLogServiceImpl extends ServiceBase implements FirewallLogSe
 			return;
 		}
 		
-		String currentTableName = getCache(CACHE_FIREWALL_LOG_TABLE, String.class);
-		String tableName = "firewall_log_" + deviceName + "_" + DateUtils.toFormat(new Date(), "yyyyMMdd");
+		String currentTableName = getCache(CACHE_AUDIT_LOG_TABLE, String.class);
+		String tableName = "audit_log_" + deviceName + "_" + DateUtils.toFormat(new Date(), "yyyyMMdd");
 		//判断当天的日志表是否存在
 		if (!tableName.equals(currentTableName)) {
 			String tableName_ = databaseTableMapper.getTableName(tableName);
 			if (StringUtils.isBlank(tableName_) || !tableName.equals(tableName_)) {
 				databaseTableMapper.createAuditLogTable(tableName);
 			}
-			setCache(CACHE_FIREWALL_LOG_TABLE + "_" + deviceName, tableName);
+			setCache(CACHE_AUDIT_LOG_TABLE + "_" + deviceName, tableName);
 		}
 		
 		//插入防火墙日志
-		FirewallLog log = new FirewallLog();
+		AuditLog log = new AuditLog();
 		log.setAdd_time(new Date());
-		log.setEvent_type(FirewallLog.EVENT_TYPE_NORMAL);
-		log.setLevel(FirewallLog.LEVEL_WARING);
-		log.setModule(FirewallLog.MODULE_SYSTEM);
+		log.setEvent_type(AuditLog.EVENT_TYPE_NORMAL);
+		log.setLevel(AuditLog.LEVEL_WARING);
+		log.setModule(AuditLog.MODULE_SYSTEM);
 		log.setContext("设备重启");
 		
-		List<FirewallLog> logs = new ArrayList<>();
+		List<AuditLog> logs = new ArrayList<>();
 		logs.add(log);
 		auditLogMapper.insertBatch(logs, tableName);
 	}

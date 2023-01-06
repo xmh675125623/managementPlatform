@@ -14,8 +14,8 @@ import com.jiuzhou.plat.util.DateUtils;
 
 /**
 * @author xingmh
-* @version 创建时间：2018年10月31日 下午6:30:24
-* 接受审计日志线程
+* @version 创建时间：2023年1月5日 下午1:49:34
+* 类说明
 */
 public class FirewallLogReceiveThread implements Runnable {
 	
@@ -32,6 +32,15 @@ public class FirewallLogReceiveThread implements Runnable {
 		MODULE_MAP.put("7", "S7");
 		MODULE_MAP.put("8", "S7_PLUS");
 		
+		MODULE_MAP.put("10", "IPMAC");
+		MODULE_MAP.put("11", "NET_MODULE");
+		MODULE_MAP.put("12", "MODBUS_TCP");
+		MODULE_MAP.put("13", "OPC_TCP");
+		MODULE_MAP.put("14", "IEC104_TCP");
+		MODULE_MAP.put("15", "HTTP");
+		MODULE_MAP.put("16", "FTP");
+		MODULE_MAP.put("17", "TELNET");
+		
 		LEVEL_MAP.put("0", "Emerg");
 		LEVEL_MAP.put("1", "Alert");
 		LEVEL_MAP.put("2", "Critical");
@@ -44,6 +53,10 @@ public class FirewallLogReceiveThread implements Runnable {
 	
 	public static Map<String, List<String>> LOG_MAP = new HashMap<>();
 	
+	
+	public FirewallLogReceiveThread() {
+	}
+
 	@Override
 	public void run() {
 		try {
@@ -54,7 +67,7 @@ public class FirewallLogReceiveThread implements Runnable {
 			InetAddress addr = InetAddress.getByName("127.0.0.1");
 			
 			while(true){
-				DatagramPacket dp_receive = new DatagramPacket(new byte[1024], 1024, addr, 8006);
+				DatagramPacket dp_receive = new DatagramPacket(new byte[1024], 1024, addr, 8007);
 				try {
 					ds.receive(dp_receive);
 					String sql = new String(dp_receive.getData(), 0, dp_receive.getLength(), "UTF-8");
@@ -69,8 +82,18 @@ public class FirewallLogReceiveThread implements Runnable {
 					
 					String tag = null;
 					
+					//通过STYPE判断当前设备是否为学习模式
+					String stype = message.substring(message.indexOf("STYPE=")+6, message.indexOf("STYPE=")+7);
+					
 					if (message.indexOf("MOD=") > 0) {
-						tag = message.substring(message.indexOf("MOD=")+4, message.indexOf("MOD=")+5);
+						String mod_str = message.substring(message.indexOf("MOD=")+4);
+//						tag = message.substring(message.indexOf("MOD=")+4, message.indexOf("MOD=")+5);
+						tag = mod_str.substring(0, mod_str.indexOf(" "));
+//						if ("6".equals(tag)) {
+//							HotStandbyStartThread startThread = new HotStandbyStartThread();
+//							startThread.setDeviceName(origin);
+//							new Thread(startThread).start();
+//						}
 						message = message.substring(message.indexOf("MOD=")+5);
 					} else {
 						continue;
@@ -92,15 +115,15 @@ public class FirewallLogReceiveThread implements Runnable {
 					}
 					
 					String sourceIp = "";
-					if (message.indexOf("SRC=", macsrcIndex) > 0) {
-						String tempStr = message.substring(message.indexOf("SRC="));
-						sourceIp = tempStr.substring(tempStr.indexOf("SRC=")+4, tempStr.indexOf(" "));
+					if (message.indexOf("SIP:") > 0) {
+						String tempStr = message.substring(message.indexOf("SIP:"));
+						sourceIp = tempStr.substring(tempStr.indexOf("SIP:")+4, tempStr.indexOf(" "));
 					}
 					
 					String targetIp = "";
-					if (message.indexOf("DST=", macdstIndex) > 0) {
-						String tempStr = message.substring(message.indexOf("DST="));
-						targetIp = tempStr.substring(tempStr.indexOf("DST=")+4, tempStr.indexOf(" "));
+					if (message.indexOf("DIP:") > 0) {
+						String tempStr = message.substring(message.indexOf("DIP:"));
+						targetIp = tempStr.substring(tempStr.indexOf("DIP:")+4, tempStr.indexOf(" "));
 					}
 					
 					String protocol = "";
@@ -124,12 +147,12 @@ public class FirewallLogReceiveThread implements Runnable {
 						dport = tempStr.substring(tempStr.indexOf("DPT=")+4, tempStr.indexOf(" "));
 					}
 					
-					
+					message = message.substring(message.indexOf("STYPE=")+7);
 						
 					Date currentDate = new Date();
 					
 					sql = 
-							"('"+DateUtils.toSimpleDateTime(currentDate)+"',"+facility+", '"+level+"', '"+tag+"', '"+origin+"','"+sourceIp+"','"+targetIp+"', '"+message+"')";
+							"('"+DateUtils.toSimpleDateTime(currentDate)+"',"+facility+", '"+level+"', '"+tag+"', '"+origin+"','"+sourceIp+"','"+targetIp+"', '"+origin+" "+message+"')";
 					
 					List<String> sql_list = LOG_MAP.get(origin);
 					if (sql_list == null) {
@@ -163,7 +186,7 @@ public class FirewallLogReceiveThread implements Runnable {
             }
 			
 		} catch (Exception e) {
-			System.out.println("+++++++++++++++++++++++防火墙日志接收线程启动失败+++++++++++++++++++++++++++");
+			System.out.println("+++++++++++++++++++++++审计日志接收线程启动失败+++++++++++++++++++++++++++");
 			e.printStackTrace();
 		}
 		

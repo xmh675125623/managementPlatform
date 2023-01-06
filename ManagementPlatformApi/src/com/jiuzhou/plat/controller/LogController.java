@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jiuzhou.plat.bean.CommonResult;
 import com.jiuzhou.plat.service.AuditLogService;
+import com.jiuzhou.plat.service.FirewallLogService;
 import com.jiuzhou.plat.service.OperateLogService;
 
 import net.sf.json.JSONObject;
@@ -27,6 +28,8 @@ public class LogController {
 	private AuditLogService auditLogService;
 	@Autowired
 	private OperateLogService operateLogService;
+	@Autowired
+	private FirewallLogService firewallLogService;
 	
 	@ResponseBody
 	@RequestMapping(value="/logs.do")
@@ -44,7 +47,13 @@ public class LogController {
 			} else if ("plat.operate_log.search".equals(method)) {
 				return operateLogService.search(paramJson);
 				
-			}
+			} else if ("log.firewall.search".equals(method)) {
+				return firewallLogService.search(paramJson);
+				
+			} else if ("log.firewall.search_export".equals(method)) {
+				return firewallLogService.exportSelectedLog(paramJson);
+				
+			} 
 			
 		} catch (Exception e) {
 			e.printStackTrace();

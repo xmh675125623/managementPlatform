@@ -1,6 +1,6 @@
 <template>
   <d2-container>
-    <template slot="header">审计日志查看</template>
+    <template slot="header">防火墙日志查看</template>
     <el-row style="padding-bottom: 12px">
       <el-col :span="12">
         <span style="display:inline-block; width: 100px">表/日期：</span>
@@ -22,16 +22,16 @@
       <el-col :span="12" v-show="!isOpenCondition">
         <el-button type="primary" icon="el-icon-search" @click="handleSearch" :loading="listLoading">搜索</el-button>
         <el-button @click="handleResetForm">重置</el-button>
-        <el-button type="primary" icon="el-icon-download" :loading="exportLoading" @click="exportLogs">导出</el-button>
-        <el-button type="primary" icon="el-icon-printer" @click="printLog">打印</el-button>
+<!--        <el-button type="primary" icon="el-icon-download" :loading="exportLoading" @click="exportLogs">导出</el-button>-->
+<!--        <el-button type="primary" icon="el-icon-printer" @click="printLog">打印</el-button>-->
         <a href="javascript:;" style="margin-left: 12px;" @click="toggleForm">展开 <i class="el-icon-arrow-down"></i></a>
       </el-col>
     </el-row>
 
     <el-row style="padding-bottom: 12px" v-show="isOpenCondition">
       <el-col :span="12">
-        <span style="display: inline-block; width: 100px">目的端口：</span>
-        <el-input v-model="context" placeholder="请输入目的端口" style="width: 300px"></el-input>
+        <span style="display: inline-block; width: 100px">描述：</span>
+        <el-input v-model="context" placeholder="请输入描述内容" style="width: 300px"></el-input>
       </el-col>
       <el-col :span="12">
         <span style="display: inline-block; width: 100px">模块：</span>
@@ -57,35 +57,28 @@
       <el-col :span="12">
         <el-button type="primary" icon="el-icon-search" @click="handleSearch" :loading="listLoading">搜索</el-button>
         <el-button @click="handleResetForm">重置</el-button>
-        <el-button type="primary" icon="el-icon-download" :loading="exportLoading" @click="exportLogs">导出</el-button>
-        <el-button type="primary" icon="el-icon-printer">打印</el-button>
+<!--        <el-button type="primary" icon="el-icon-download" :loading="exportLoading" @click="exportLogs">导出</el-button>-->
+<!--        <el-button type="primary" icon="el-icon-printer">打印</el-button>-->
         <a href="javascript:;" style="margin-left: 12px;" @click="toggleForm">收起 <i class="el-icon-arrow-up"></i></a>
       </el-col>
     </el-row>
 
     <!--日志列表-->
-    <el-table :data="logList" stripe border tyle="width: 100%" v-loading="listLoading" :row-style="rowStyle"
+    <el-table :data="logList" stripe border tyle="width: 100%" v-loading="listLoading"
               @selection-change="handleSelectionChange" row-key="id" ref="multipleTable"
               :default-sort = "{prop: 'id', order: 'descending'}" @sort-change="handleSortChange">
-      <el-table-column type="selection" width="55" :reserve-selection="true"></el-table-column>
+<!--      <el-table-column type="selection" width="55" :reserve-selection="true"></el-table-column>-->
       <el-table-column label="ID" width="80">
         <template v-slot="scope">
           {{scope.row.id}}
         </template>
       </el-table-column>
-      <el-table-column label="事件类型" width="110" prop="event_type" sortable="custom">
+      <el-table-column label="事件等级" width="120" prop="level" sortable="custom">
         <template v-slot="scope">
-          {{eventTypes[scope.row.event_type] || '未知'}}
+          {{severitys[scope.row.level]}}
         </template>
       </el-table-column>
-      <el-table-column prop="source_ip" label="源IP" width="130"/>
-      <el-table-column prop="target_ip" label="目的IP" width="130"/>
-      <el-table-column label="等级" width="80" prop="level" sortable="custom">
-        <template v-slot="scope">
-          {{levels[scope.row.level]}}
-        </template>
-      </el-table-column>
-      <el-table-column label="模块" width="120">
+      <el-table-column label="模块" width="120" prop="module" sortable="custom">
         <template v-slot="scope">
           {{modules[scope.row.module] || scope.row.module}}
         </template>
@@ -115,16 +108,9 @@
     <div style="display: none">
       <el-table id="printTable" :data="selectedRows" stripe border tyle="width: 100%" :row-style="rowStyle" row-key="id">
         <el-table-column prop="id" label="ID" width="80"/>
-        <el-table-column label="事件类型" width="80">
-          <template v-slot="scope">
-            {{eventTypes[scope.row.event_type] || '未知'}}
-          </template>
-        </el-table-column>
-        <el-table-column prop="source_ip" label="源IP" width="130"/>
-        <el-table-column prop="target_ip" label="目的IP" width="130"/>
         <el-table-column label="等级" width="60">
           <template v-slot="scope">
-            {{levels[scope.row.level]}}
+            {{severitys[scope.row.level]}}
           </template>
         </el-table-column>
         <el-table-column label="模块" width="120">
@@ -147,54 +133,57 @@ import { fileDownloadUrl } from '@/api/_service'
 
 const levelcolors = { 1: { color: '#000' }, 2: { color: 'orange' }, 3: { color: 'red' } }
 const eventTypes = { 1: '正常事件', 0: '异常事件' }
-const levels = { 1: '低', 2: '中', 3: '高' }
 const modules = { 11: 'NET_FILTER', 12: 'MODBUS_TCP', 15: 'HTTP', 16: 'FTP', 17: 'TELNET', 18: 'S7' }
-const levelArray = [{ label: '低', value: 1 }, { label: '中', value: 2 }, { label: '高', value: 3 }]
-const moduleArray = [{ label: 'NET_FILTER', value: 11 }, { label: 'MODBUS_TCP', value: 12 }, { label: 'HTTP', value: 15 },
-  { label: 'FTP', value: 16 }, { label: 'TELNET', value: 17 }, { label: 'S7', value: 18 }]
+const levelArray = [{ label: 'Emerg', value: 0 }, { label: 'Alert', value: 1 }, { label: 'Critical', value: 2 },
+  { label: 'Error', value: 3 }, { label: 'Warning', value: 4 }, { label: 'Notice', value: 5 }, { label: 'Info', value: 6 },
+  { label: 'Debug', value: 7 }]
+const moduleArray = [{ label: 'IPMAC', value: 10 }, { label: 'NET_FILTER', value: 11 }, { label: 'MODBUS_TCP', value: 12 },
+  { label: 'OPC_CLASSIC_TCP', value: 13 }, { label: 'IEC104', value: 14 }, { label: 'HTTP', value: 15 },
+  { label: 'FTP', value: 16 }, { label: 'TELNET', value: 17 }]
+const severitys = { 0: 'Emergency', 1: 'Alert', 2: 'Critical', 3: 'Error', 4: 'Warning', 5: 'Notice', 6: 'Informational', 7: 'Debug' }
 
 export default {
   computed: {
-    ...mapState('plat/auditLog', ['tableName', 'tableList', 'logList', 'logCount', 'listLoading', 'currentPage',
+    ...mapState('plat/firewallLog', ['tableName', 'tableList', 'logList', 'logCount', 'listLoading', 'currentPage',
       'pageSize', 'searchCondition', 'isOpenCondition', 'exportLoading']),
     level: {
       get () {
-        return this.$store.state.plat.auditLog.searchCondition.level
+        return this.$store.state.plat.firewallLog.searchCondition.level
       },
       set (value) {
-        this.$store.commit('plat/auditLog/setLevel', value)
+        this.$store.commit('plat/firewallLog/setLevel', value)
       }
     },
     context: {
       get () {
-        return this.$store.state.plat.auditLog.searchCondition.context
+        return this.$store.state.plat.firewallLog.searchCondition.context
       },
       set (value) {
-        this.$store.commit('plat/auditLog/setContext', value)
+        this.$store.commit('plat/firewallLog/setContext', value)
       }
     },
     module: {
       get () {
-        return this.$store.state.plat.auditLog.searchCondition.module
+        return this.$store.state.plat.firewallLog.searchCondition.module
       },
       set (value) {
-        this.$store.commit('plat/auditLog/setModule', value)
+        this.$store.commit('plat/firewallLog/setModule', value)
       }
     },
     sip: {
       get () {
-        return this.$store.state.plat.auditLog.searchCondition.sip
+        return this.$store.state.plat.firewallLog.searchCondition.sip
       },
       set (value) {
-        this.$store.commit('plat/auditLog/setSip', value)
+        this.$store.commit('plat/firewallLog/setSip', value)
       }
     },
     dip: {
       get () {
-        return this.$store.state.plat.auditLog.searchCondition.dip
+        return this.$store.state.plat.firewallLog.searchCondition.dip
       },
       set (value) {
-        this.$store.commit('plat/auditLog/setDip', value)
+        this.$store.commit('plat/firewallLog/setDip', value)
       }
     }
   },
@@ -202,10 +191,10 @@ export default {
     return {
       levelcolors: levelcolors,
       eventTypes: eventTypes,
-      levels: levels,
       modules: modules,
       levelArray: levelArray,
       moduleArray: moduleArray,
+      severitys: severitys,
       selectedRows: []
     }
   },
@@ -213,7 +202,7 @@ export default {
     this.getLogList({ page: this.currentPage, pageSize: this.pageSize })
   },
   methods: {
-    ...mapActions('plat/auditLog', ['getLogList', 'exportLog']),
+    ...mapActions('plat/firewallLog', ['getLogList', 'exportLog']),
     handleCurrentChange (val) {
       this.getLogList({ table_name: this.tableName, page: val, pageSize: this.pageSize })
     },
@@ -227,23 +216,23 @@ export default {
       this.getLogList({ table_name: this.tableName, page: 1, pageSize: this.pageSize })
     },
     handleResetForm () {
-      this.$store.commit('plat/auditLog/setLevel', [])
-      this.$store.commit('plat/auditLog/setContext', '')
-      this.$store.commit('plat/auditLog/setModule', [])
-      this.$store.commit('plat/auditLog/setSip', '')
-      this.$store.commit('plat/auditLog/setDip', '')
+      this.$store.commit('plat/firewallLog/setLevel', [])
+      this.$store.commit('plat/firewallLog/setContext', '')
+      this.$store.commit('plat/firewallLog/setModule', [])
+      this.$store.commit('plat/firewallLog/setSip', '')
+      this.$store.commit('plat/firewallLog/setDip', '')
     },
     rowStyle (data) {
       return levelcolors[data.row.level]
     },
     toggleForm () {
-      this.$store.commit('plat/auditLog/toggleCondition')
+      this.$store.commit('plat/firewallLog/toggleCondition')
     },
     handleSelectionChange (val) {
       this.selectedRows = val
     },
     handleSortChange (sort) {
-      this.$store.commit('plat/auditLog/setSortField', { sortField: sort.prop, sortOrder: sort.order })
+      this.$store.commit('plat/firewallLog/setSortField', { sortField: sort.prop, sortOrder: sort.order })
       this.getLogList({ table_name: this.tableName, page: 1, pageSize: this.pageSize })
     },
     printLog () {

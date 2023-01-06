@@ -103,4 +103,10 @@ public interface DatabaseTableMapper {
 	 * @param tableName
 	 */
 	public void createAuditLogTable(@Param(value="table_name")String tableName);
+	
+	/**
+	 * 创建防火墙日志表
+	 * @param tableName
+	 */
+	public void createFirewallLogTable(@Param(value="table_name")String tableName);
 }

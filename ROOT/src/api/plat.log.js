@@ -61,7 +61,7 @@ export function PLAT_OPERATE_LOG_TABLE_EXPORT (data = {}) {
 }
 
 /**
- * 查询防火墙日志
+ * 查询审计日志
  * @param data
  * @returns {*}
  * @constructor
@@ -76,13 +76,43 @@ export function PLAT_AUDIT_LOG_SEARCH (data = {}) {
 }
 
 /**
- * 导出防火墙选择的日志
+ * 导出审计选择的日志
  * @param data
  * @returns {*}
  * @constructor
  */
 export function PLAT_AUDIT_LOG_SEARCH_EXPORT (data = {}) {
   data.method = 'log.audit.search_export'
+  return request({
+    url: '/function/logs.do',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 查询防火墙日志
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_FIREWALL_LOG_SEARCH (data = {}) {
+  data.method = 'log.firewall.search'
+  return request({
+    url: '/function/logs.do',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 导出防火墙选择的日志
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_FIREWALL_LOG_SEARCH_EXPORT (data = {}) {
+  data.method = 'log.firewall.search_export'
   return request({
     url: '/function/logs.do',
     method: 'POST',

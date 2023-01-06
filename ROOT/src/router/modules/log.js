@@ -12,6 +12,7 @@ export default {
   redirect: { name: 'log-firewall-search' },
   component: layoutHeaderAside,
   children: [
-    { path: 'audit', name: 'log-firewall-search', component: _import('system/log/auditLog.vue'), meta: { ...meta, title: '审计日志查看' } }
+    { path: 'audit', name: 'log-audit-search', component: _import('system/log/auditLog.vue'), meta: { ...meta, title: '审计日志查看' } },
+    { path: 'firewall', name: 'log-firewall-search', component: _import('system/log/firewallLog.vue'), meta: { ...meta, title: '防火墙日志查看' } }
   ]
 }

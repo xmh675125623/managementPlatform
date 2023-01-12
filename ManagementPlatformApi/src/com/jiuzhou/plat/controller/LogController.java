@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jiuzhou.plat.bean.CommonResult;
 import com.jiuzhou.plat.service.AuditLogService;
 import com.jiuzhou.plat.service.FirewallLogService;
+import com.jiuzhou.plat.service.IsolationLogService;
 import com.jiuzhou.plat.service.OperateLogService;
 
 import net.sf.json.JSONObject;
@@ -30,6 +31,8 @@ public class LogController {
 	private OperateLogService operateLogService;
 	@Autowired
 	private FirewallLogService firewallLogService;
+	@Autowired
+	private IsolationLogService isolationLogService;
 	
 	@ResponseBody
 	@RequestMapping(value="/logs.do")
@@ -52,6 +55,9 @@ public class LogController {
 				
 			} else if ("log.firewall.search_export".equals(method)) {
 				return firewallLogService.exportSelectedLog(paramJson);
+				
+			} else if ("log.isolation.search".equals(method)) {
+				return isolationLogService.search(paramJson);
 				
 			} 
 			

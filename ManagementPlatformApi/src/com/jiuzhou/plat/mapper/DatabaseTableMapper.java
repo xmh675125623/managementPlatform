@@ -53,6 +53,25 @@ public interface DatabaseTableMapper {
 	
 	
 	/**
+	 * 获取隔离日志表的信息列表
+	 * @return
+	 */
+	public List<DatabaseTableInfo> getIsolationLogTableInfoList();
+	
+	/**
+	 * 获取隔离日志表的信息列表
+	 * @return
+	 */
+	public List<DatabaseTableInfo> getIsolationLogTableInfoListOrderByDate();
+	
+	/**
+	 * 获取隔离日志记录表
+	 * @return
+	 */
+	public String getFirstIsolationLogTableName();
+	
+	
+	/**
 	 * 获取操作日志表的信息列表
 	 * @return
 	 */
@@ -109,4 +128,10 @@ public interface DatabaseTableMapper {
 	 * @param tableName
 	 */
 	public void createFirewallLogTable(@Param(value="table_name")String tableName);
+	
+	/**
+	 * 创建隔离日志表
+	 * @param tableName
+	 */
+	public void createIsolationLogTable(@Param(value="table_name")String tableName);
 }

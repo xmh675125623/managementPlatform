@@ -119,3 +119,18 @@ export function PLAT_FIREWALL_LOG_SEARCH_EXPORT (data = {}) {
     data
   })
 }
+
+/**
+ * 查询隔离日志
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_ISOLATION_LOG_SEARCH (data = {}) {
+  data.method = 'log.isolation.search'
+  return request({
+    url: '/function/logs.do',
+    method: 'POST',
+    data
+  })
+}

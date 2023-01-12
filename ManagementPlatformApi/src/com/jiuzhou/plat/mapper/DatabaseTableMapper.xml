@@ -106,6 +106,56 @@
 	</select>
 	
 	
+	<select id="getIsolationLogTableInfoList" resultType="com.jiuzhou.plat.bean.DatabaseTableInfo">
+		use information_schema;
+		SELECT 
+			table_name,
+			table_rows,
+			ROUND(data_length/1024/1024,4) AS data_size,
+			ROUND(index_length/1024/1024,4) AS index_size,
+			ROUND((data_length+index_length)/1024/1024,4) AS total_size,
+			create_time
+		FROM 
+			TABLES 
+		WHERE 
+			table_schema='jiuzhou_management_platform' AND table_name LIKE 'isolation_log%'
+		ORDER BY table_name DESC;
+		use jiuzhou_management_platform;
+	</select>
+	
+	
+	<select id="getIsolationLogTableInfoListOrderByDate" resultType="com.jiuzhou.plat.bean.DatabaseTableInfo">
+		use information_schema;
+		SELECT 
+			table_name,
+			table_rows,
+			ROUND(data_length/1024/1024,4) AS data_size,
+			ROUND(index_length/1024/1024,4) AS index_size,
+			ROUND((data_length+index_length)/1024/1024,4) AS total_size,
+			create_time
+		FROM 
+			TABLES 
+		WHERE 
+			table_schema='jiuzhou_separation' AND table_name LIKE 'separation_log%'
+		ORDER BY create_time DESC;
+		use jiuzhou_separation;
+	</select>
+	
+	
+	<select id="getFirstIsolationLogTableName" resultType="String">
+		use information_schema;
+		SELECT 
+			table_name
+		FROM 
+			TABLES 
+		WHERE 
+			table_schema='jiuzhou_separation' AND table_name LIKE 'separation_log%'
+		ORDER BY create_time ASC 
+		LIMIT 1;
+		use jiuzhou_separation;
+	</select>
+	
+	
 	<select id="getOperateLogTableInfoList" resultType="com.jiuzhou.plat.bean.DatabaseTableInfo">
 		use information_schema;
 		SELECT 
@@ -236,6 +286,34 @@
 			KEY `source_ip` (`source_ip`) USING BTREE,
 			KEY `target_ip` (`target_ip`) USING BTREE
 		) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='防火墙日志';
+	</update>
+	
+	
+	<update id="createIsolationLogTable">
+		CREATE TABLE ${table_name} (
+			`id` bigint(20) NOT NULL AUTO_INCREMENT,
+			`facility` int(11) DEFAULT NULL COMMENT '',
+			`severity` int(11) DEFAULT NULL COMMENT '事件等级',
+			`tag` varchar(255) DEFAULT NULL COMMENT '模块',
+			`origin` varchar(255) DEFAULT NULL COMMENT '设备名',
+			`message` text COMMENT '信息',
+			`add_time` datetime DEFAULT NULL COMMENT '日志时间',
+			
+			
+			`source_ip` varchar(255) DEFAULT NULL COMMENT '源IP',
+			`target_ip` varchar(255) DEFAULT NULL COMMENT '目的IP',
+		  	`event_type` int(255) DEFAULT NULL COMMENT '事件类型，1：正常事件，2：异常事件',
+		  	`level` int(255) DEFAULT NULL COMMENT '事件等级，1：信息，2：注意，3：告警',
+		  	`module` int(255) DEFAULT NULL COMMENT '事件模块，1：普通，2：USB，3：NIC，4：MODBUS_TCP',
+		  	`context` text COMMENT '描述',
+		  	PRIMARY KEY (`id`),
+		  	KEY `module` (`module`),
+		  	KEY `severity` (`severity`) USING BTREE,
+		  	KEY `tag` (`tag`) USING BTREE,
+			KEY `level` (`level`) USING BTREE,
+			KEY `source_ip` (`source_ip`) USING BTREE,
+			KEY `target_ip` (`target_ip`) USING BTREE
+		) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='审计日志';
 	</update>
 	
 	

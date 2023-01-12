@@ -63,7 +63,7 @@ public class FirewallLogReceiveThread implements Runnable {
 			System.out.println("+++++++++++++++++++++++启动防火墙日志接受线程+++++++++++++++++++++++++++");
 			
 			@SuppressWarnings("resource")
-			DatagramSocket ds = new DatagramSocket(8006);
+			DatagramSocket ds = new DatagramSocket(8007);
 			InetAddress addr = InetAddress.getByName("127.0.0.1");
 			
 			while(true){
@@ -186,7 +186,7 @@ public class FirewallLogReceiveThread implements Runnable {
             }
 			
 		} catch (Exception e) {
-			System.out.println("+++++++++++++++++++++++审计日志接收线程启动失败+++++++++++++++++++++++++++");
+			System.out.println("+++++++++++++++++++++++防火墙日志接收线程启动失败+++++++++++++++++++++++++++");
 			e.printStackTrace();
 		}
 		

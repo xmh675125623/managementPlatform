@@ -1,7 +1,8 @@
 import axios from 'axios'
+import util from '@/libs/util'
 
 // const dataGetUrl = `http://${window.document.domain}:9200/_search`
-const dataGetUrl = 'https://192.168.0.21:19200/_search'
+const dataGetUrl = 'https://' + util.cookies.get('hostIndex') + ':19200/_search'
 const time = 1000 * 60 * 60 * 6
 const requestTimeout = 2000
 

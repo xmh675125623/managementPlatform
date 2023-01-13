@@ -39,6 +39,7 @@ export default {
       util.cookies.set('token', res.sessionid)
       util.cookies.set('hostKibana', res.hostKibana)
       util.cookies.set('hostGrafana', res.hostGrafana)
+      util.cookies.set('hostIndex', res.hostIndex)
 
       // 处理菜单列表
       const menu = res.menu

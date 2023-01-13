@@ -9,15 +9,21 @@
     <div style="margin: -20px; padding-bottom: 40px;  overflow: hidden; height: 100%;display: flex;min-width: 300px; min-height: 580px;" :style="{background: 'url(' + require('./image/index_bg.jpg') + ')', backgroundSize: 'cover', backgroundPosition: 'center'}">
 
       <div style="flex: 1; height: 100%; margin-right: 12px;display: flex;flex-direction: column; margin-left: 12px">
-        <div class="chart-card" style="margin-top: 50px;" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
+        <div class="chart-card" style="margin-top: 50px;"
+             :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}"
+             @click="jumpToGFXKHD">
           <div class="chart-card-name">高风险客户端</div>
           <div class="chart" ref="clientIpChart"></div>
         </div>
-        <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
+        <div class="chart-card" style="margin-top: 12px"
+             :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}"
+             @click="jumpToYCWLSJ">
           <div class="chart-card-name">网络异常事件(TOP5)</div>
           <div class="chart" ref="exceptionEventChart"></div>
         </div>
-        <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
+        <div class="chart-card" style="margin-top: 12px"
+             :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}"
+             @click="jumpToSJDJFB">
           <div class="chart-card-name">事件等级分布</div>
           <div class="chart" ref="eventSeverityChart"></div>
         </div>
@@ -41,7 +47,7 @@
             <div>目的IP</div>
           </div>
           <div class="chart-card-table-body-outer">
-            <div v-for="alarm in realTimeAlarmList" class="chart-card-table-body">
+            <div v-for="alarm in realTimeAlarmList" :key="alarm" class="chart-card-table-body">
               <div>{{formatTime(alarm._source.timestamp)}}</div>
               <div>{{alarm._source.event.severity}}</div>
               <div>{{alarm._source.zeek.notice.category}}</div>
@@ -53,24 +59,30 @@
       </div>
 
       <div style="flex: 1; height: 100%; margin-left: 12px; margin-right: 12px;display: flex;flex-direction: column">
-        <div class="chart-card" style="overflow:hidden;margin-top: 50px;" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
+        <div class="chart-card" style="overflow:hidden;margin-top: 50px;"
+             :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}"
+             @click="jumpToWBGJZ">
           <div class="chart-card-name">外部攻击者</div>
           <div class="chart-card-table-head">
             <div>攻击者IP</div>
             <div>告警数</div>
           </div>
           <div class="chart-card-table-body-outer">
-            <div v-for="attackere in externalAttackerList" class="chart-card-table-body">
+            <div v-for="attackere in externalAttackerList" :key="attackere" class="chart-card-table-body">
               <div>{{attackere.key}}</div>
               <div>{{attackere.doc_count}}</div>
             </div>
           </div>
         </div>
-        <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
+        <div class="chart-card" style="margin-top: 12px"
+             :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}"
+             @click="jumpToGCDDITXY">
           <div class="chart-card-name">观测到的IT协议(TOP5)</div>
           <div class="chart" ref="networkProtocolChart"></div>
         </div>
-        <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
+        <div class="chart-card" style="margin-top: 12px"
+             :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}"
+             @click="jumpToRZSJQS">
           <div class="chart-card-name">日志时间趋势</div>
           <div class="chart" ref="dateHistogramChart"></div>
         </div>
@@ -83,6 +95,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import echarts from 'echarts'
+import util from '@/libs/util'
 
 export default {
   computed: {
@@ -204,6 +217,24 @@ export default {
       this.exceptionEventTimer = setInterval(function () {
         that.exceptionEventChart.setOption(that.exceptionEventOption)
       }, 1000)
+    },
+    jumpToGFXKHD () {
+      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/076caa20-64aa-11e8-9e8d-39632dc6b766')
+    },
+    jumpToYCWLSJ () {
+      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/1fff49f6-0199-4a0f-820b-721aff9ff1f1')
+    },
+    jumpToSJDJFB () {
+      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/d2dd0180-06b1-11ec-8c6b-353266ade330')
+    },
+    jumpToWBGJZ () {
+      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/cfa96750-6651-11e8-a67b-cd4cf123b2a5')
+    },
+    jumpToGCDDITXY () {
+      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/0ad3d7c2-3441-485e-9dfe-dbb22e84e576')
+    },
+    jumpToRZSJQS () {
+      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/a33e0a50-afcd-11ea-993f-b7d8522a8bed')
     }
   }
 }

@@ -51,6 +51,8 @@ public class AdminLoginServiceImpl extends ServiceBase implements AdminLoginServ
 	String hostKibana;
 	@Value("${host_grafana}")
 	String hostGrafana;
+	@Value("${host_index}")
+	String hostIndex;
 	
 	/**
 	 * 管理员登录
@@ -275,6 +277,7 @@ public class AdminLoginServiceImpl extends ServiceBase implements AdminLoginServ
 		resultJson.put("ot", systemSettingService.getByName(SystemSetting.OPERATE_PASS_TIME).getIntValue()*60*1000);
 		resultJson.put("hostKibana", hostKibana);
 		resultJson.put("hostGrafana", hostGrafana);
+		resultJson.put("hostIndex", hostIndex);
 		
 		requestAttributes.setAttribute("loginResult", "验证成功", RequestAttributes.SCOPE_REQUEST);
 		

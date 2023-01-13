@@ -47,7 +47,7 @@
             <div>目的IP</div>
           </div>
           <div class="chart-card-table-body-outer">
-            <div v-for="alarm in realTimeAlarmList" :key="alarm" class="chart-card-table-body">
+            <div v-for="alarm in realTimeAlarmList" class="chart-card-table-body">
               <div>{{formatTime(alarm._source.timestamp)}}</div>
               <div>{{alarm._source.event.severity}}</div>
               <div>{{alarm._source.zeek.notice.category}}</div>
@@ -68,7 +68,7 @@
             <div>告警数</div>
           </div>
           <div class="chart-card-table-body-outer">
-            <div v-for="attackere in externalAttackerList" :key="attackere" class="chart-card-table-body">
+            <div v-for="attackere in externalAttackerList" :key="attackere.key" class="chart-card-table-body">
               <div>{{attackere.key}}</div>
               <div>{{attackere.doc_count}}</div>
             </div>

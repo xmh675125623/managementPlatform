@@ -111,4 +111,85 @@ public interface DiskSpaceService {
 	 */
 	public String importOperateLog(HttpServletResponse response, MultipartFile  file) throws Exception;
 	
+	
+	/**
+	 * 获取防火墙日志表信息列表
+	 * @param paramJson
+	 * @return
+	 * @throws Exception
+	 */
+	public String getFirewallLogTableInfos(JSONObject paramJson) throws Exception;
+	
+	/**
+	 * 获取最早的防火墙日志表
+	 * @return
+	 */
+	public String getFirstFirewallLogTableName() throws Exception;
+	
+	/**
+	 * 删除防火墙日志表
+	 * @param paramJson
+	 * @return
+	 * @throws Exception
+	 */
+	public String deleteFirewallLogTable(JSONObject paramJson) throws Exception;
+	
+	/**
+	 * 加密导出防火墙日志表数据
+	 * @param paramJson
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String exportFirewallLog(JSONObject paramJson, HttpServletResponse response) throws Exception;
+	
+	/**
+	 * 解密导入防火墙日志表数据
+	 * @param response
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	public String importFirewallLog(HttpServletResponse response, MultipartFile  file) throws Exception;
+	
+	/**
+	 * 获取隔离日志表信息列表
+	 * @param paramJson
+	 * @return
+	 * @throws Exception
+	 */
+	public String getIsolationLogTableInfos(JSONObject paramJson) throws Exception;
+	
+	/**
+	 * 获取最早的隔离日志表
+	 * @return
+	 */
+	public String getFirstIsolationLogTableName() throws Exception;
+	
+	/**
+	 * 删除隔离日志表
+	 * @param paramJson
+	 * @return
+	 * @throws Exception
+	 */
+	public String deleteIsolationLogTable(JSONObject paramJson) throws Exception;
+	
+	/**
+	 * 加密导出隔离日志表数据
+	 * @param paramJson
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String exportIsolationLog(JSONObject paramJson, HttpServletResponse response) throws Exception;
+	
+	/**
+	 * 解密导入隔离日志表数据
+	 * @param response
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	public String importIsolationLog(HttpServletResponse response, MultipartFile  file) throws Exception;
+	
 }

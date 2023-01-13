@@ -229,7 +229,7 @@ public class IsolationLogServiceImpl extends ServiceBase implements IsolationLog
 			tableName = paramJson.getString("table_name");
 		}
 		//判断数据库表名是否合法
-		if (StringUtils.isBlank(tableName) || tableName.indexOf("separation_log") < 0) {
+		if (StringUtils.isBlank(tableName) || tableName.indexOf("isolation_log") < 0) {
 			commonResult.setErrorMsg("table_name参数错误");
 			return commonResult.toString();
 		}
@@ -267,7 +267,7 @@ public class IsolationLogServiceImpl extends ServiceBase implements IsolationLog
 			tableName = paramJson.getString("table_name");
 		}
 		//判断数据库表名是否合法
-		if (StringUtils.isBlank(tableName) || tableName.indexOf("separation_log") < 0) {
+		if (StringUtils.isBlank(tableName) || tableName.indexOf("isolation_log") < 0) {
 			commonResult.setErrorMsg("table_name参数错误");
 			return commonResult.toString();
 		}

@@ -6,6 +6,7 @@ import firewall from './modules/firewall'
 import device from './modules/device'
 import display from './modules/display'
 import log from './modules/log'
+import logManage from './modules/log_manage'
 
 import layoutHeaderAside from '@/layout/header-aside'
 
@@ -64,7 +65,8 @@ const frameIn = [
   firewall,
   device,
   display,
-  log
+  log,
+  logManage
 ]
 
 /**

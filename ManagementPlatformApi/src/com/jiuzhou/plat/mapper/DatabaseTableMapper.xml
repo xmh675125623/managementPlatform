@@ -136,9 +136,9 @@
 		FROM 
 			TABLES 
 		WHERE 
-			table_schema='jiuzhou_separation' AND table_name LIKE 'separation_log%'
+			table_schema='jiuzhou_management_platform' AND table_name LIKE 'isolation_log%'
 		ORDER BY create_time DESC;
-		use jiuzhou_separation;
+		use jiuzhou_management_platform;
 	</select>
 	
 	
@@ -149,10 +149,10 @@
 		FROM 
 			TABLES 
 		WHERE 
-			table_schema='jiuzhou_separation' AND table_name LIKE 'separation_log%'
+			table_schema='jiuzhou_management_platform' AND table_name LIKE 'isolation_log%'
 		ORDER BY create_time ASC 
 		LIMIT 1;
-		use jiuzhou_separation;
+		use jiuzhou_management_platform;
 	</select>
 	
 	

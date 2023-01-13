@@ -35,10 +35,10 @@ public class DiskSpaceController {
 		try {
 
 			String method = paramJson.getString("method");
-			if ("disk_audit.search".equals(method)) {
+			if ("plat.disk_audit.search".equals(method)) {
 				return diskSpaceService.getAuditLogTableInfos(paramJson);
 				
-			} else if ("disk_audit.delete".equals(method)) {
+			} else if ("plat.disk_audit.delete".equals(method)) {
 				return diskSpaceService.deleteAuditLogTable(paramJson);
 				
 			} else if ("plat.disk_operate.search".equals(method)) {
@@ -47,7 +47,19 @@ public class DiskSpaceController {
 			} else if ("plat.disk_operate.delete".equals(method)) {
 				return diskSpaceService.deleteOperateLogTable(paramJson);
 				
-			} 
+			} else if ("plat.disk_firewall.search".equals(method)) {
+				return diskSpaceService.getFirewallLogTableInfos(paramJson);
+				
+			} else if ("plat.disk_firewall.delete".equals(method)) {
+				return diskSpaceService.deleteFirewallLogTable(paramJson);
+				
+			} else if ("plat.disk_isolation.search".equals(method)) {
+				return diskSpaceService.getIsolationLogTableInfos(paramJson);
+				
+			} else if ("plat.disk_isolation.delete".equals(method)) {
+				return diskSpaceService.deleteIsolationLogTable(paramJson);
+				
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,9 +84,15 @@ public class DiskSpaceController {
 				return diskSpaceService.exportOperateLog(paramJson, response);
 //				return diskSpaceService.getExportOperateLogToken(paramJson, response);
 				
-			} else if ("disk_audit.export".equals(method)) {
+			} else if ("plat.disk_audit.export".equals(method)) {
 				return diskSpaceService.exportAuditLog(paramJson, response);
 //				return diskSpaceService.getExportAuditLogToken(paramJson, response);
+				
+			} else if ("plat.disk_firewall.export".equals(method)) {
+				return diskSpaceService.exportFirewallLog(paramJson, response);
+				
+			} else if ("plat.disk_isolation.export".equals(method)) {
+				return diskSpaceService.exportIsolationLog(paramJson, response);
 				
 			}
 			
@@ -105,8 +123,14 @@ public class DiskSpaceController {
 			if ("plat.disk_operate.import".equals(method)) {
 				return diskSpaceService.importOperateLog(response, file);
 				
-			} else if ("disk_audit.import".equals(method)) {
+			} else if ("plat.disk_audit.import".equals(method)) {
 				return diskSpaceService.importAuditLog(response, file);
+				
+			} else if ("plat.disk_firewall.import".equals(method)) {
+				return diskSpaceService.importFirewallLog(response, file);
+				
+			} else if ("plat.disk_isolation.import".equals(method)) {
+				return diskSpaceService.importIsolationLog(response, file);
 				
 			}
 			

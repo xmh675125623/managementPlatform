@@ -30,7 +30,7 @@
       </div>
 
       <div style=" flex: 2; display: flex; flex-direction: column">
-        <div style="letter-spacing:10px; color: #ffffff; text-align: center;padding-bottom: 8px; padding-top: 8px; border-bottom-left-radius:30px;border-bottom-right-radius:30px;background: linear-gradient(#001733, #033d73);">九州信泰工控可视化图表</div>
+        <div style="letter-spacing:10px; color: #ffffff; text-align: center;padding-bottom: 8px; padding-top: 8px; border-bottom-left-radius:30px;border-bottom-right-radius:30px;background: linear-gradient(#001733, #033d73);">九州信泰工业互联网可视化感知平台</div>
         <div class="chart-card" style="flex: 3; margin-top: 14px;" :style="{background: 'url(' + require('./image/card_bg3.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
 <!--          <div :style="{background: 'url(' + require('./image/index_main.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center', width: '100%', height: '100%'}"></div>-->
           <video id="play_video" controls autoplay="autoplay" loop name="media">

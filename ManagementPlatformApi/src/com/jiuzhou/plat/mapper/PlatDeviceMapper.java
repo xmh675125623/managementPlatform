@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
+import com.jiuzhou.plat.bean.DeviceCount;
 import com.jiuzhou.plat.bean.PlatDevice;
 
 /**
@@ -56,5 +57,11 @@ public interface PlatDeviceMapper {
 	 * @param deviceName
 	 */
 	public void deleteById(@Param(value="id") int id);
+	
+	/**
+	 * 获取各类设备数量信息
+	 * @return
+	 */
+	public List<DeviceCount> getDeviceCounts();
 	
 }

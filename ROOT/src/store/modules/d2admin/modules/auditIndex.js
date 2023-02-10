@@ -1,36 +1,10 @@
 import {
-  CLIENT_IP_DATA_GET,
   DATE_HISTOGRAM_DATA_GET,
-  EVENT_SEVERITY_DATA_GET, EXCEPTION_EVENT_DATA_GET, EXTERNAL_ATTACKER_DATA_GET,
-  NETWORK_PROTOCOL_DATA_GET, REAL_TIME_ALARM_GET
+  EVENT_SEVERITY_DATA_GET, EXTERNAL_ATTACKER_DATA_GET, INDEX_STATE_GET
 } from '@/api/plat.index'
 import echarts from 'echarts'
 
 const backgroundColor_ = 'rgba(0,0,0,0)'
-const networkProtocolColor = {
-  dns: 'rgb(87, 193, 123)',
-  http: 'rgb(111, 135, 216)',
-  tls: 'rgb(102, 61, 184)',
-  ssl: 'rgb(188, 82, 188)',
-  stun: 'rgb(158, 53, 51)',
-  ntp: 'rgb(218, 160, 93)',
-  'X.509': 'rgb(191, 175, 64)',
-  dhcp: 'rgb(64, 175, 191)',
-  dtls: 'rgb(64, 80, 191)',
-  ayiya: 'rgb(191, 151, 64)',
-  imap: 'rgb(112, 191, 64)',
-  spicy_stun: 'rgb(191, 80, 64)',
-  gquic: 'rgb(191, 64, 167)',
-  mqtt: 'rgb(143, 64, 191)',
-  quic: 'rgb(64, 191, 88)',
-  dce_rpc: 'rgb(64, 104, 191)',
-  iso_cotp: 'rgb(191, 64, 72)',
-  smtp: 'rgb(64, 191, 183)',
-  ssh: 'rgb(135, 191, 64)',
-  modbus: 'rgb(120, 64, 191)',
-  xmpp: 'rgb(191, 64, 120)'
-}
-const commonColor = ['#00ffff', '#409B5C', '#006ced', '#ffe000', '#ffa800', '#ff5b00', '#ff3000']
 
 const networkProtocolImg =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAVCAYAAACzK0UYAAACyUlEQVRIiY2VzWoUQRDHf9U7+cIsahIj0ajgwaNi1JNHSRQ3ePMk+AyKd30BQfQFFDzrRWOMJBdBEEUEPQVMiHgQjWA2Jtns7E63dM/MTs/MJqSgpqq7q/9V1VU9LSzNHwPuAdPACPANeAI8AJp4NHbk0r6K4VwkHAcGgPWKYTESvgKRtayY2D6SWLdSWJpbdeACWANxHzt4B1LDUHe7BKpjUzd7NP2U6Rcw21KEgzqLrKViGSCtkRSkI+NoLgLzCJPAmp3fiOjvNRBK3omBwwI1ImY2IOwsRLFQSBvHtPIy5vNIewHVHrJjY6M0OOkzsX7IaKaNpq+4rpCQmFuebJLNhxMQzkM4TALoMvVlxiNoamj6/HmVATYL4Ln5s0hzgfZ61W2MEoCo5MR31O85CQvg210cOT5D4+Vtonp1RydRd0dxJqpZyCTRlcd2TP0ozee3MGGvAzQJcMr+WDNMxFUiApUBbntyOwbG404wa+O0Zy97YN0ySXWb0enAgZpCCztdg6hOj+banJULaF7k+rjQ1p09cDJAGomBJBexCxUBaB1wkXYucAnY3zMYxIVODSTJVfxLmSgqkfaiVNec2d5oI0A1ysdlCtFL4cjapz6kt7l0ZMVsDMvxcaWRlzYZEMl0S/rgd7ZuvNlTJobfCF+8mqSkssI7w7RWCvT+H6zfeUQ0EHZOcedM/gCvbd5xTXax9AL4zN/7T2mNbnbNOk/WwUz6VATIVmFdZVlk9AmYpDl6vVschfFq4iBM15Ka7EofgSn3u9f5BizdH1sDeOUceA0UBDknpSzeA1faUA/s4SYdXKpFTLbIsQO/OzUE49Kw3keVgZ5kVrubHr1VpnJNS1RvUXErKxob0UAHJJM/EeYwiYN8LQmGZHNCGbmLUNNi7Cu5rI08VmIe2l+0fc5sFomTZ8AEcALjnuF/wCLGvfE6l2GqA/8Bnpdx0cUesngAAAAASUVORK5CYII='
@@ -424,91 +398,84 @@ export default {
     },
     eventSeverityTimer: null,
 
-    // 高风险客户端
-    clientIpOption: {
-      backgroundColor: backgroundColor_,
-      color: commonColor,
+    // CPU占用率
+    cpuUsageOption: {
       title: {
-        text: '总告警数',
-        subtext: '----',
-        top: '40%',
+        text: '',
+        x: '50%',
+        y: '40%',
         textAlign: 'center',
-        left: '33%',
         textStyle: {
-          color: '#fff',
-          fontSize: 16,
-          fontWeight: '400'
+          fontSize: 60,
+          color: '#01c8d7'
         },
+        subtext: '--',
         subtextStyle: {
-          color: '#fff',
-          fontSize: 14,
-          fontWeight: 'normal',
+          fontSize: 40,
+          color: '#bac7e5',
           align: 'center'
         }
       },
-      tooltip: {
-        show: true
-      },
-      legend: {
-        type: 'scroll',
-        icon: 'circle',
-        orient: 'vertical',
-        // x: 'left',
-        right: '8%',
-        bottom: '10%',
-        align: 'right',
-        itemHeight: 10,
-        textStyle: {
-          color: '#fff'
-        },
-        itemGap: 10,
-        height: '75%'
-      },
-      toolbox: {
-        show: false
-      },
       series: [{
-        name: '',
+        name: ' ',
         type: 'pie',
-        clockWise: false,
-        radius: ['71%', '73%'],
+        radius: ['60%', '80%'],
+        startAngle: 225,
+        color: [{
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0.4,
+          y2: 1,
+          colorStops: [{
+            offset: 0,
+            color: '#00a2ff' // 0% 处的颜色
+          }, {
+            offset: 1,
+            color: '#70ffac' // 100% 处的颜色
+          }],
+          globalCoord: false // 缺省为 false
+        }, 'none'],
         hoverAnimation: false,
-        right: '32%',
-        itemStyle: {
+        legendHoverLink: false,
+        z: 10,
+        labelLine: {
           normal: {
-            label: {
-              show: false
-            },
-            labelLine: {
-              show: false
-            }
+            show: false
           }
         },
-        data: []
+        data: [{
+          value: 1
+        }, {
+          value: 2
+        }]
       }, {
         name: '',
         type: 'pie',
-        clockWise: false,
-        radius: ['62%', '64.5%'],
+        radius: ['60%', '80%'],
+        startAngle: 225,
+        color: ['#172228'],
+        z: 9,
         hoverAnimation: false,
-        right: '32%',
-        tooltip: {
-          show: false
-        },
-        itemStyle: {
+        legendHoverLink: false,
+        labelLine: {
           normal: {
-            label: {
-              show: false
-            },
-            labelLine: {
-              show: false
-            }
+            show: false
           }
         },
-        data: [{ value: 20, itemStyle: { color: '#ffe000' } }, { value: 5, itemStyle: { color: 'rgba(0,0,0,0)' } }, { value: 20, itemStyle: { color: '#ffe000' } }, { value: 5, itemStyle: { color: 'rgba(0,0,0,0)' } }, { value: 20, itemStyle: { color: '#ffe000' } }, { value: 5, itemStyle: { color: 'rgba(0,0,0,0)' } }, { value: 20, itemStyle: { color: '#ffe000' } }, { value: 5, itemStyle: { color: 'rgba(0,0,0,0)' } }]
-      }]
+        data: [{
+          value: 75,
+          itemStyle: {
+            normal: {
+              color: '#172228'
+            }
+          }
+        }, {
+          value: 25
+        }]
+      }],
+      backgroundColor: backgroundColor_
     },
-    clientIpTimer: null,
 
     // 日志时间趋势
     dateHistogramOption: {
@@ -589,6 +556,29 @@ export default {
       ]
     },
     dateHistogramTimer: null,
+
+    // 内存使用率
+    memUsageOption: {
+      backgroundColor: backgroundColor_,
+      series: [{
+        type: 'liquidFill',
+        radius: '80%',
+        data: [0.12, 0.12, 0.12, 0.12, 0.12],
+        backgroundStyle: {
+          borderWidth: 2,
+          borderColor: 'rgb(255,0,255,0.9)',
+          color: 'rgb(255,0,255,0.01)'
+        },
+        label: {
+          normal: {
+            formatter: (0.12 * 100).toFixed(2) + '%',
+            textStyle: {
+              fontSize: 26
+            }
+          }
+        }
+      }]
+    },
 
     // 外部攻击者
     externalAttackerList: [],
@@ -740,14 +730,26 @@ export default {
   },
   actions: {
     async networkProtocol ({ state, commit, dispatch }, data = {}) {
-      try {
-        const res = await NETWORK_PROTOCOL_DATA_GET()
-        if (res.data && res.data.aggregations) {
-          commit('setNetworkProtocolOption', res.data.aggregations['2'].buckets)
+      // try {
+      //   const res = await NETWORK_PROTOCOL_DATA_GET()
+      //   if (res.data && res.data.aggregations) {
+      //     commit('setNetworkProtocolOption', res.data.aggregations['2'].buckets)
+      //   }
+      // } catch (e) {
+      //   console.log('协议=============================')
+      //   console.log(e.message)
+      // }
+
+      const res = await INDEX_STATE_GET()
+      console.log(res)
+      if (res) {
+        if (res.deviceCountInfo) {
+          commit('setExceptionEventOption', res.deviceCountInfo)
         }
-      } catch (e) {
-        console.log('协议=============================')
-        console.log(e.message)
+        if (res.cpuUsage) {
+          commit('setCpuUsageOption', res.cpuUsage)
+        }
+
       }
 
       const iTimer = setTimeout(function () {
@@ -771,25 +773,7 @@ export default {
       }, 1000)
       commit('setEventSeverityTimer', { timer: iTimer })
     },
-    async clientIp ({ state, commit, dispatch }, data = {}) {
-
-      try {
-        const res = await CLIENT_IP_DATA_GET()
-        if (res.data && res.data.aggregations) {
-          commit('setClientIpOption', res.data.aggregations['2'])
-        }
-      } catch (e) {
-        console.log('客户端=============================')
-        console.log(e.message)
-      }
-
-      const iTimer = setTimeout(function () {
-        dispatch('clientIp')
-      }, 1000)
-      commit('setClientIpTimer', { timer: iTimer })
-    },
     async dateHistogram ({ state, commit, dispatch }, data = {}) {
-
       try {
         const res = await DATE_HISTOGRAM_DATA_GET()
         if (res.data && res.data.aggregations) {
@@ -806,7 +790,6 @@ export default {
       commit('setDateHistogramTimer', { timer: iTimer })
     },
     async externalAttacker ({ state, commit, dispatch }, data = {}) {
-
       try {
         const res = await EXTERNAL_ATTACKER_DATA_GET()
         if (res.data && res.data.aggregations) {
@@ -823,7 +806,6 @@ export default {
       commit('setExternalAttackerTimer', { timer: iTimer })
     },
     async realTimeAlarm ({ state, commit, dispatch }, data = {}) {
-
       try {
         const res = await REAL_TIME_ALARM_GET()
         if (res.data && res.data.hits.hits) {
@@ -841,20 +823,20 @@ export default {
     },
     async exceptionEvent ({ state, commit, dispatch }, data = {}) {
 
-      try {
-        const res = await EXCEPTION_EVENT_DATA_GET()
-        if (res.data && res.data.aggregations) {
-          commit('setExceptionEventOption', res.data.aggregations['2'])
-        }
-      } catch (e) {
-        console.log('事件2=============================')
-        console.log(e.message)
-      }
-
-      const iTimer = setTimeout(function () {
-        dispatch('exceptionEvent')
-      }, 1000)
-      commit('setExceptionEventTimer', { timer: iTimer })
+      // try {
+      //   const res = await EXCEPTION_EVENT_DATA_GET()
+      //   if (res.data && res.data.aggregations) {
+      //     commit('setExceptionEventOption', res.data.aggregations['2'])
+      //   }
+      // } catch (e) {
+      //   console.log('事件2=============================')
+      //   console.log(e.message)
+      // }
+      //
+      // const iTimer = setTimeout(function () {
+      //   dispatch('exceptionEvent')
+      // }, 1000)
+      // commit('setExceptionEventTimer', { timer: iTimer })
     }
 
   },
@@ -893,39 +875,10 @@ export default {
     setEventSeverityTimer (state, payload) {
       state.eventSeverityTimer = payload.timer
     },
-    setClientIpTimer (state, payload) {
-      state.clientIpTimer = payload.timer
-    },
-    setClientIpOption (state, payload) {
-      const data = []
-      const legendData = []
-      let dataSum = 0
-      if (payload.buckets) {
-        payload.buckets.forEach(function (d, i) {
-          data.push({
-            name: d.key,
-            value: d.doc_count,
-            itemStyle: {
-              normal: {
-                borderWidth: 5,
-                shadowBlur: 20,
-                borderColor: commonColor[i % 7],
-                shadowColor: commonColor[i % 7]
-              }
-            }
-          })
-          legendData.push(d.key)
-          dataSum += d.doc_count
-        })
-      }
-      if (payload.sum_other_doc_count) {
-        data.push({ name: 'other', value: payload.sum_other_doc_count })
-        legendData.push('other')
-        dataSum += payload.sum_other_doc_count
-      }
-      state.clientIpOption.series[0].data = data
-      state.clientIpOption.legend.data = legendData
-      state.clientIpOption.title.subtext = dataSum + ''
+    setCpuUsageOption (state, payload) {
+      state.cpuUsageOption.title.text = payload + '%'
+      state.cpuUsageOption.series[0].data[0].value = payload
+      state.cpuUsageOption.series[0].data[1].value = 100 - payload
     },
     setDateHistogramOption (state, payload) {
       const xdate = []
@@ -959,10 +912,10 @@ export default {
       const names = []
       const values = []
       let count = 0
-      for (let i = 0; i < payload.buckets.length && i < 5; i++) {
-        names.push(payload.buckets[i].key)
-        values.push(payload.buckets[i].doc_count)
-        count += payload.buckets[i].doc_count
+      for (let i = 0; i < payload.length && i < 5; i++) {
+        names.push(payload[i].type_name)
+        values.push(payload[i].count)
+        count += payload[i].count
       }
       state.exceptionEventOption.yAxis[0].data = names
       state.exceptionEventOption.yAxis[1].data = values

@@ -10,11 +10,11 @@
 
       <div style="flex: 1; height: 100%; margin-right: 12px;display: flex;flex-direction: column; margin-left: 12px">
         <div class="chart-card" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
-          <div class="chart-card-name">高风险客户端</div>
-          <div class="chart" ref="clientIpChart"></div>
+          <div class="chart-card-name">CPU占用率</div>
+          <div class="chart" ref="cpuUsage"></div>
         </div>
         <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
-          <div class="chart-card-name">网络异常事件(TOP5)</div>
+          <div class="chart-card-name">管理资产数量</div>
           <div class="chart" ref="exceptionEventChart"></div>
         </div>
         <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
@@ -50,17 +50,8 @@
 
       <div style="flex: 1; height: 100%; margin-left: 12px; margin-right: 12px;display: flex;flex-direction: column">
         <div class="chart-card" style="overflow:hidden;" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
-          <div class="chart-card-name">外部攻击者</div>
-          <div class="chart-card-table-head">
-            <div>攻击者IP</div>
-            <div>告警数</div>
-          </div>
-          <div class="chart-card-table-body-outer">
-            <div v-for="attackere in externalAttackerList" class="chart-card-table-body">
-              <div>{{attackere.key}}</div>
-              <div>{{attackere.doc_count}}</div>
-            </div>
-          </div>
+          <div class="chart-card-name">内存使用率</div>
+          <div class="chart" ref="memUsageChart"></div>
         </div>
         <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
           <div class="chart-card-name">观测到的IT协议(TOP5)</div>
@@ -85,9 +76,9 @@ export default {
     ...mapState('d2admin/auditIndex', [
       'networkProtocolOption',
       'eventSeverityOption',
-      'clientIpOption',
+      'cpuUsageOption',
+      'memUsageOption',
       'dateHistogramOption',
-      'externalAttackerList',
       'realTimeAlarmList',
       'exceptionEventOption'
     ])
@@ -98,8 +89,10 @@ export default {
       networkProtocolChartTimer: null,
       eventSeverityChart: null,
       eventSeverityChartTimer: null,
-      clientIpChart: null,
-      clientIpChartTimer: null,
+      cpuUsage: null,
+      cpuUsageTimer: null,
+      memUsage: null,
+      memUsageTimer: null,
       dateHistogramChart: null,
       dateHistogramTimer: null,
       exceptionEventChart: null,
@@ -111,16 +104,17 @@ export default {
     setTimeout(function () {
       that.networkProtocolChartRender()
       that.eventSeverityChartRender()
-      that.clientIpChartRender()
+      that.cpuUsageRender()
+      that.memUsageRender()
       that.dateHistogramChartTender()
-      that.externalAttacker()
       that.realTimeAlarm()
       that.exceptionEventChartRender()
     }, 200)
     window.onresize = () => {
       this.networkProtocolChart.resize()
       this.eventSeverityChart.resize()
-      this.clientIpChart.resize()
+      this.cpuUsage.resize()
+      this.memUsage.resize()
       this.exceptionEventChart.resize()
       this.dateHistogramChart.resize()
     }
@@ -128,7 +122,7 @@ export default {
   destroyed () {
     clearInterval(this.networkProtocolChartTimer)
     clearInterval(this.eventSeverityChartTimer)
-    clearInterval(this.clientIpChartTimer)
+    clearInterval(this.cpuUsageTimer)
     clearInterval(this.dateHistogramTimer)
     clearInterval(this.exceptionEventTimer)
   },
@@ -136,9 +130,7 @@ export default {
     ...mapActions('d2admin/auditIndex', [
       'networkProtocol',
       'eventSeverity',
-      'clientIp',
       'dateHistogram',
-      'externalAttacker',
       'realTimeAlarm',
       'exceptionEvent'
     ]),
@@ -174,13 +166,20 @@ export default {
         that.eventSeverityChart.setOption(that.eventSeverityOption)
       }, 1000)
     },
-    clientIpChartRender () {
-      this.clientIp()
-      this.clientIpChart = echarts.init(this.$refs.clientIpChart)
+    cpuUsageRender () {
+      this.cpuUsage = echarts.init(this.$refs.cpuUsage)
       const that = this
-      this.clientIpChart.setOption(that.clientIpOption)
-      this.clientIpChartTimer = setInterval(function () {
-        that.clientIpChart.setOption(that.clientIpOption)
+      this.cpuUsage.setOption(that.cpuUsageOption)
+      this.cpuUsageTimer = setInterval(function () {
+        that.cpuUsage.setOption(that.cpuUsageOption)
+      }, 1000)
+    },
+    memUsageRender () {
+      this.memUsage = echarts.init(this.$refs.memUsageChart)
+      const that = this
+      this.memUsage.setOption(that.memUsageOption)
+      this.memUsageTimer = setInterval(function () {
+        that.memUsage.setOption(that.memUsageOption)
       }, 1000)
     },
     dateHistogramChartTender () {

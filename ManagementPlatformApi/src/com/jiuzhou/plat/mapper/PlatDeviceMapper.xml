@@ -84,4 +84,19 @@
 		DELETE FROM plat_device WHERE `id`=#{id}
 	</delete>
 	
+	
+	<select id="getDeviceCounts" resultType="com.jiuzhou.plat.bean.DeviceCount">
+		SELECT  
+			CASE `type` 
+				WHEN '1' THEN '防火墙' 
+				WHEN '2' THEN '审计' 
+				WHEN '3' THEN '网关' 
+				WHEN '4' THEN '漏扫' 
+				WHEN '5' THEN '隔离' 
+				WHEN '6' THEN 'IDS' 
+				END AS `type_name`, 
+			COUNT(*) AS `count`
+		FROM plat_device GROUP BY `type` ORDER BY `count` DESC
+	</select>
+	
 </mapper>

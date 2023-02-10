@@ -1,9 +1,17 @@
 import axios from 'axios'
+import { request } from '@/api/_service'
 
 // const dataGetUrl = `http://${window.document.domain}:9200/_search`
 const dataGetUrl = 'https://192.168.0.21:19200/_search'
 const time = 1000 * 60 * 60 * 6
 const requestTimeout = 2000
+
+export function INDEX_STATE_GET () {
+  return request({
+    url: '/admin_login/plat_state.do',
+    method: 'POST'
+  })
+}
 
 export function NETWORK_PROTOCOL_DATA_GET () {
   return axios({

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jiuzhou.plat.cache.AdminUserLoginInfo;
 import com.jiuzhou.plat.cache.LoginValidateCode;
 import com.jiuzhou.plat.service.AdminLoginService;
+import com.jiuzhou.plat.service.PlatStateService;
 import com.jiuzhou.plat.service.impl.ServiceBase;
 
 import net.sf.json.JSONObject;
@@ -36,6 +37,9 @@ public class AdminLoginController {
 	
 	@Autowired
 	AdminLoginService adminLoginService;
+	
+	@Autowired
+	PlatStateService platStateService;
 
 	/**
 	 * 用户登录
@@ -83,6 +87,33 @@ public class AdminLoginController {
 		}
 		
 		return "";
+	}
+	
+	/**
+	 * 平台首页状态信息
+	 * @param request
+	 * @param response
+	 * @param jsonParam
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/plat_state.do")
+	public String platState(HttpServletRequest request, 
+			HttpServletResponse response,
+			@RequestBody String jsonParam) {
+		
+		try {
+			
+			JSONObject paramJson = JSONObject.fromObject(jsonParam);
+			
+			return platStateService.getPlatState(paramJson);
+		} catch (Exception e) {
+			e.printStackTrace();
+			JSONObject resultJson = new JSONObject();
+			resultJson.put("status", "error");
+			resultJson.put("errorMsg", "系统发生未知错误");
+			return resultJson.toString();
+		}
 	}
 	
 	

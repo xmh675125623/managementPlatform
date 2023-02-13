@@ -32,7 +32,7 @@ export default {
     })
   },
   mounted () {
-    this.frameSrc = 'https://' + util.cookies.get('hostKibana') + ':15601/app/dashboards#/view/c44e71b0-6225-11ec-9834-4b83413431da?embed=true&_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3Anow-1h%2Cto%3Anow))&show-query-input=true&show-time-filter=true'
+    this.frameSrc = 'https://' + util.cookies.get('hostKibana') + '/dashboards/app/dashboards#/view/c44e71b0-6225-11ec-9834-4b83413431da?embed=true&_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3Anow-1h%2Cto%3Anow))&show-query-input=true&show-time-filter=true'
   },
   methods: {
   }

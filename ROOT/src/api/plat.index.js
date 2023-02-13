@@ -10,7 +10,7 @@ export function NETWORK_PROTOCOL_DATA_GET () {
   return axios({
     method: 'post',
     timeout: requestTimeout,
-    url: 'https://' + util.cookies.get('hostIndex') + ':19200/_search',
+    url: 'https://' + util.cookies.get('hostIndex') + '/opensearch/_search',
     headers: { 'Content-Type': 'application/json' },
     data: {
       aggs: {
@@ -245,7 +245,7 @@ export function EVENT_SEVERITY_DATA_GET () {
   return axios({
     method: 'post',
     timeout: requestTimeout,
-    url: 'https://' + util.cookies.get('hostIndex') + ':19200/_search',
+    url: 'https://' + util.cookies.get('hostIndex') + '/opensearch/_search',
     headers: { 'Content-Type': 'application/json' },
     data: {
       aggs: {
@@ -505,7 +505,7 @@ export function CLIENT_IP_DATA_GET () {
   return axios({
     method: 'post',
     timeout: requestTimeout,
-    url: 'https://' + util.cookies.get('hostIndex') + ':19200/_search',
+    url: 'https://' + util.cookies.get('hostIndex') + '/opensearch/_search',
     headers: { 'Content-Type': 'application/json' },
     data: {
       aggs: {
@@ -714,7 +714,7 @@ export function DATE_HISTOGRAM_DATA_GET () {
   return axios({
     method: 'post',
     timeout: requestTimeout,
-    url: 'https://' + util.cookies.get('hostIndex') + ':19200/_search',
+    url: 'https://' + util.cookies.get('hostIndex') + '/opensearch/_search',
     headers: { 'Content-Type': 'application/json' },
     data: {
       aggs: {
@@ -935,7 +935,7 @@ export function EXTERNAL_ATTACKER_DATA_GET () {
   return axios({
     method: 'post',
     timeout: requestTimeout,
-    url: 'https://' + util.cookies.get('hostIndex') + ':19200/_search',
+    url: 'https://' + util.cookies.get('hostIndex') + '/opensearch/_search',
     headers: { 'Content-Type': 'application/json' },
     data: {
       aggs: {
@@ -1132,7 +1132,7 @@ export function REAL_TIME_ALARM_GET () {
   return axios({
     method: 'post',
     timeout: requestTimeout,
-    url: 'https://' + util.cookies.get('hostIndex') + ':19200/_search',
+    url: 'https://' + util.cookies.get('hostIndex') + '/opensearch/_search',
     headers: { 'Content-Type': 'application/json' },
     data: {
       version: true,
@@ -1364,7 +1364,7 @@ export function EXCEPTION_EVENT_DATA_GET () {
   return axios({
     method: 'post',
     timeout: requestTimeout,
-    url: 'https://' + util.cookies.get('hostIndex') + ':19200/_search',
+    url: 'https://' + util.cookies.get('hostIndex') + '/opensearch/_search',
     headers: { 'Content-Type': 'application/json' },
     data: {
       aggs: {

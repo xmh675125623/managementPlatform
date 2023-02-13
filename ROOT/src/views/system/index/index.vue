@@ -219,22 +219,22 @@ export default {
       }, 1000)
     },
     jumpToGFXKHD () {
-      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/076caa20-64aa-11e8-9e8d-39632dc6b766')
+      window.open('https://' + util.cookies.get('hostIndex') + '/dashboards/app/dashboards#/view/076caa20-64aa-11e8-9e8d-39632dc6b766')
     },
     jumpToYCWLSJ () {
-      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/1fff49f6-0199-4a0f-820b-721aff9ff1f1')
+      window.open('https://' + util.cookies.get('hostIndex') + '/dashboards/app/dashboards#/view/1fff49f6-0199-4a0f-820b-721aff9ff1f1')
     },
     jumpToSJDJFB () {
-      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/d2dd0180-06b1-11ec-8c6b-353266ade330')
+      window.open('https://' + util.cookies.get('hostIndex') + '/dashboards/app/dashboards#/view/d2dd0180-06b1-11ec-8c6b-353266ade330')
     },
     jumpToWBGJZ () {
-      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/cfa96750-6651-11e8-a67b-cd4cf123b2a5')
+      window.open('https://' + util.cookies.get('hostIndex') + '/dashboards/app/dashboards#/view/cfa96750-6651-11e8-a67b-cd4cf123b2a5')
     },
     jumpToGCDDITXY () {
-      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/0ad3d7c2-3441-485e-9dfe-dbb22e84e576')
+      window.open('https://' + util.cookies.get('hostIndex') + '/dashboards/app/dashboards#/view/0ad3d7c2-3441-485e-9dfe-dbb22e84e576')
     },
     jumpToRZSJQS () {
-      window.open('https://' + util.cookies.get('hostIndex') + ':15601/app/dashboards#/view/a33e0a50-afcd-11ea-993f-b7d8522a8bed')
+      window.open('https://' + util.cookies.get('hostIndex') + '/dashboards/app/dashboards#/view/a33e0a50-afcd-11ea-993f-b7d8522a8bed')
     }
   }
 }

@@ -12,7 +12,7 @@ export default {
     }
   },
   mounted () {
-    this.frameSrc = 'https://' + util.cookies.get('hostGrafana') + ':13000/?orgId=1&var-interval=$__auto_interval_interval'
+    this.frameSrc = 'https://' + util.cookies.get('hostGrafana') + '/grafana/?orgId=1&var-interval=$__auto_interval_interval'
   },
   methods: {
   }

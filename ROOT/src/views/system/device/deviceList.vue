@@ -20,6 +20,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="device_name" label="设备名称"/>
+      <el-table-column prop="manage_protocol" label="管理协议"/>
       <el-table-column prop="ip_address" label="管理地址"/>
       <el-table-column prop="manage_port" label="管理端口"/>
       <el-table-column label="操作" width="320px">
@@ -79,6 +80,13 @@
           <el-input v-model="formData.device_name" placeholder="请输入设备名称"></el-input>
         </el-form-item>
 
+        <el-form-item label="管理协议：" prop="manage_protocol">
+          <el-select v-model="formData.manage_protocol" placeholder="请选择管理协议" style="width: 100%">
+            <el-option key="1" label="HTTP" value="http"></el-option>
+            <el-option key="2" label="HTTPS" value="https"></el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="管理地址：" prop="ip_address">
           <el-input v-model="formData.ip_address" placeholder="请输入管理地址"></el-input>
         </el-form-item>
@@ -105,6 +113,9 @@ import { ipv4Check } from '@/libs/checkData'
 const infoFormRules = {
   type: [
     { required: true, message: '请选择设备类型', trigger: 'blur' }
+  ],
+  manage_protocol: [
+    { required: true, message: '请选择管理协议', trigger: 'blur' }
   ],
   device_name: [
     { required: true, message: '请输入设备名称', trigger: 'blur' },
@@ -145,7 +156,7 @@ export default {
       this.submitAction = 'add'
     },
     handleManage (row) {
-      window.open('https://' + row.ip_address + (row.manage_port ? ':' + row.manage_port : ''))
+      window.open(row.manage_protocol + '://' + row.ip_address + (row.manage_port ? ':' + row.manage_port : ''))
     },
     handleInfoModalVisible (row) {
       this.formData = { ...row }

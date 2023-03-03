@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
+import com.jiuzhou.firewall.bean.FirewallReportCounter;
 import com.jiuzhou.plat.bean.DeviceCount;
 import com.jiuzhou.plat.bean.PlatDevice;
 
@@ -63,5 +64,20 @@ public interface PlatDeviceMapper {
 	 * @return
 	 */
 	public List<DeviceCount> getDeviceCounts();
+	
+	/**
+	 * 获取平台总日志数列表
+	 * @return
+	 */
+	public List<FirewallReportCounter> getPlatLogCountList();
+	
+	/**
+	 * 根据计数类型获取日志数统计列表
+	 * @param countTypes
+	 * @return
+	 */
+	public List<FirewallReportCounter> getLastLogCountByType(
+			@Param(value="countTypes") int[] countTypes, 
+			@Param(value="countDate") String countDate);
 	
 }

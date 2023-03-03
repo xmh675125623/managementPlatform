@@ -8,7 +8,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.jiuzhou.firewall.bean.FirewallReportCounter;
+import com.jiuzhou.plat.init.SpringContextHolder;
+import com.jiuzhou.plat.service.PlatDeviceService;
 import com.jiuzhou.plat.util.DateUtils;
 
 /**
@@ -42,6 +48,10 @@ public class AuditLogReceiveThread implements Runnable {
 	}
 	
 	public static Map<String, List<String>> LOG_MAP = new HashMap<>();
+	private PlatDeviceService platDeviceService;
+	public AuditLogReceiveThread() {
+		this.platDeviceService = SpringContextHolder.getBean(PlatDeviceService.class);
+	}
 	
 	@Override
 	public void run() {
@@ -56,15 +66,20 @@ public class AuditLogReceiveThread implements Runnable {
 				DatagramPacket dp_receive = new DatagramPacket(new byte[1024], 1024, addr, 8006);
 				try {
 					ds.receive(dp_receive);
+					String ipAddress = dp_receive.getAddress().getHostAddress();
 					String sql = new String(dp_receive.getData(), 0, dp_receive.getLength(), "UTF-8");
 //					System.out.println(sql);
 					String message = sql;
-					String origin = sql.substring(0, sql.indexOf(": "));
 					String number = sql.substring(sql.indexOf("<") + 1, sql.indexOf(">"));
 //					System.out.println("number:" + number);
 					int PRI = Integer.parseInt(number);
 					int facility = PRI/8;
 					int level = PRI%8;
+					
+					String origin = platDeviceService.getDeviceName(ipAddress);
+					if (StringUtils.isBlank(origin)) {
+						continue;
+					}
 					
 					String tag = null;
 					
@@ -126,7 +141,7 @@ public class AuditLogReceiveThread implements Runnable {
 					
 						
 					Date currentDate = new Date();
-					
+					message = message.replaceAll("'", Matcher.quoteReplacement("\\'"));
 					sql = 
 							"('"+DateUtils.toSimpleDateTime(currentDate)+"',"+facility+", '"+level+"', '"+tag+"', '"+origin+"','"+sourceIp+"','"+targetIp+"', '"+message+"')";
 					
@@ -139,17 +154,19 @@ public class AuditLogReceiveThread implements Runnable {
 						sql_list.add(sql);
 					}
 					
-					//报表计数
-//					ThreadLoader.firewallReportCounterThread.countAdd(
-//							origin, 
-//							DateUtils.toSimpleDate(currentDate), 
-//							FirewallReportCounter.COUNT_TYPE_LOG_LEVEL, 
-//							LEVEL_MAP.get(level+""));
-//					ThreadLoader.firewallReportCounterThread.countAdd(
-//							origin, 
-//							DateUtils.toSimpleDate(currentDate), 
-//							FirewallReportCounter.COUNT_TYPE_LOG_MODULE, 
-//							MODULE_MAP.get(tag));
+					//平台总日志数计数
+					ThreadLoader.firewallReportCounterThread.countAdd(
+							"plat", 
+							DateUtils.toSimpleDate(currentDate), 
+							FirewallReportCounter.COUNT_PLAT_LOG_SUM, 
+							"plat");
+					
+					//审计总日志数计数
+					ThreadLoader.firewallReportCounterThread.countAdd(
+							"审计", 
+							DateUtils.toSimpleDate(currentDate), 
+							FirewallReportCounter.COUNT_AUDIT_LOG_SUM, 
+							"审计");
 						
 					
 					

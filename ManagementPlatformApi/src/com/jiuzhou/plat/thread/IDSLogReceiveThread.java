@@ -22,7 +22,7 @@ import com.jiuzhou.plat.util.DateUtils;
 * @version 创建时间：2023年1月5日 下午1:49:34
 * 类说明
 */
-public class FirewallLogReceiveThread implements Runnable {
+public class IDSLogReceiveThread implements Runnable {
 	
 	public static final Map<String, String> MODULE_MAP = new HashMap<>();
 	public static final Map<String, String> LEVEL_MAP = new HashMap<>();
@@ -61,21 +61,21 @@ public class FirewallLogReceiveThread implements Runnable {
 	private PlatDeviceService platDeviceService;
 	
 	
-	public FirewallLogReceiveThread() {
+	public IDSLogReceiveThread() {
 		this.platDeviceService = SpringContextHolder.getBean(PlatDeviceService.class);
 	}
 
 	@Override
 	public void run() {
 		try {
-			System.out.println("+++++++++++++++++++++++启动防火墙日志接受线程+++++++++++++++++++++++++++");
+			System.out.println("+++++++++++++++++++++++启动IDS日志接受线程+++++++++++++++++++++++++++");
 			
 			@SuppressWarnings("resource")
-			DatagramSocket ds = new DatagramSocket(8007);
+			DatagramSocket ds = new DatagramSocket(8009);
 			InetAddress addr = InetAddress.getByName("127.0.0.1");
 			
 			while(true){
-				DatagramPacket dp_receive = new DatagramPacket(new byte[1024], 1024, addr, 8007);
+				DatagramPacket dp_receive = new DatagramPacket(new byte[1024], 1024, addr, 8009);
 				try {
 					ds.receive(dp_receive);
 					String ipAddress = dp_receive.getAddress().getHostAddress();
@@ -93,9 +93,13 @@ public class FirewallLogReceiveThread implements Runnable {
 					}
 					
 					Date currentDate = new Date();
+					
 					message = message.replaceAll("'", Matcher.quoteReplacement("\\'"));
+					
 					sql = 
 							"('"+DateUtils.toSimpleDateTime(currentDate)+"',"+facility+", '"+level+"', NULL, '"+origin+"','','', '"+message+"')";
+					
+					
 					
 					List<String> sql_list = LOG_MAP.get(origin);
 					if (sql_list == null) {
@@ -113,12 +117,12 @@ public class FirewallLogReceiveThread implements Runnable {
 							FirewallReportCounter.COUNT_PLAT_LOG_SUM, 
 							"plat");
 					
-					//防火墙总日志数计数
+					//ids总日志数计数
 					ThreadLoader.firewallReportCounterThread.countAdd(
-							"防火墙", 
+							"IDS", 
 							DateUtils.toSimpleDate(currentDate), 
-							FirewallReportCounter.COUNT_FIREWALL_LOG_SUM, 
-							"防火墙");
+							FirewallReportCounter.COUNT_IDS_LOG_SUM, 
+							"IDS");
 					
 					
 				} catch (Exception e) {
@@ -129,10 +133,11 @@ public class FirewallLogReceiveThread implements Runnable {
             }
 			
 		} catch (Exception e) {
-			System.out.println("+++++++++++++++++++++++防火墙日志接收线程启动失败+++++++++++++++++++++++++++");
+			System.out.println("+++++++++++++++++++++++IDS日志接收线程启动失败+++++++++++++++++++++++++++");
 			e.printStackTrace();
 		}
 		
 	}
+	
 	
 }

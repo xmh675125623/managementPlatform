@@ -14,6 +14,8 @@ export default {
   children: [
     { path: 'audit', name: 'log-manage-audit', component: _import('system/logManage/auditLogManage.vue'), meta: { ...meta, title: '审计日志管理' } },
     { path: 'firewall', name: 'log-manage-firewall', component: _import('system/logManage/firewallLogManage.vue'), meta: { ...meta, title: '防火墙日志管理' } },
-    { path: 'isolation', name: 'log-manage-isolation', component: _import('system/logManage/isolationLogManage.vue'), meta: { ...meta, title: '隔离日志管理' } }
+    { path: 'isolation', name: 'log-manage-isolation', component: _import('system/logManage/isolationLogManage.vue'), meta: { ...meta, title: '隔离日志管理' } },
+    { path: 'ids', name: 'log-ids-isolation', component: _import('system/logManage/idsLogManage.vue'), meta: { ...meta, title: 'IDS日志管理' } },
+    { path: 'gateway', name: 'log-gateway-isolation', component: _import('system/logManage/gatewayLogManage.vue'), meta: { ...meta, title: '网关日志管理' } }
   ]
 }

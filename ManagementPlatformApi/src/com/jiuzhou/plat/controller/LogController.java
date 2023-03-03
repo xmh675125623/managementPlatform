@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jiuzhou.plat.bean.CommonResult;
 import com.jiuzhou.plat.service.AuditLogService;
 import com.jiuzhou.plat.service.FirewallLogService;
+import com.jiuzhou.plat.service.GatewayLogService;
+import com.jiuzhou.plat.service.IDSLogService;
 import com.jiuzhou.plat.service.IsolationLogService;
 import com.jiuzhou.plat.service.OperateLogService;
 
@@ -33,6 +35,10 @@ public class LogController {
 	private FirewallLogService firewallLogService;
 	@Autowired
 	private IsolationLogService isolationLogService;
+	@Autowired
+	private IDSLogService idsLogService;
+	@Autowired
+	private GatewayLogService gatewayLogService;
 	
 	@ResponseBody
 	@RequestMapping(value="/logs.do")
@@ -59,7 +65,13 @@ public class LogController {
 			} else if ("log.isolation.search".equals(method)) {
 				return isolationLogService.search(paramJson);
 				
-			} 
+			} else if ("log.ids.search".equals(method)) {
+				return idsLogService.search(paramJson);
+				
+			} else if ("log.gateway.search".equals(method)) {
+				return gatewayLogService.search(paramJson);
+				
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

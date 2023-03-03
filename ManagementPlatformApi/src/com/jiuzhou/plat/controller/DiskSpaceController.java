@@ -59,6 +59,18 @@ public class DiskSpaceController {
 			} else if ("plat.disk_isolation.delete".equals(method)) {
 				return diskSpaceService.deleteIsolationLogTable(paramJson);
 				
+			} else if ("plat.disk_ids.search".equals(method)) {
+				return diskSpaceService.getIDSLogTableInfos(paramJson);
+				
+			} else if ("plat.disk_ids.delete".equals(method)) {
+				return diskSpaceService.deleteIDSLogTable(paramJson);
+				
+			} else if ("plat.disk_gateway.search".equals(method)) {
+				return diskSpaceService.getGatewayLogTableInfos(paramJson);
+				
+			} else if ("plat.disk_gateway.delete".equals(method)) {
+				return diskSpaceService.deleteGatewayLogTable(paramJson);
+				
 			}
 			
 		} catch (Exception e) {
@@ -93,6 +105,12 @@ public class DiskSpaceController {
 				
 			} else if ("plat.disk_isolation.export".equals(method)) {
 				return diskSpaceService.exportIsolationLog(paramJson, response);
+				
+			} else if ("plat.disk_ids.export".equals(method)) {
+				return diskSpaceService.exportIDSLog(paramJson, response);
+				
+			} else if ("plat.disk_gateway.export".equals(method)) {
+				return diskSpaceService.exportGatewayLog(paramJson, response);
 				
 			}
 			
@@ -131,6 +149,12 @@ public class DiskSpaceController {
 				
 			} else if ("plat.disk_isolation.import".equals(method)) {
 				return diskSpaceService.importIsolationLog(response, file);
+				
+			} else if ("plat.disk_ids.import".equals(method)) {
+				return diskSpaceService.importIDSLog(response, file);
+				
+			} else if ("plat.disk_gateway.import".equals(method)) {
+				return diskSpaceService.importGatewayLog(response, file);
 				
 			}
 			

@@ -192,4 +192,85 @@ public interface DiskSpaceService {
 	 */
 	public String importIsolationLog(HttpServletResponse response, MultipartFile  file) throws Exception;
 	
+	
+	/**
+	 * 获取IDS日志表信息列表
+	 * @param paramJson
+	 * @return
+	 * @throws Exception
+	 */
+	public String getIDSLogTableInfos(JSONObject paramJson) throws Exception;
+	
+	/**
+	 * 获取最早的IDS日志表
+	 * @return
+	 */
+	public String getFirstIDSLogTableName() throws Exception;
+	
+	/**
+	 * 删除IDS日志表
+	 * @param paramJson
+	 * @return
+	 * @throws Exception
+	 */
+	public String deleteIDSLogTable(JSONObject paramJson) throws Exception;
+	
+	/**
+	 * 加密导出IDS日志表数据
+	 * @param paramJson
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String exportIDSLog(JSONObject paramJson, HttpServletResponse response) throws Exception;
+	
+	/**
+	 * 解密导入IDS日志表数据
+	 * @param response
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	public String importIDSLog(HttpServletResponse response, MultipartFile  file) throws Exception;
+	
+	/**
+	 * 获取网关日志表信息列表
+	 * @param paramJson
+	 * @return
+	 * @throws Exception
+	 */
+	public String getGatewayLogTableInfos(JSONObject paramJson) throws Exception;
+	
+	/**
+	 * 获取最早的IDS日志表
+	 * @return
+	 */
+	public String getFirstGatewayLogTableName() throws Exception;
+	
+	/**
+	 * 删除IDS日志表
+	 * @param paramJson
+	 * @return
+	 * @throws Exception
+	 */
+	public String deleteGatewayLogTable(JSONObject paramJson) throws Exception;
+	
+	/**
+	 * 加密导出IDS日志表数据
+	 * @param paramJson
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String exportGatewayLog(JSONObject paramJson, HttpServletResponse response) throws Exception;
+	
+	/**
+	 * 解密导入IDS日志表数据
+	 * @param response
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	public String importGatewayLog(HttpServletResponse response, MultipartFile  file) throws Exception;
+	
 }

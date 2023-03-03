@@ -10,7 +10,7 @@
 
       <div style="flex: 1; height: 100%; margin-right: 12px;display: flex;flex-direction: column; margin-left: 12px">
         <div class="chart-card" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
-          <div class="chart-card-name">CPU占用率</div>
+          <div class="chart-card-name">平台状态</div>
           <div class="chart" ref="cpuUsage"></div>
         </div>
         <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
@@ -50,16 +50,17 @@
 
       <div style="flex: 1; height: 100%; margin-left: 12px; margin-right: 12px;display: flex;flex-direction: column">
         <div class="chart-card" style="overflow:hidden;" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
-          <div class="chart-card-name">内存使用率</div>
+          <div class="chart-card-name">设备管理总数</div>
           <div class="chart" ref="memUsageChart"></div>
         </div>
         <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
-          <div class="chart-card-name">观测到的IT协议(TOP5)</div>
+          <div class="chart-card-name">当日日志数统计(条)</div>
           <div class="chart" ref="networkProtocolChart"></div>
         </div>
         <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
           <div class="chart-card-name">日志时间趋势</div>
-          <div class="chart" ref="dateHistogramChart"></div>
+          <div class="chart" ref="dateHistogramChart" style="text-align: center;color: #CCC;font-size: 28px">
+          </div>
         </div>
       </div>
     </div>
@@ -77,7 +78,7 @@ export default {
       'networkProtocolOption',
       'eventSeverityOption',
       'cpuUsageOption',
-      'memUsageOption',
+      'deviceCountOption',
       'dateHistogramOption',
       'realTimeAlarmList',
       'exceptionEventOption'
@@ -177,9 +178,9 @@ export default {
     memUsageRender () {
       this.memUsage = echarts.init(this.$refs.memUsageChart)
       const that = this
-      this.memUsage.setOption(that.memUsageOption)
+      this.memUsage.setOption(that.deviceCountOption)
       this.memUsageTimer = setInterval(function () {
-        that.memUsage.setOption(that.memUsageOption)
+        that.memUsage.setOption(that.deviceCountOption)
       }, 1000)
     },
     dateHistogramChartTender () {

@@ -121,6 +121,36 @@ export function PLAT_FIREWALL_LOG_SEARCH_EXPORT (data = {}) {
 }
 
 /**
+ * 查询IDS日志
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_IDS_LOG_SEARCH (data = {}) {
+  data.method = 'log.ids.search'
+  return request({
+    url: '/function/logs.do',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 查询网关日志
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_GATEWAY_LOG_SEARCH (data = {}) {
+  data.method = 'log.gateway.search'
+  return request({
+    url: '/function/logs.do',
+    method: 'POST',
+    data
+  })
+}
+
+/**
  * 查询隔离日志
  * @param data
  * @returns {*}
@@ -218,6 +248,96 @@ export function PLAT_FIREWALL_LOG_TABLE_DELETE (data = {}) {
  */
 export function PLAT_FIREWALL_LOG_TABLE_EXPORT (data = {}) {
   data.method = 'plat.disk_firewall.export'
+  return request({
+    url: '/function/disk_export.do',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * IDS日志表列表
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_IDS_LOG_TABLE_SEARCH (data = {}) {
+  data.method = 'plat.disk_ids.search'
+  return request({
+    url: '/function/disk_space.do',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 删除IDS日志表
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_IDS_LOG_TABLE_DELETE (data = {}) {
+  data.method = 'plat.disk_ids.delete'
+  return request({
+    url: '/function/disk_space.do',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 导出IDS日志表
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_IDS_LOG_TABLE_EXPORT (data = {}) {
+  data.method = 'plat.disk_ids.export'
+  return request({
+    url: '/function/disk_export.do',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 网关日志表列表
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_GATEWAY_LOG_TABLE_SEARCH (data = {}) {
+  data.method = 'plat.disk_gateway.search'
+  return request({
+    url: '/function/disk_space.do',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 删除网关日志表
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_GATEWAY_LOG_TABLE_DELETE (data = {}) {
+  data.method = 'plat.disk_gateway.delete'
+  return request({
+    url: '/function/disk_space.do',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 导出IDS日志表
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function PLAT_GATEWAY_LOG_TABLE_EXPORT (data = {}) {
+  data.method = 'plat.disk_gateway.export'
   return request({
     url: '/function/disk_export.do',
     method: 'POST',

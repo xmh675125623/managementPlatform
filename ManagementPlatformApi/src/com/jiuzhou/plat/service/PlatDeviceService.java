@@ -45,5 +45,12 @@ public interface PlatDeviceService {
 	 * @throws Exception
 	 */
 	public String getListByPage(JSONObject paramJson) throws Exception;
+	
+	/**
+	 * 根据ip获取设备名
+	 * @param ipAddress
+	 * @return
+	 */
+	public String getDeviceName(String ipAddress);
 
 }

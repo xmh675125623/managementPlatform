@@ -8,9 +8,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.jiuzhou.firewall.bean.FirewallReportCounter;
+import com.jiuzhou.plat.init.SpringContextHolder;
+import com.jiuzhou.plat.service.PlatDeviceService;
 import com.jiuzhou.plat.util.DateUtils;
 
 /**
@@ -22,8 +26,9 @@ public class IsolationLogReceiveThread implements Runnable {
 	
 	public static Map<String, List<String>> LOG_MAP = new HashMap<>();
 	
-	
+	private PlatDeviceService platDeviceService;
 	public IsolationLogReceiveThread() {
+		this.platDeviceService = SpringContextHolder.getBean(PlatDeviceService.class);
 	}
 
 	@Override
@@ -39,6 +44,7 @@ public class IsolationLogReceiveThread implements Runnable {
 				DatagramPacket dp_receive = new DatagramPacket(new byte[1024], 1024, addr, 8008);
 				try {
 					ds.receive(dp_receive);
+					String ipAddress = dp_receive.getAddress().getHostAddress();
 					String sql = new String(dp_receive.getData(), 0, dp_receive.getLength(), "UTF-8");
 //					System.out.println(sql);
 					String message = sql.substring(sql.indexOf(": ") + 1);
@@ -49,14 +55,17 @@ public class IsolationLogReceiveThread implements Runnable {
 					int facility = PRI/8;
 					int level = PRI%8;
 					
-					String origin = null;
+					String origin = platDeviceService.getDeviceName(ipAddress);
+					if (StringUtils.isBlank(origin)) {
+						continue;
+					}
+					
 					String tag = null;
 					
 					logInfo = logInfo.replace("  ", " ");
 					if (logInfo.length() > 1 && StringUtils.isNotBlank(logInfo)) {
 						String msgContents[] = logInfo.split(" ");
 						if (msgContents.length == 5) {
-							origin = msgContents[3];
 							tag = msgContents[4];
 						}
 					}
@@ -98,9 +107,10 @@ public class IsolationLogReceiveThread implements Runnable {
 						String tempStr = message.substring(message.indexOf("DPT="));
 						dport = tempStr.substring(tempStr.indexOf("DPT=")+4, tempStr.indexOf(" "));
 					}
-					
+					Date currentDate = new Date();
+					message = message.replaceAll("'", Matcher.quoteReplacement("\\'"));
 					sql = 
-							"('"+DateUtils.toSimpleDate(new Date())+"',"+facility+", '"+level+"', '"+tag+"', '"+origin+"','"+sourceIp+"','"+targetIp+"', '"+message+"')";
+							"('"+DateUtils.toSimpleDateTime(new Date())+"',"+facility+", '"+level+"', '"+tag+"', '"+origin+"','"+sourceIp+"','"+targetIp+"', '"+message+"')";
 					
 					List<String> sql_list = LOG_MAP.get(origin);
 					if (sql_list == null) {
@@ -111,6 +121,19 @@ public class IsolationLogReceiveThread implements Runnable {
 						sql_list.add(sql);
 					}
 					
+					//平台总日志数计数
+					ThreadLoader.firewallReportCounterThread.countAdd(
+							"plat", 
+							DateUtils.toSimpleDate(currentDate), 
+							FirewallReportCounter.COUNT_PLAT_LOG_SUM, 
+							"plat");
+					
+					//隔离总日志数计数
+					ThreadLoader.firewallReportCounterThread.countAdd(
+							"隔离", 
+							DateUtils.toSimpleDate(currentDate), 
+							FirewallReportCounter.COUNT_ISOLATION_LOG_SUM, 
+							"隔离");
 					
 					
 				} catch (Exception e) {

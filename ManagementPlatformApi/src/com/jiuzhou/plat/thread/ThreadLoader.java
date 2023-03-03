@@ -1,13 +1,10 @@
 package com.jiuzhou.plat.thread;
 
 import org.apache.commons.lang.SystemUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
-
-import com.jiuzhou.plat.service.AuditLogService; 
+import org.springframework.stereotype.Component; 
 
 /**
  * 用于spring容器加载完成后启动系统中的线程
@@ -18,9 +15,6 @@ import com.jiuzhou.plat.service.AuditLogService;
 public class ThreadLoader implements ApplicationListener<ContextRefreshedEvent> {
 	
 	public static FirewallReportCounterThread firewallReportCounterThread;
-	
-	@Autowired
-	private AuditLogService auditLogService;
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -42,14 +36,36 @@ public class ThreadLoader implements ApplicationListener<ContextRefreshedEvent> 
 			//启动缓存清理线程
 			new Thread(new CacheClearThread(), "CacheClearThread").start();
 			
+			//启动防火墙日志接受线程
+			new Thread(new FirewallLogReceiveThread(), "FirewallLogReceiveThread").start();
+			
+			//启动防火墙日志插入线程
+			new Thread(new InsertFirewallLogThread(), "InsertFirewallLogThread").start();
+			
+			
 			//启动审计日志接受线程
-//			if (ServiceBase.isLinux()) {
-//				new Thread(new AuditLogReceiveThread(), "AuditLogReceiveThread").start();
-//			}
-//			new Thread(new AuditLogReceiveThread(), "AuditLogReceiveThread").start();
+			new Thread(new AuditLogReceiveThread(), "AuditLogReceiveThread").start();
 			
 			//启动审计日志插入线程
-//			new Thread(new InsertAuditLogThread(), "InsertAuditLogThread").start();
+			new Thread(new InsertAuditLogThread(), "InsertAuditLogThread").start();
+			
+			//启动隔离日志接受线程
+			new Thread(new IsolationLogReceiveThread(), "IsolationLogReceiveThread").start();
+			
+			//启动隔离日志插入线程
+			new Thread(new InsertIsolationLogThread(), "InsertIsolationLogThread").start();
+			
+			//启动IDS日志接受线程
+			new Thread(new IDSLogReceiveThread(), "IDSLogReceiveThread").start();
+			
+			//启动IDS日志插入线程
+			new Thread(new InsertIDSLogThread(), "InsertIDSLogThread").start();
+			
+			//启动网关日志接受线程
+			new Thread(new GatewayLogReceiveThread(), "GatewayLogReceiveThread").start();
+			
+			//启动网关日志插入线程
+			new Thread(new InsertGatewayLogThread(), "InsertGatewayLogThread").start();
 			
 			//启动获取设备状态信息线程
 //			new Thread(new FirewallDeviceStatusThread(), "FirewallDeviceStatusThread").start();
@@ -64,8 +80,8 @@ public class ThreadLoader implements ApplicationListener<ContextRefreshedEvent> 
 //			new Thread(new MacInfoReceiveThread(), "MacInfoReceiveThread").start();
 			
 			//启动报表计数器线程
-//			firewallReportCounterThread = new FirewallReportCounterThread();
-//			new Thread(firewallReportCounterThread, "FirewallReportCounterThread").start();
+			firewallReportCounterThread = new FirewallReportCounterThread();
+			new Thread(firewallReportCounterThread, "FirewallReportCounterThread").start();
 			
 			
 		}

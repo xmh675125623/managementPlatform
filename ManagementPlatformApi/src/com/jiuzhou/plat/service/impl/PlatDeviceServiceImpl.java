@@ -1,7 +1,9 @@
 package com.jiuzhou.plat.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,6 +25,8 @@ import net.sf.json.JSONObject;
 */
 @Service("PlatDeviceService")
 public class PlatDeviceServiceImpl implements PlatDeviceService {
+	
+	private static Map<String, String> deviceHostMap = null;
 	
 	private static String auditDeviceUrl = PropertiesUtils.getProp("auditDeviceUrl");
 	private static String firewallDeviceUrl = PropertiesUtils.getProp("firewallDeviceUrl");
@@ -56,6 +60,13 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 		}
 		int type = paramJson.getInt("type");
 		
+		//管理协议
+		if (!paramJson.has("manage_protocol")) {
+			result.setErrorMsg("请输入管理协议");
+			return result.toString();
+		}
+		String manageProtocol = paramJson.getString("manage_protocol");
+		
 		//IP地址
 		if (!paramJson.has("ip_address")) {
 			result.setErrorMsg("请输入IP地址");
@@ -77,12 +88,14 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 		} else if (type == PlatDevice.TYPE_AUDIT) {
 			platDevice.setAccess_url(firewallDeviceUrl);
 		}
+		platDevice.setManage_protocol(manageProtocol);
 		platDevice.setIp_address(ipAddress);
 		platDevice.setManage_port(managePort);
 		platDevice.setInsert_time(new Date());
 		
 		int resultInt = platDeviceMapper.insert(platDevice);
 		if (resultInt > 0) {
+			this.initDeviceHostMap();
 			request.setAttribute(ServiceBase.CURRENT_LOG_DESCRIPTION, platDevice.toLogDescription());
 			result.setStatus(true);
 			return result.toString();
@@ -105,6 +118,7 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 		PlatDevice platDevice = platDeviceMapper.getById(id);
 		
 		platDeviceMapper.deleteById(id);
+		this.initDeviceHostMap();
 		
 		request.setAttribute(ServiceBase.CURRENT_LOG_DESCRIPTION, platDevice.toLogDescription());
 		result.setStatus(true);
@@ -141,6 +155,11 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 			device.setType(paramJson.getInt("type"));
 		}
 		
+		//管理协议
+		if (paramJson.has("manage_protocol")) {
+			device.setManage_protocol(paramJson.getString("manage_protocol"));
+		}
+		
 		//IP地址
 		if (paramJson.has("ip_address")) {
 			device.setIp_address(paramJson.getString("ip_address"));
@@ -159,6 +178,7 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 		
 		int resultInt = platDeviceMapper.update(device);
 		if (resultInt > 0) {
+			this.initDeviceHostMap();
 			request.setAttribute(ServiceBase.CURRENT_LOG_DESCRIPTION, device.toLogDescription());
 			result.setStatus(true);
 			return result.toString();
@@ -196,4 +216,21 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 		
 	}
 
+	@Override
+	public String getDeviceName(String ipAddress) {
+		if (deviceHostMap == null) {
+			this.initDeviceHostMap();
+		}
+		return deviceHostMap.get(ipAddress);
+	}
+
+	private void initDeviceHostMap() {
+		List<PlatDevice> devices = platDeviceMapper.getAll();
+		if (devices != null && devices.size() > 0) {
+			deviceHostMap = new HashMap<String, String>();
+			for (PlatDevice platDevice : devices) {
+				deviceHostMap.put(platDevice.getIp_address(), platDevice.getDevice_name());
+			}
+		}
+	}
 }

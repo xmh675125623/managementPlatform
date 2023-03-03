@@ -508,4 +508,221 @@ public class DiskSpaceServiceImpl extends ServiceBase implements DiskSpaceServic
 		return new CommonResult(true, "").toString();
 	}
 
+	@Override
+	@Transactional(readOnly=false)
+	public String getIDSLogTableInfos(JSONObject paramJson) throws Exception {
+		List<DatabaseTableInfo> list = databaseTableMapper.getIDSLogTableInfoListOrderByDate();
+		if (list == null) {
+			list = new ArrayList<>();
+		}
+		CommonResult commonResult = new CommonResult(true, "");
+		commonResult.put("list", list);
+		return commonResult.toString();
+	}
+
+	@Override
+	public String getFirstIDSLogTableName() throws Exception {
+		return databaseTableMapper.getFirstIDSLogTableName();
+	}
+
+	@Override
+	@Transactional(readOnly=false)
+	public String deleteIDSLogTable(JSONObject paramJson) throws Exception {
+		CommonResult commonResult = new CommonResult(false, "");
+		if (!paramJson.has("table_name") 
+				|| paramJson.getString("table_name").indexOf("ids_log") < 0) {
+			commonResult.setErrorMsg("表名错误");
+			return commonResult.toString();
+		}
+		String tableName = paramJson.getString("table_name");
+		databaseTableMapper.dropTable(tableName);
+		deleteCache(CACHE_IDS_LOG_TABLE);
+		commonResult.setStatus(true);
+		return commonResult.toString();
+	}
+
+	@Override
+	public String exportIDSLog(JSONObject paramJson, 
+			HttpServletResponse response) throws Exception {
+		if (!paramJson.has("table_name") 
+				|| paramJson.getString("table_name").indexOf("ids_log") < 0) {
+			throw new Exception("表名错误");
+		}
+		String tableName = paramJson.getString("table_name");
+		
+		//创建文件
+		String fileSavePath = DiskSpaceServiceImpl.class.getResource("/").getFile()  + "temp/file/images/";
+		String destFileName = System.currentTimeMillis() + "_exportIDSLogEncrypt";
+		File destFile = new File(fileSavePath + destFileName);
+		
+		
+		//导出数据库sql文件
+		boolean isExportComplate  = DatabaseBackUpUtils.exportDatabase(
+				PropertiesUtils.getProp("jdbc.hostname"),
+				PropertiesUtils.getProp("jdbc.username"), 
+				PropertiesUtils.getProp("jdbc.password"), 
+				destFile.getParent(), 
+				destFileName, 
+				PropertiesUtils.getProp("jdbc.dbname"),
+				tableName);
+		
+		//加密数据库sql文件
+		boolean isEncodeComplate = new FileEncodeUtils(
+				true, 
+				destFile.getParent() + File.separator + destFileName, 
+				"ids").run();
+		
+		if (!isExportComplate || !isEncodeComplate) {
+			return new CommonResult(false, "备份导出失败，请刷新页面重试").toString();
+		}
+		
+        FileDownloadInfo downloadInfo = 
+				new FileDownloadInfo(new Date().getTime(), 1*60*1000);
+		downloadInfo.setToken(UUID.randomUUID().toString());
+		downloadInfo.setJsonParam(paramJson);
+		downloadInfo.setFilePath(destFile.getParent() + File.separator + destFileName);
+		downloadInfo.setFileName(tableName+".ids");
+		setCache(FIRE_DOWNLOAD_INFO+downloadInfo.getToken(), downloadInfo);
+		CommonResult commonResult = new CommonResult(true, "");
+		commonResult.put("fileMark", downloadInfo.getToken());
+		return commonResult.toString();
+	}
+
+	@Override
+	public String importIDSLog(HttpServletResponse response, MultipartFile file) throws Exception {
+		String fileSavePath = DiskSpaceServiceImpl.class.getResource("/").getFile()  + "temp/file/images/";
+		String sourcesFileName = System.currentTimeMillis() + "_importIDSLogEncrypt";
+		File sourcesFile = new File(fileSavePath + sourcesFileName);
+		file.transferTo(sourcesFile);
+		
+		//解密数据库文件
+		boolean isEncodeComplate = new FileEncodeUtils(
+				false, 
+				sourcesFile.getParent() + File.separator + sourcesFileName, 
+				"ids").run();
+		
+		//导入数据库
+		boolean isImportComplate = DatabaseBackUpUtils.recoverDatabase(
+				PropertiesUtils.getProp("jdbc.hostname"),
+				PropertiesUtils.getProp("jdbc.username"), 
+				PropertiesUtils.getProp("jdbc.password"), 
+				sourcesFile.getParent(), 
+				sourcesFileName, 
+				PropertiesUtils.getProp("jdbc.dbname"));
+		
+		if (!isImportComplate || !isEncodeComplate) {
+			return new CommonResult(false, "备份导入失败，请检查备份文件是否被篡改或磁盘空间是否充足").toString();
+		}
+		
+		return new CommonResult(true, "").toString();
+	}
+
+	@Override
+	@Transactional(readOnly=false)
+	public String getGatewayLogTableInfos(JSONObject paramJson) throws Exception {
+		List<DatabaseTableInfo> list = databaseTableMapper.getGatewayLogTableInfoListOrderByDate();
+		if (list == null) {
+			list = new ArrayList<>();
+		}
+		CommonResult commonResult = new CommonResult(true, "");
+		commonResult.put("list", list);
+		return commonResult.toString();
+	}
+
+	@Override
+	public String getFirstGatewayLogTableName() throws Exception {
+		return databaseTableMapper.getFirstGatewayLogTableName();
+	}
+
+	@Override
+	@Transactional(readOnly=false)
+	public String deleteGatewayLogTable(JSONObject paramJson) throws Exception {
+		CommonResult commonResult = new CommonResult(false, "");
+		if (!paramJson.has("table_name") 
+				|| paramJson.getString("table_name").indexOf("gateway_log") < 0) {
+			commonResult.setErrorMsg("表名错误");
+			return commonResult.toString();
+		}
+		String tableName = paramJson.getString("table_name");
+		databaseTableMapper.dropTable(tableName);
+		deleteCache(CACHE_GATEWAY_LOG_TABLE);
+		commonResult.setStatus(true);
+		return commonResult.toString();
+	}
+
+	@Override
+	public String exportGatewayLog(JSONObject paramJson, HttpServletResponse response) throws Exception {
+		if (!paramJson.has("table_name") 
+				|| paramJson.getString("table_name").indexOf("gateway_log") < 0) {
+			throw new Exception("表名错误");
+		}
+		String tableName = paramJson.getString("table_name");
+		
+		//创建文件
+		String fileSavePath = DiskSpaceServiceImpl.class.getResource("/").getFile()  + "temp/file/images/";
+		String destFileName = System.currentTimeMillis() + "_exportGatewayLogEncrypt";
+		File destFile = new File(fileSavePath + destFileName);
+		
+		
+		//导出数据库sql文件
+		boolean isExportComplate  = DatabaseBackUpUtils.exportDatabase(
+				PropertiesUtils.getProp("jdbc.hostname"),
+				PropertiesUtils.getProp("jdbc.username"), 
+				PropertiesUtils.getProp("jdbc.password"), 
+				destFile.getParent(), 
+				destFileName, 
+				PropertiesUtils.getProp("jdbc.dbname"),
+				tableName);
+		
+		//加密数据库sql文件
+		boolean isEncodeComplate = new FileEncodeUtils(
+				true, 
+				destFile.getParent() + File.separator + destFileName, 
+				"gateway").run();
+		
+		if (!isExportComplate || !isEncodeComplate) {
+			return new CommonResult(false, "备份导出失败，请刷新页面重试").toString();
+		}
+		
+        FileDownloadInfo downloadInfo = 
+				new FileDownloadInfo(new Date().getTime(), 1*60*1000);
+		downloadInfo.setToken(UUID.randomUUID().toString());
+		downloadInfo.setJsonParam(paramJson);
+		downloadInfo.setFilePath(destFile.getParent() + File.separator + destFileName);
+		downloadInfo.setFileName(tableName+".gateway");
+		setCache(FIRE_DOWNLOAD_INFO+downloadInfo.getToken(), downloadInfo);
+		CommonResult commonResult = new CommonResult(true, "");
+		commonResult.put("fileMark", downloadInfo.getToken());
+		return commonResult.toString();
+	}
+
+	@Override
+	public String importGatewayLog(HttpServletResponse response, MultipartFile file) throws Exception {
+		String fileSavePath = DiskSpaceServiceImpl.class.getResource("/").getFile()  + "temp/file/images/";
+		String sourcesFileName = System.currentTimeMillis() + "_importGatewayLogEncrypt";
+		File sourcesFile = new File(fileSavePath + sourcesFileName);
+		file.transferTo(sourcesFile);
+		
+		//解密数据库文件
+		boolean isEncodeComplate = new FileEncodeUtils(
+				false, 
+				sourcesFile.getParent() + File.separator + sourcesFileName, 
+				"gateway").run();
+		
+		//导入数据库
+		boolean isImportComplate = DatabaseBackUpUtils.recoverDatabase(
+				PropertiesUtils.getProp("jdbc.hostname"),
+				PropertiesUtils.getProp("jdbc.username"), 
+				PropertiesUtils.getProp("jdbc.password"), 
+				sourcesFile.getParent(), 
+				sourcesFileName, 
+				PropertiesUtils.getProp("jdbc.dbname"));
+		
+		if (!isImportComplate || !isEncodeComplate) {
+			return new CommonResult(false, "备份导入失败，请检查备份文件是否被篡改或磁盘空间是否充足").toString();
+		}
+		
+		return new CommonResult(true, "").toString();
+	}
+
 }

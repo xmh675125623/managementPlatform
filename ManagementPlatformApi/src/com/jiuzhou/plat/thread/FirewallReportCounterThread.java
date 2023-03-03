@@ -47,17 +47,26 @@ public class FirewallReportCounterThread implements Runnable {
 	 * @param countType
 	 * @param countTitle
 	 */
-	public void countAdd(String deviceName, String DateStr, int countType, String countTitle) {
+	synchronized public void countAdd(String deviceName, String DateStr, int countType, String countTitle) {
 		
 		String counterKey = DateStr+"-"+countType+"-"+countTitle;
 		FirewallReportCounter counter = COUNTER_MAP.get(counterKey);
 		if (counter == null) {
-			counter = new FirewallReportCounter();
-			counter.setCount_date(DateStr);
-			counter.setCount_type(countType);
-			counter.setDevice_name(deviceName);
-			counter.setCount_title(countTitle);
-			counter.setCount_num(1);
+			counter = 
+					firewallReportCounterMapper.getByDateAndTypeAndTitle(
+							deviceName, 
+							DateStr, 
+							countType+"", 
+							countTitle);
+			if (counter == null) {
+				counter = new FirewallReportCounter();
+				counter.setCount_date(DateStr);
+				counter.setCount_type(countType);
+				counter.setDevice_name(deviceName);
+				counter.setCount_title(countTitle);
+			}
+			
+			counter.setCount_num(counter.getCount_num() + 1);
 			COUNTER_MAP.put(counterKey, counter);
 		} else {
 			

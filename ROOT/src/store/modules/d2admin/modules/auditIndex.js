@@ -1,8 +1,9 @@
 import {
   DATE_HISTOGRAM_DATA_GET,
-  EVENT_SEVERITY_DATA_GET, EXTERNAL_ATTACKER_DATA_GET, INDEX_STATE_GET
+  EVENT_SEVERITY_DATA_GET, EXCEPTION_EVENT_DATA_GET, EXTERNAL_ATTACKER_DATA_GET, INDEX_STATE_GET
 } from '@/api/plat.index'
 import echarts from 'echarts'
+import { deviceCountOption } from '@/libs/deviceChart'
 
 const backgroundColor_ = 'rgba(0,0,0,0)'
 
@@ -24,12 +25,43 @@ const obliqueRectangle = echarts.graphic.extendShape({
     ctx.closePath()
   }
 })
+
+const placeHolderStyle = {
+  normal: {
+    label: {
+      show: false
+    },
+    labelLine: {
+      show: false
+    },
+    color: 'rgba(0,0,0,0)',
+    borderWidth: 0
+  },
+  emphasis: {
+    color: 'rgba(0,0,0,0)',
+    borderWidth: 0
+  }
+}
+
+const dataStyle = {
+  normal: {
+    formatter: '{c}%',
+    position: 'center',
+    show: true,
+    textStyle: {
+      fontSize: '20',
+      fontWeight: 'normal',
+      color: '#AAAFC8'
+    }
+  }
+}
+
 echarts.graphic.registerShape('obliqueRectangle', obliqueRectangle)
 
 export default {
   namespaced: true,
   state: {
-    // 观测到的IP协议
+    // 当日日志数统计
     networkProtocolOption: {
       backgroundColor: backgroundColor_,
       grid: [
@@ -400,81 +432,274 @@ export default {
 
     // CPU占用率
     cpuUsageOption: {
-      title: {
-        text: '',
-        x: '50%',
-        y: '40%',
-        textAlign: 'center',
-        textStyle: {
-          fontSize: 60,
-          color: '#01c8d7'
+      backgroundColor: backgroundColor_,
+      title: [
+        {
+          text: 'CPU',
+          left: '17%',
+          top: '65%',
+          textAlign: 'center',
+          textStyle: {
+            fontWeight: 'normal',
+            fontSize: '15',
+            color: '#fff',
+            textAlign: 'center'
+          }
         },
-        subtext: '--',
-        subtextStyle: {
-          fontSize: 40,
-          color: '#bac7e5',
-          align: 'center'
+        {
+          text: '内存',
+          left: '49%',
+          top: '65%',
+          textAlign: 'center',
+          textStyle: {
+            color: '#fff',
+            fontWeight: 'normal',
+            fontSize: '15',
+            textAlign: 'center'
+          }
+        },
+        {
+          text: '磁盘',
+          left: '81%',
+          top: '65%',
+          textAlign: 'center',
+          textStyle: {
+            color: '#fff',
+            fontWeight: 'normal',
+            fontSize: '15',
+            textAlign: 'center'
+          }
         }
-      },
-      series: [{
-        name: ' ',
-        type: 'pie',
-        radius: ['60%', '80%'],
-        startAngle: 225,
-        color: [{
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0.4,
-          y2: 1,
-          colorStops: [{
-            offset: 0,
-            color: '#00a2ff' // 0% 处的颜色
-          }, {
-            offset: 1,
-            color: '#70ffac' // 100% 处的颜色
-          }],
-          globalCoord: false // 缺省为 false
-        }, 'none'],
-        hoverAnimation: false,
-        legendHoverLink: false,
-        z: 10,
-        labelLine: {
-          normal: {
-            show: false
-          }
-        },
-        data: [{
-          value: 1
-        }, {
-          value: 2
-        }]
-      }, {
-        name: '',
-        type: 'pie',
-        radius: ['60%', '80%'],
-        startAngle: 225,
-        color: ['#172228'],
-        z: 9,
-        hoverAnimation: false,
-        legendHoverLink: false,
-        labelLine: {
-          normal: {
-            show: false
-          }
-        },
-        data: [{
-          value: 75,
-          itemStyle: {
+      ],
+
+      // 第一个图表
+      series: [
+        {
+          type: 'pie',
+          hoverAnimation: false, // 鼠标经过的特效
+          radius: ['50%', '55%'],
+          center: ['18%', '50%'],
+          startAngle: 225,
+          labelLine: {
             normal: {
-              color: '#172228'
+              show: false
             }
-          }
-        }, {
-          value: 25
-        }]
-      }],
-      backgroundColor: backgroundColor_
+          },
+          label: {
+            normal: {
+              position: 'center'
+            }
+          },
+          data: [
+            {
+              value: 100,
+              itemStyle: {
+                normal: {
+                  color: ['rgba(176, 212, 251, 0.3)']
+                }
+              }
+            },
+            {
+              value: 35,
+              itemStyle: placeHolderStyle
+            }
+          ]
+        },
+        // 上层环形配置
+        {
+          type: 'pie',
+          hoverAnimation: false, // 鼠标经过的特效
+          radius: ['50%', '55%'],
+          center: ['18%', '50%'],
+          startAngle: 225,
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          label: {
+            normal: {
+              position: 'center'
+            }
+          },
+          data: [
+            {
+              value: 75,
+              itemStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                      offset: 0,
+                      color: '#00cefc'
+                    },
+                    {
+                      offset: 1,
+                      color: '#367bec'
+                    }
+                  ])
+                }
+              },
+              label: dataStyle
+            },
+            {
+              value: 35,
+              itemStyle: placeHolderStyle
+            }
+          ]
+        },
+
+        // 第二个图表
+        {
+          type: 'pie',
+          hoverAnimation: false,
+          radius: ['50%', '55%'],
+          center: ['50%', '50%'],
+          startAngle: 225,
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          label: {
+            normal: {
+              position: 'center'
+            }
+          },
+          data: [
+            {
+              value: 100,
+              itemStyle: {
+                normal: {
+                  color: ['rgba(176, 212, 251, 0.3)']
+                }
+              }
+            },
+            {
+              value: 35,
+              itemStyle: placeHolderStyle
+            }
+          ]
+        },
+
+        // 上层环形配置
+        {
+          type: 'pie',
+          hoverAnimation: false,
+          radius: ['50%', '55%'],
+          center: ['50%', '50%'],
+          startAngle: 225,
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          label: {
+            normal: {
+              position: 'center'
+            }
+          },
+          data: [
+            {
+              value: 34,
+              itemStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                      offset: 0,
+                      color: '#9FE6B8'
+                    },
+                    {
+                      offset: 1,
+                      color: '#32C5E9'
+                    }
+                  ])
+                }
+              },
+              label: dataStyle
+            },
+            {
+              value: 55,
+              itemStyle: placeHolderStyle
+            }
+          ]
+        },
+
+        // 第三个图表
+        {
+          type: 'pie',
+          hoverAnimation: false,
+          radius: ['50%', '55%'],
+          center: ['82%', '50%'],
+          startAngle: 225,
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          label: {
+            normal: {
+              position: 'center'
+            }
+          },
+          data: [
+            {
+              value: 100,
+              itemStyle: {
+                normal: {
+                  color: ['rgba(176, 212, 251, 0.3)']
+                }
+              }
+            },
+            {
+              value: 35,
+              itemStyle: placeHolderStyle
+            }
+          ]
+        },
+
+        // 上层环形配置
+        {
+          type: 'pie',
+          hoverAnimation: false,
+          radius: ['50%', '55%'],
+          center: ['82%', '50%'],
+          startAngle: 225,
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          label: {
+            normal: {
+              position: 'center'
+            }
+          },
+          data: [
+            {
+              value: 34,
+              itemStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                      offset: 0,
+                      color: '#FDFF5C'
+                    },
+                    {
+                      offset: 1,
+                      color: '#FFDB5C'
+                    }
+                  ])
+                }
+              },
+              label: dataStyle
+            },
+            {
+              value: 55,
+              itemStyle: placeHolderStyle
+            }
+          ]
+        }
+      ]
     },
 
     // 日志时间趋势
@@ -557,28 +782,8 @@ export default {
     },
     dateHistogramTimer: null,
 
-    // 内存使用率
-    memUsageOption: {
-      backgroundColor: backgroundColor_,
-      series: [{
-        type: 'liquidFill',
-        radius: '80%',
-        data: [0.12, 0.12, 0.12, 0.12, 0.12],
-        backgroundStyle: {
-          borderWidth: 2,
-          borderColor: 'rgb(255,0,255,0.9)',
-          color: 'rgb(255,0,255,0.01)'
-        },
-        label: {
-          normal: {
-            formatter: (0.12 * 100).toFixed(2) + '%',
-            textStyle: {
-              fontSize: 26
-            }
-          }
-        }
-      }]
-    },
+    // 设备总数量
+    deviceCountOption: deviceCountOption,
 
     // 外部攻击者
     externalAttackerList: [],
@@ -588,7 +793,7 @@ export default {
     realTimeAlarmList: [],
     realTimeAlarmTimer: null,
 
-    // 网络异常事件
+    // 管理资产数量
     exceptionEventOption: {
       backgroundColor: backgroundColor_,
       title: {
@@ -730,16 +935,6 @@ export default {
   },
   actions: {
     async networkProtocol ({ state, commit, dispatch }, data = {}) {
-      // try {
-      //   const res = await NETWORK_PROTOCOL_DATA_GET()
-      //   if (res.data && res.data.aggregations) {
-      //     commit('setNetworkProtocolOption', res.data.aggregations['2'].buckets)
-      //   }
-      // } catch (e) {
-      //   console.log('协议=============================')
-      //   console.log(e.message)
-      // }
-
       const res = await INDEX_STATE_GET()
       console.log(res)
       if (res) {
@@ -748,8 +943,12 @@ export default {
         }
         if (res.cpuUsage) {
           commit('setCpuUsageOption', res.cpuUsage)
+          commit('setMemUsageOption', res.memUsage)
+          commit('setDiskUsageOption', res.diskUsage)
+          commit('setDeviceNumOption', res.deviceNum)
+          commit('setDateHistogramOption', res.platLogCountList)
+          commit('setNetworkProtocolOption', res.typeLogCountList)
         }
-
       }
 
       const iTimer = setTimeout(function () {
@@ -758,68 +957,68 @@ export default {
       commit('setNetworkProtocolTimer', { timer: iTimer })
     },
     async eventSeverity ({ state, commit, dispatch }, data = {}) {
-      try {
-        const res = await EVENT_SEVERITY_DATA_GET()
-        if (res.data && res.data.aggregations) {
-          commit('setEventSeverityOption', res.data.aggregations['2'].buckets)
-        }
-      } catch (e) {
-        console.log('事件=============================')
-        console.log(e.message)
-      }
-
-      const iTimer = setTimeout(function () {
-        dispatch('eventSeverity')
-      }, 1000)
-      commit('setEventSeverityTimer', { timer: iTimer })
+      // try {
+      //   const res = await EVENT_SEVERITY_DATA_GET()
+      //   if (res.data && res.data.aggregations) {
+      //     commit('setEventSeverityOption', res.data.aggregations['2'].buckets)
+      //   }
+      // } catch (e) {
+      //   console.log('事件=============================')
+      //   console.log(e.message)
+      // }
+      //
+      // const iTimer = setTimeout(function () {
+      //   dispatch('eventSeverity')
+      // }, 1000)
+      // commit('setEventSeverityTimer', { timer: iTimer })
     },
     async dateHistogram ({ state, commit, dispatch }, data = {}) {
-      try {
-        const res = await DATE_HISTOGRAM_DATA_GET()
-        if (res.data && res.data.aggregations) {
-          commit('setDateHistogramOption', res.data.aggregations['2'])
-        }
-      } catch (e) {
-        console.log('日志时间趋势=============================')
-        console.log(e.message)
-      }
-
-      const iTimer = setTimeout(function () {
-        dispatch('dateHistogram')
-      }, 1000)
-      commit('setDateHistogramTimer', { timer: iTimer })
+      // try {
+      //   const res = await DATE_HISTOGRAM_DATA_GET()
+      //   if (res.data && res.data.aggregations) {
+      //     commit('setDateHistogramOption', res.data.aggregations['2'])
+      //   }
+      // } catch (e) {
+      //   console.log('日志时间趋势=============================')
+      //   console.log(e.message)
+      // }
+      //
+      // const iTimer = setTimeout(function () {
+      //   dispatch('dateHistogram')
+      // }, 1000)
+      // commit('setDateHistogramTimer', { timer: iTimer })
     },
     async externalAttacker ({ state, commit, dispatch }, data = {}) {
-      try {
-        const res = await EXTERNAL_ATTACKER_DATA_GET()
-        if (res.data && res.data.aggregations) {
-          commit('setExternalAttackerList', res.data.aggregations['2'])
-        }
-      } catch (e) {
-        console.log('外部攻击者=============================')
-        console.log(e.message)
-      }
-
-      const iTimer = setTimeout(function () {
-        dispatch('externalAttacker')
-      }, 1000)
-      commit('setExternalAttackerTimer', { timer: iTimer })
+      // try {
+      //   const res = await EXTERNAL_ATTACKER_DATA_GET()
+      //   if (res.data && res.data.aggregations) {
+      //     commit('setExternalAttackerList', res.data.aggregations['2'])
+      //   }
+      // } catch (e) {
+      //   console.log('外部攻击者=============================')
+      //   console.log(e.message)
+      // }
+      //
+      // const iTimer = setTimeout(function () {
+      //   dispatch('externalAttacker')
+      // }, 1000)
+      // commit('setExternalAttackerTimer', { timer: iTimer })
     },
     async realTimeAlarm ({ state, commit, dispatch }, data = {}) {
-      try {
-        const res = await REAL_TIME_ALARM_GET()
-        if (res.data && res.data.hits.hits) {
-          commit('setRealTimeAlarmList', res.data.hits.hits)
-        }
-      } catch (e) {
-        console.log('实时告警=============================')
-        console.log(e.message)
-      }
-
-      const iTimer = setTimeout(function () {
-        dispatch('realTimeAlarm')
-      }, 1000)
-      commit('setRealTimeAlarmTimer', { timer: iTimer })
+      // try {
+      //   const res = await REAL_TIME_ALARM_GET()
+      //   if (res.data && res.data.hits.hits) {
+      //     commit('setRealTimeAlarmList', res.data.hits.hits)
+      //   }
+      // } catch (e) {
+      //   console.log('实时告警=============================')
+      //   console.log(e.message)
+      // }
+      //
+      // const iTimer = setTimeout(function () {
+      //   dispatch('realTimeAlarm')
+      // }, 1000)
+      // commit('setRealTimeAlarmTimer', { timer: iTimer })
     },
     async exceptionEvent ({ state, commit, dispatch }, data = {}) {
 
@@ -847,7 +1046,7 @@ export default {
     setNetworkProtocolOption (state, payload) {
       const data = []
       for (let i = 0; i < payload.length && i < 5; i++) {
-        data.push({ name: payload[i].key, value: payload[i].doc_count, unit: '' })
+        data.push({ name: payload[i].count_title, value: payload[i].count_num, unit: '' })
       }
       state.networkProtocolOption.yAxis[0].data = data.map((item) => item.name)
       state.networkProtocolOption.yAxis[1].data = data.map((item) => item.name)
@@ -876,20 +1075,25 @@ export default {
       state.eventSeverityTimer = payload.timer
     },
     setCpuUsageOption (state, payload) {
-      state.cpuUsageOption.title.text = payload + '%'
-      state.cpuUsageOption.series[0].data[0].value = payload
-      state.cpuUsageOption.series[0].data[1].value = 100 - payload
+      state.cpuUsageOption.series[1].data[0].value = payload
+    },
+    setDeviceNumOption (state, payload) {
+      state.deviceCountOption.title[0].text = payload
+    },
+    setMemUsageOption (state, payload) {
+      state.cpuUsageOption.series[3].data[0].value = payload
+    },
+    setDiskUsageOption (state, payload) {
+      state.cpuUsageOption.series[5].data[0].value = payload
     },
     setDateHistogramOption (state, payload) {
       const xdate = []
       const ydata = []
-      if (payload.buckets) {
-        payload.buckets.forEach(function (d) {
-          const date = new Date(d.key)
-          xdate.push(date.getHours() + ':' + date.getMinutes())
-          ydata.push(d.doc_count)
-        })
-      }
+      payload.reverse()
+      payload.forEach(function (d) {
+        xdate.push(d.count_date.substring(5))
+        ydata.push(d.count_num)
+      })
       state.dateHistogramOption.xAxis[0].data = xdate
       state.dateHistogramOption.series[0].data = ydata
     },
@@ -911,12 +1115,13 @@ export default {
     setExceptionEventOption (state, payload) {
       const names = []
       const values = []
-      let count = 0
+      const counts = []
       for (let i = 0; i < payload.length && i < 5; i++) {
         names.push(payload[i].type_name)
         values.push(payload[i].count)
-        count += payload[i].count
+        counts.push(payload[i].count)
       }
+      const count = Math.max(...counts)
       state.exceptionEventOption.yAxis[0].data = names
       state.exceptionEventOption.yAxis[1].data = values
       state.exceptionEventOption.series[0].data = values

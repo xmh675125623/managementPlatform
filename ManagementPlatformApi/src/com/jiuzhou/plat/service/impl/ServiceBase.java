@@ -52,6 +52,16 @@ public class ServiceBase {
 	public static final String CACHE_FIREWALL_LOG_TABLE = "firewall_log_table";
 	
 	/**
+	 * 网关日志表名
+	 */
+	public static final String CACHE_GATEWAY_LOG_TABLE = "gateway_log_table";
+	
+	/**
+	 * IDS日志表名
+	 */
+	public static final String CACHE_IDS_LOG_TABLE = "ids_log_table";
+	
+	/**
 	 * 隔离日志表名
 	 */
 	public static final String CACHE_ISOLATION_LOG_TABLE = "isolation_log_table";

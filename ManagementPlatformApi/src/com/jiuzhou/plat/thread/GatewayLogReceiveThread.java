@@ -22,7 +22,7 @@ import com.jiuzhou.plat.util.DateUtils;
 * @version 创建时间：2023年1月5日 下午1:49:34
 * 类说明
 */
-public class FirewallLogReceiveThread implements Runnable {
+public class GatewayLogReceiveThread implements Runnable {
 	
 	public static final Map<String, String> MODULE_MAP = new HashMap<>();
 	public static final Map<String, String> LEVEL_MAP = new HashMap<>();
@@ -61,21 +61,21 @@ public class FirewallLogReceiveThread implements Runnable {
 	private PlatDeviceService platDeviceService;
 	
 	
-	public FirewallLogReceiveThread() {
+	public GatewayLogReceiveThread() {
 		this.platDeviceService = SpringContextHolder.getBean(PlatDeviceService.class);
 	}
 
 	@Override
 	public void run() {
 		try {
-			System.out.println("+++++++++++++++++++++++启动防火墙日志接受线程+++++++++++++++++++++++++++");
+			System.out.println("+++++++++++++++++++++++启动网关日志接受线程+++++++++++++++++++++++++++");
 			
 			@SuppressWarnings("resource")
-			DatagramSocket ds = new DatagramSocket(8007);
+			DatagramSocket ds = new DatagramSocket(8010);
 			InetAddress addr = InetAddress.getByName("127.0.0.1");
 			
 			while(true){
-				DatagramPacket dp_receive = new DatagramPacket(new byte[1024], 1024, addr, 8007);
+				DatagramPacket dp_receive = new DatagramPacket(new byte[1024], 1024, addr, 8010);
 				try {
 					ds.receive(dp_receive);
 					String ipAddress = dp_receive.getAddress().getHostAddress();
@@ -113,12 +113,12 @@ public class FirewallLogReceiveThread implements Runnable {
 							FirewallReportCounter.COUNT_PLAT_LOG_SUM, 
 							"plat");
 					
-					//防火墙总日志数计数
+					//网关总日志数计数
 					ThreadLoader.firewallReportCounterThread.countAdd(
-							"防火墙", 
+							"网关", 
 							DateUtils.toSimpleDate(currentDate), 
-							FirewallReportCounter.COUNT_FIREWALL_LOG_SUM, 
-							"防火墙");
+							FirewallReportCounter.COUNT_GATEWAY_LOG_SUM, 
+							"网关");
 					
 					
 				} catch (Exception e) {
@@ -129,7 +129,7 @@ public class FirewallLogReceiveThread implements Runnable {
             }
 			
 		} catch (Exception e) {
-			System.out.println("+++++++++++++++++++++++防火墙日志接收线程启动失败+++++++++++++++++++++++++++");
+			System.out.println("+++++++++++++++++++++++网关日志接收线程启动失败+++++++++++++++++++++++++++");
 			e.printStackTrace();
 		}
 		

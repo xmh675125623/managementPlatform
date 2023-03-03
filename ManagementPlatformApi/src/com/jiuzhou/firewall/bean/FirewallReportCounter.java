@@ -15,6 +15,41 @@ public class FirewallReportCounter {
 	 * 计数类型 日志等级
 	 */
 	public static final int COUNT_TYPE_LOG_LEVEL = 2;
+	
+	/**
+	 * 计数类型 事件分类
+	 */
+	public static final int COUNT_TYPE_LOG_EVENT = 3;
+	
+	/**
+	 * 计数类型 平台总日志数
+	 */
+	public static final int COUNT_PLAT_LOG_SUM = 4;
+	
+	/**
+	 * 计数类型 审计总日志数
+	 */
+	public static final int COUNT_AUDIT_LOG_SUM = 5;
+	
+	/**
+	 * 计数类型 防火墙总日志数
+	 */
+	public static final int COUNT_FIREWALL_LOG_SUM = 6;
+	
+	/**
+	 * 计数类型 隔离总日志数
+	 */
+	public static final int COUNT_ISOLATION_LOG_SUM = 7;
+	
+	/**
+	 * 计数类型 IDS总日志数
+	 */
+	public static final int COUNT_IDS_LOG_SUM = 8;
+	
+	/**
+	 * 计数类型 网关总日志数
+	 */
+	public static final int COUNT_GATEWAY_LOG_SUM = 9;
 
 	private int    id;
 	private String device_name;    //设备名

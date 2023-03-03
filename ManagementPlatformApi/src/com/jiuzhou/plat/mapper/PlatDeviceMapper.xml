@@ -11,6 +11,7 @@
 			`type`,
 			`device_name`,
 			`device_mark`,
+			`manage_protocol`
 			`ip_address`,
 			`manage_port`,
 			`access_url`,
@@ -23,6 +24,7 @@
 			#{bean.type},
 			#{bean.device_name},
 			#{bean.device_mark},
+			#{bean.manage_protocol},
 			#{bean.ip_address},
 			#{bean.manage_port},
 			#{bean.access_url},
@@ -69,6 +71,7 @@
 			`type` = #{bean.type},
 			`device_name` = #{bean.device_name},
 			`device_mark` = #{bean.device_mark},
+			`manage_protocol` = #{bean.manage_protocol},
 			`ip_address` = #{bean.ip_address},
 			`manage_port` = #{bean.manage_port},
 			`access_url` = #{bean.access_url},
@@ -97,6 +100,22 @@
 				END AS `type_name`, 
 			COUNT(*) AS `count`
 		FROM plat_device GROUP BY `type` ORDER BY `count` DESC
+	</select>
+	
+	
+	<select id="getPlatLogCountList" resultType="com.jiuzhou.firewall.bean.FirewallReportCounter">
+		SELECT * FROM firewall_report_counter WHERE `count_type`=4 ORDER BY id DESC LIMIT 10
+	</select>
+	
+	
+	<select id="getLastLogCountByType" resultType="com.jiuzhou.firewall.bean.FirewallReportCounter">
+		SELECT * FROM firewall_report_counter 
+		WHERE `count_type` IN
+			<foreach item="id" collection="countTypes" open="(" separator="," close=")">
+		        #{id}
+		    </foreach> 
+		    AND `count_date`=#{countDate}
+	    ORDER BY `count_num` DESC
 	</select>
 	
 </mapper>

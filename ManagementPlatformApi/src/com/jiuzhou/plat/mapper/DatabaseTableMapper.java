@@ -72,6 +72,44 @@ public interface DatabaseTableMapper {
 	
 	
 	/**
+	 * 获取IDS日志表的信息列表
+	 * @return
+	 */
+	public List<DatabaseTableInfo> getIDSLogTableInfoList();
+	
+	/**
+	 * 获取IDS日志表的信息列表
+	 * @return
+	 */
+	public List<DatabaseTableInfo> getIDSLogTableInfoListOrderByDate();
+	
+	/**
+	 * 获取IDS日志记录表
+	 * @return
+	 */
+	public String getFirstIDSLogTableName();
+	
+	
+	/**
+	 * 获取网关日志表的信息列表
+	 * @return
+	 */
+	public List<DatabaseTableInfo> getGatewayLogTableInfoList();
+	
+	/**
+	 * 获取网关日志表的信息列表
+	 * @return
+	 */
+	public List<DatabaseTableInfo> getGatewayLogTableInfoListOrderByDate();
+	
+	/**
+	 * 获取网关日志记录表
+	 * @return
+	 */
+	public String getFirstGatewayLogTableName();
+	
+	
+	/**
 	 * 获取操作日志表的信息列表
 	 * @return
 	 */
@@ -134,4 +172,16 @@ public interface DatabaseTableMapper {
 	 * @param tableName
 	 */
 	public void createIsolationLogTable(@Param(value="table_name")String tableName);
+	
+	/**
+	 * 创建IDS日志表
+	 * @param tableName
+	 */
+	public void createIDSLogTable(@Param(value="table_name")String tableName);
+	
+	/**
+	 * 创建网关日志表
+	 * @param tableName
+	 */
+	public void createGatewayLogTable(@Param(value="table_name")String tableName);
 }

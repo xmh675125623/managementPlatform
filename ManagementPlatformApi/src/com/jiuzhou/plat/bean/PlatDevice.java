@@ -22,6 +22,7 @@ public class PlatDevice {
 	private int 	type; //类型 1:防火墙 2:审计
 	private String	device_name; //设备名
 	private String	device_mark; //设备别名
+	private String  manage_protocol; //管理协议
 	private String	ip_address;  //ip地址
 	private String  manage_port; //管理端口
 	private String	access_url; //访问url
@@ -47,6 +48,7 @@ public class PlatDevice {
 		return "[类型：" + this.getTypeName() + "]"
 				+ "[设备名：" + this.getDevice_name() + "]"
 				+ "[设备别名：" + this.getDevice_mark() + "]"
+				+ "[管理协议：" + this.getManage_protocol() + "]"
 				+ "[管理地址：" + this.getIp_address() + "]"
 				+ "[管理端口：" + this.getManage_port() + "]"
 				+ "[访问url：" + this.getAccess_url() + "]"
@@ -153,6 +155,14 @@ public class PlatDevice {
 
 	public void setManage_port(String manage_port) {
 		this.manage_port = manage_port;
+	}
+
+	public String getManage_protocol() {
+		return manage_protocol;
+	}
+
+	public void setManage_protocol(String manage_protocol) {
+		this.manage_protocol = manage_protocol;
 	}
 	
 	

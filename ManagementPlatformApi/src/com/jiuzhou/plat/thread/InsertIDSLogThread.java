@@ -5,36 +5,36 @@ import java.util.List;
 import java.util.Map;
 
 import com.jiuzhou.plat.init.SpringContextHolder;
-import com.jiuzhou.plat.service.FirewallLogService;
+import com.jiuzhou.plat.service.IDSLogService;
 
 /**
 * @author xingmh
 * @version 创建时间：2023年1月5日 下午1:53:47
 * 类说明
 */
-public class InsertFirewallLogThread implements Runnable {
+public class InsertIDSLogThread implements Runnable {
 	
-	private FirewallLogService firewallLogService;  
+	private IDSLogService idsLogService;  
 	
-	public InsertFirewallLogThread() {
-		this.firewallLogService = SpringContextHolder.getBean(FirewallLogService.class);
+	public InsertIDSLogThread() {
+		this.idsLogService = SpringContextHolder.getBean(IDSLogService.class);
 	}
 
 	@Override
 	public void run() {
 		
-		System.out.println("+++++++++++++++++++++++启动防火墙日志插入线程+++++++++++++++++++++++++++");
+		System.out.println("+++++++++++++++++++++++启动IDS日志插入线程+++++++++++++++++++++++++++");
 
 		while (true) {
 			try {
 				
 				
-				for (Map.Entry<String, List<String>> entry : FirewallLogReceiveThread.LOG_MAP.entrySet()) { 
+				for (Map.Entry<String, List<String>> entry : IDSLogReceiveThread.LOG_MAP.entrySet()) { 
 					String deviceName = entry.getKey();
 					List<String> logList = entry.getValue();
 					if (logList.size() > 0) {
-						FirewallLogReceiveThread.LOG_MAP.put(deviceName, new ArrayList<String>());
-						firewallLogService.insertBathBySqls(deviceName, logList);
+						IDSLogReceiveThread.LOG_MAP.put(deviceName, new ArrayList<String>());
+						idsLogService.insertBathBySqls(deviceName, logList);
 					}
 				}
 				

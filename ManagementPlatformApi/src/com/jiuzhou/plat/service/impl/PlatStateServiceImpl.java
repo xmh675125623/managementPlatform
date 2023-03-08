@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jiuzhou.firewall.bean.FirewallReportCounter;
+import com.jiuzhou.firewall.mapper.FirewallReportCounterMapper;
 import com.jiuzhou.firewall.utils.SnmpUtil;
 import com.jiuzhou.plat.bean.CommonResult;
 import com.jiuzhou.plat.bean.DeviceCount;
+import com.jiuzhou.plat.bean.IndexWarnLog;
 import com.jiuzhou.plat.mapper.PlatDeviceMapper;
 import com.jiuzhou.plat.service.PlatStateService;
 import com.jiuzhou.plat.service.SystemSettingService;
@@ -37,11 +39,15 @@ public class PlatStateServiceImpl extends ServiceBase implements PlatStateServic
 	PlatDeviceMapper platDeviceMapper;
 	@Autowired
 	SystemSettingService systemSettingService;
+	@Autowired
+	FirewallReportCounterMapper firewallReportCounterMapper;
 
 	@Override
 	public String getPlatState(JSONObject paramJson) throws Exception {
 
 		CommonResult commonResult = new CommonResult(false, "");
+		
+		Date currentDate = new Date();
 
 		// 获取设备数量信息
 		List<DeviceCount> deviceCountInfo = platDeviceMapper.getDeviceCounts();
@@ -80,7 +86,14 @@ public class PlatStateServiceImpl extends ServiceBase implements PlatStateServic
 				FirewallReportCounter.COUNT_ISOLATION_LOG_SUM, FirewallReportCounter.COUNT_IDS_LOG_SUM,
 				FirewallReportCounter.COUNT_GATEWAY_LOG_SUM};
 		List<FirewallReportCounter> typeLogCountList = 
-				platDeviceMapper.getLastLogCountByType(countTypes, DateUtils.toSimpleDate(new Date()));
+				platDeviceMapper.getLastLogCountByType(countTypes, DateUtils.toSimpleDate(currentDate));
+		
+		//当天日志告警占比
+		List<FirewallReportCounter> warnLogScale = 
+				firewallReportCounterMapper.getByDateAndType2(
+						DateUtils.toSimpleDate(currentDate), 
+						DateUtils.toSimpleDate(currentDate), 
+						FirewallReportCounter.COUNT_WARN_LOG);
 		
 		commonResult.setStatus(true);
 		commonResult.put("deviceCountInfo", deviceCountInfo);
@@ -90,6 +103,8 @@ public class PlatStateServiceImpl extends ServiceBase implements PlatStateServic
 		commonResult.put("deviceNum", deviceNum);
 		commonResult.put("platLogCountList", platLogCountList);
 		commonResult.put("typeLogCountList", typeLogCountList);
+		commonResult.put("warnLogs", IndexWarnLog.WARN_LOGS.clone());
+		commonResult.put("warnLogScale", warnLogScale);
 		return commonResult.toString();
 
 	}

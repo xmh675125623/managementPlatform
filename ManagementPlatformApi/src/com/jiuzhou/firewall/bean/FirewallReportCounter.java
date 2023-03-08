@@ -50,6 +50,11 @@ public class FirewallReportCounter {
 	 * 计数类型 网关总日志数
 	 */
 	public static final int COUNT_GATEWAY_LOG_SUM = 9;
+	
+	/**
+	 * 计数类型 网关总日志数
+	 */
+	public static final int COUNT_WARN_LOG = 10;
 
 	private int    id;
 	private String device_name;    //设备名

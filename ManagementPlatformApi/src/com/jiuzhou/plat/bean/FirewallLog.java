@@ -7,7 +7,7 @@ import java.util.Date;
 * @version 创建时间：2023年1月5日 上午10:14:49
 * 类说明 防火墙日志bean类
 */
-public class FirewallLog {
+public class FirewallLog implements DeviceLog {
 	
 	/**
 	  *  事件类型：正常事件

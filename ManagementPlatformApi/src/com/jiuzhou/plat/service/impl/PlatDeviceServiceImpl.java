@@ -26,7 +26,7 @@ import net.sf.json.JSONObject;
 @Service("PlatDeviceService")
 public class PlatDeviceServiceImpl implements PlatDeviceService {
 	
-	private static Map<String, String> deviceHostMap = null;
+	private static Map<String, PlatDevice> deviceHostMap = null;
 	
 	private static String auditDeviceUrl = PropertiesUtils.getProp("auditDeviceUrl");
 	private static String firewallDeviceUrl = PropertiesUtils.getProp("firewallDeviceUrl");
@@ -217,7 +217,7 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 	}
 
 	@Override
-	public String getDeviceName(String ipAddress) {
+	public PlatDevice getByIp(String ipAddress) {
 		if (deviceHostMap == null) {
 			this.initDeviceHostMap();
 		}
@@ -227,9 +227,9 @@ public class PlatDeviceServiceImpl implements PlatDeviceService {
 	private void initDeviceHostMap() {
 		List<PlatDevice> devices = platDeviceMapper.getAll();
 		if (devices != null && devices.size() > 0) {
-			deviceHostMap = new HashMap<String, String>();
+			deviceHostMap = new HashMap<String, PlatDevice>();
 			for (PlatDevice platDevice : devices) {
-				deviceHostMap.put(platDevice.getIp_address(), platDevice.getDevice_name());
+				deviceHostMap.put(platDevice.getIp_address() + "_" + platDevice.getType(), platDevice);
 			}
 		}
 	}

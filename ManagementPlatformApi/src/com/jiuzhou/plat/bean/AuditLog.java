@@ -7,7 +7,7 @@ import java.util.Date;
  * @author xingmh
  * @version 2022年12月27日
  */
-public class AuditLog {
+public class AuditLog implements DeviceLog {
 	
 	/**
 	  *  事件类型：正常事件

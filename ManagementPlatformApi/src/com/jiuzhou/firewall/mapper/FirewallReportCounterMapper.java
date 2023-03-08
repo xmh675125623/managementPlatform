@@ -50,6 +50,19 @@ public interface FirewallReportCounterMapper {
 	
 	
 	/**
+	 * 根据设备名、日期区间、类型获取记录列表
+	 * @param deviceName
+	 * @param counterDate
+	 * @param counterType
+	 * @return
+	 */
+	public List<FirewallReportCounter> getByDateAndType2(
+			@Param(value="count_date_start") String countDateStart,
+			@Param(value="count_date_end") String countDateEnd,
+			@Param(value="count_type") int countType);
+	
+	
+	/**
 	 * 根据设备名、日期区间、类型获取根据type分组后统计数据
 	 * @param deviceName
 	 * @param counterDate

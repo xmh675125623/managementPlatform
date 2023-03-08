@@ -28,18 +28,18 @@
       </el-col>
     </el-row>
 
-    <el-row style="padding-bottom: 12px" v-show="isOpenCondition">
-      <el-col :span="12">
-        <span style="display: inline-block; width: 100px">目的端口：</span>
-        <el-input v-model="context" placeholder="请输入目的端口" style="width: 300px"></el-input>
-      </el-col>
-      <el-col :span="12">
-        <span style="display: inline-block; width: 100px">模块：</span>
-        <el-checkbox-group v-model="module" style="display: inline-block">
-          <el-checkbox v-for="module_ in moduleArray" :label="module_.value" :key="module_.value">{{module_.label}}</el-checkbox>
-        </el-checkbox-group>
-      </el-col>
-    </el-row>
+<!--    <el-row style="padding-bottom: 12px" v-show="isOpenCondition">-->
+<!--      <el-col :span="12">-->
+<!--        <span style="display: inline-block; width: 100px">目的端口：</span>-->
+<!--        <el-input v-model="context" placeholder="请输入目的端口" style="width: 300px"></el-input>-->
+<!--      </el-col>-->
+<!--      <el-col :span="12">-->
+<!--        <span style="display: inline-block; width: 100px">模块：</span>-->
+<!--        <el-checkbox-group v-model="module" style="display: inline-block">-->
+<!--          <el-checkbox v-for="module_ in moduleArray" :label="module_.value" :key="module_.value">{{module_.label}}</el-checkbox>-->
+<!--        </el-checkbox-group>-->
+<!--      </el-col>-->
+<!--    </el-row>-->
 
     <el-row style="padding-bottom: 12px" v-show="isOpenCondition">
       <el-col :span="12">
@@ -78,18 +78,18 @@
           {{eventTypes[scope.row.event_type] || '未知'}}
         </template>
       </el-table-column>
-      <el-table-column prop="source_ip" label="源IP" width="130"/>
-      <el-table-column prop="target_ip" label="目的IP" width="130"/>
+<!--      <el-table-column prop="source_ip" label="源IP" width="130"/>-->
+<!--      <el-table-column prop="target_ip" label="目的IP" width="130"/>-->
       <el-table-column label="等级" width="80" prop="level" sortable="custom">
         <template v-slot="scope">
           {{levels[scope.row.level]}}
         </template>
       </el-table-column>
-      <el-table-column label="模块" width="120">
-        <template v-slot="scope">
-          {{modules[scope.row.module] || scope.row.module}}
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="模块" width="120">-->
+<!--        <template v-slot="scope">-->
+<!--          {{modules[scope.row.module] || scope.row.module}}-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column prop="message" label="信息"/>
       <el-table-column prop="id" label="添加时间" width="160" sortable="custom">
         <template v-slot="scope">

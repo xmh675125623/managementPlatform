@@ -13,6 +13,8 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang.StringUtils;
 
 import com.jiuzhou.firewall.bean.FirewallReportCounter;
+import com.jiuzhou.plat.bean.IndexWarnLog;
+import com.jiuzhou.plat.bean.PlatDevice;
 import com.jiuzhou.plat.init.SpringContextHolder;
 import com.jiuzhou.plat.service.PlatDeviceService;
 import com.jiuzhou.plat.util.DateUtils;
@@ -76,7 +78,11 @@ public class AuditLogReceiveThread implements Runnable {
 					int facility = PRI/8;
 					int level = PRI%8;
 					
-					String origin = platDeviceService.getDeviceName(ipAddress);
+					PlatDevice device = platDeviceService.getByIp(ipAddress + "_" + 2);
+					if (device == null) {
+						continue;
+					}
+					String origin = device.getDevice_name();
 					if (StringUtils.isBlank(origin)) {
 						continue;
 					}
@@ -152,6 +158,24 @@ public class AuditLogReceiveThread implements Runnable {
 					}
 					if (sql_list.size() < 20000) {
 						sql_list.add(sql);
+					}
+					
+					//事件等级是warning及以上的
+					if (level <= 4) {
+						//添加首页实时告警
+						IndexWarnLog warnLog = new IndexWarnLog();
+						warnLog.setLevel(FirewallLogReceiveThread.LEVEL_MAP.get(level + ""));
+						warnLog.setMessage(message);
+						warnLog.setDevice(device);
+						warnLog.setTime(DateUtils.toSimpleDateTime(currentDate));
+						IndexWarnLog.addLog(warnLog);
+						
+						//告警日志统计
+						ThreadLoader.firewallReportCounterThread.countAdd(
+								"审计", 
+								DateUtils.toSimpleDate(currentDate), 
+								FirewallReportCounter.COUNT_WARN_LOG, 
+								"审计");
 					}
 					
 					//平台总日志数计数

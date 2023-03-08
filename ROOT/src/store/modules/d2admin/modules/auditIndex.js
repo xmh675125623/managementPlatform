@@ -281,7 +281,7 @@ export default {
     },
     networkProtocolTimer: null,
 
-    // 时间等级分布
+    // 当日告警日志占比
     eventSeverityOption: {
       backgroundColor: backgroundColor_,
       color: ['#906BF9', '#eaea26', 'rgb(120, 64, 191)', '#01E17E', '#3DD1F9', '#FFAD05', 'rgb(188, 82, 188)', 'rgb(218, 160, 93)', 'rgb(191, 64, 120)', '#FE5656'],
@@ -948,6 +948,8 @@ export default {
           commit('setDeviceNumOption', res.deviceNum)
           commit('setDateHistogramOption', res.platLogCountList)
           commit('setNetworkProtocolOption', res.typeLogCountList)
+          commit('setRealTimeAlarmList', res.warnLogs)
+          commit('setEventSeverityOption', res.warnLogScale)
         }
       }
 
@@ -1060,14 +1062,7 @@ export default {
     setEventSeverityOption (state, payload) {
       const data = []
       for (const key in payload) {
-        let name_ = ''
-        if (payload[key].from) {
-          name_ += '>=' + payload[key].from + ' '
-        }
-        if (payload[key].to) {
-          name_ += 'and <' + payload[key].to
-        }
-        data.push({ name: name_, value: payload[key].doc_count })
+        data.push({ name: payload[key].device_name, value: payload[key].count_num })
       }
       state.eventSeverityOption.series[2].data = data
     },

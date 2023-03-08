@@ -2,6 +2,8 @@ package com.jiuzhou.plat.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.jiuzhou.plat.bean.PlatDevice;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -51,6 +53,6 @@ public interface PlatDeviceService {
 	 * @param ipAddress
 	 * @return
 	 */
-	public String getDeviceName(String ipAddress);
+	public PlatDevice getByIp(String ipAddress);
 
 }

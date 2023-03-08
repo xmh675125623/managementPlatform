@@ -18,7 +18,7 @@
           <div class="chart" ref="exceptionEventChart"></div>
         </div>
         <div class="chart-card" style="margin-top: 12px" :style="{background: 'url(' + require('./image/card_bg1.png') + ')', backgroundSize: '100% 100%', backgroundPosition: 'center'}">
-          <div class="chart-card-name">事件等级分布</div>
+          <div class="chart-card-name">当日告警日志占比</div>
           <div class="chart" ref="eventSeverityChart"></div>
         </div>
       </div>
@@ -31,18 +31,16 @@
           <div class="chart-card-name" style="padding-top: 2%">实时告警</div>
           <div class="chart-card-table-head">
             <div>时间</div>
+            <div>设备</div>
             <div>严重级别</div>
-            <div>告警名称</div>
-            <div>源IP</div>
-            <div>目的IP</div>
+            <div style="flex: 2">内容</div>
           </div>
           <div class="chart-card-table-body-outer">
-            <div v-for="alarm in realTimeAlarmList" class="chart-card-table-body">
-              <div>{{formatTime(alarm._source.timestamp)}}</div>
-              <div>{{alarm._source.event.severity}}</div>
-              <div>{{alarm._source.zeek.notice.category}}</div>
-              <div>{{alarm._source.related.ip[1]}}</div>
-              <div>{{alarm._source.related.ip[0]}}</div>
+            <div v-for="(alarm, i) in realTimeAlarmList" :key="i" class="chart-card-table-body" @click="handleManage(alarm.device)" style="cursor: pointer">
+              <div>{{alarm.time}}</div>
+              <div>{{alarm.device.device_name}}</div>
+              <div>{{alarm.level}}</div>
+              <div style="flex: 2; overflow: hidden; word-break: break-all">{{alarm.message}}</div>
             </div>
           </div>
         </div>
@@ -200,6 +198,9 @@ export default {
       this.exceptionEventTimer = setInterval(function () {
         that.exceptionEventChart.setOption(that.exceptionEventOption)
       }, 1000)
+    },
+    handleManage (device) {
+      window.open(device.manage_protocol + '://' + device.ip_address + (device.manage_port ? ':' + device.manage_port : ''))
     }
   }
 }

@@ -7,7 +7,7 @@ import java.util.Date;
 * @version 创建时间：2023年1月9日 上午10:15:37
 * 类说明
 */
-public class IsolationLog {
+public class IsolationLog implements DeviceLog {
 	
 	public static final int MODULE_COMMON = 1;
 	public static final int MODULE_NET_MODULE = 2;

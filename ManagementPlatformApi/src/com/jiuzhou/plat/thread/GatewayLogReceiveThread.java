@@ -13,6 +13,8 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang.StringUtils;
 
 import com.jiuzhou.firewall.bean.FirewallReportCounter;
+import com.jiuzhou.plat.bean.IndexWarnLog;
+import com.jiuzhou.plat.bean.PlatDevice;
 import com.jiuzhou.plat.init.SpringContextHolder;
 import com.jiuzhou.plat.service.PlatDeviceService;
 import com.jiuzhou.plat.util.DateUtils;
@@ -75,19 +77,29 @@ public class GatewayLogReceiveThread implements Runnable {
 			InetAddress addr = InetAddress.getByName("127.0.0.1");
 			
 			while(true){
+				String sql = null;
 				DatagramPacket dp_receive = new DatagramPacket(new byte[1024], 1024, addr, 8010);
 				try {
 					ds.receive(dp_receive);
 					String ipAddress = dp_receive.getAddress().getHostAddress();
-					String sql = new String(dp_receive.getData(), 0, dp_receive.getLength(), "UTF-8");
+					sql = new String(dp_receive.getData(), 0, dp_receive.getLength(), "UTF-8");
 //					System.out.println(sql);
 					String message = sql;
 					String number = sql.substring(sql.indexOf("<") + 1, sql.indexOf(">"));
-					int PRI = Integer.parseInt(number);
+					int PRI;
+					try {
+						PRI = Integer.parseInt(number);
+					} catch (Exception e) {
+						continue;
+					}
 					int facility = PRI/8;
 					int level = PRI%8;
 					
-					String origin = platDeviceService.getDeviceName(ipAddress);
+					PlatDevice device = platDeviceService.getByIp(ipAddress + "_" + 3);
+					if (device == null) {
+						continue;
+					}
+					String origin = device.getDevice_name();
 					if (StringUtils.isBlank(origin)) {
 						continue;
 					}
@@ -106,6 +118,24 @@ public class GatewayLogReceiveThread implements Runnable {
 						sql_list.add(sql);
 					}
 					
+					//事件等级是warning及以上的
+					if (level <= 4) {
+						//添加首页实时告警
+						IndexWarnLog warnLog = new IndexWarnLog();
+						warnLog.setLevel(LEVEL_MAP.get(level + ""));
+						warnLog.setMessage(message);
+						warnLog.setDevice(device);
+						warnLog.setTime(DateUtils.toSimpleDateTime(currentDate));
+						IndexWarnLog.addLog(warnLog);
+						
+						//告警日志统计
+						ThreadLoader.firewallReportCounterThread.countAdd(
+								"网关", 
+								DateUtils.toSimpleDate(currentDate), 
+								FirewallReportCounter.COUNT_WARN_LOG, 
+								"网关");
+					}
+					
 					//平台总日志数计数
 					ThreadLoader.firewallReportCounterThread.countAdd(
 							"plat", 
@@ -122,6 +152,7 @@ public class GatewayLogReceiveThread implements Runnable {
 					
 					
 				} catch (Exception e) {
+					System.out.println(sql);
 					e.printStackTrace();
 				}
 				

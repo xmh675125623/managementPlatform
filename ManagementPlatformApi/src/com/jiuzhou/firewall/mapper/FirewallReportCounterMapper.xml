@@ -65,6 +65,19 @@
 	</select>
 	
 	
+	<select id="getByDateAndType2" resultType="com.jiuzhou.firewall.bean.FirewallReportCounter">
+		SELECT
+			*
+		FROM 
+			firewall_report_counter
+		WHERE 
+			`count_date` BETWEEN #{count_date_start} AND #{count_date_end}
+			AND `count_type`=#{count_type} 
+		ORDER BY 
+			`count_title` ASC
+	</select>
+	
+	
 	<select id="selectGroupByTitle" resultType="com.jiuzhou.firewall.bean.FirewallReportCounter">
 		SELECT
 			`count_title`, SUM(`count_num`) `count_num`

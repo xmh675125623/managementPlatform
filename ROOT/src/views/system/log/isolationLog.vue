@@ -33,24 +33,24 @@
         <span style="display: inline-block; width: 100px">描述：</span>
         <el-input v-model="context" placeholder="请输入描述内容" style="width: 300px"></el-input>
       </el-col>
-      <el-col :span="12">
-        <span style="display: inline-block; width: 100px">模块：</span>
-        <el-checkbox-group v-model="module" style="display: inline-block">
-          <el-checkbox v-for="module_ in moduleArray" :label="module_.value" :key="module_.value">{{module_.label}}</el-checkbox>
-        </el-checkbox-group>
-      </el-col>
+<!--      <el-col :span="12">-->
+<!--        <span style="display: inline-block; width: 100px">模块：</span>-->
+<!--        <el-checkbox-group v-model="module" style="display: inline-block">-->
+<!--          <el-checkbox v-for="module_ in moduleArray" :label="module_.value" :key="module_.value">{{module_.label}}</el-checkbox>-->
+<!--        </el-checkbox-group>-->
+<!--      </el-col>-->
     </el-row>
 
-    <el-row style="padding-bottom: 12px" v-show="isOpenCondition">
-      <el-col :span="12">
-        <span style="display: inline-block; width: 100px">源IP：</span>
-        <el-input v-model="sip" placeholder="请输入源IP" style="width: 300px"></el-input>
-      </el-col>
-      <el-col :span="12">
-        <span style="display: inline-block; width: 100px">目的IP：</span>
-        <el-input v-model="dip" placeholder="请输入目的IP" style="width: 300px"></el-input>
-      </el-col>
-    </el-row>
+<!--    <el-row style="padding-bottom: 12px" v-show="isOpenCondition">-->
+<!--      <el-col :span="12">-->
+<!--        <span style="display: inline-block; width: 100px">源IP：</span>-->
+<!--        <el-input v-model="sip" placeholder="请输入源IP" style="width: 300px"></el-input>-->
+<!--      </el-col>-->
+<!--      <el-col :span="12">-->
+<!--        <span style="display: inline-block; width: 100px">目的IP：</span>-->
+<!--        <el-input v-model="dip" placeholder="请输入目的IP" style="width: 300px"></el-input>-->
+<!--      </el-col>-->
+<!--    </el-row>-->
 
     <el-row style="padding-bottom: 12px" v-show="isOpenCondition">
       <el-col :span="12"><span style="display: inline-block; width: 100px"></span></el-col>
@@ -78,11 +78,11 @@
           {{severitys[scope.row.severity]}}
         </template>
       </el-table-column>
-      <el-table-column label="模块" width="120" prop="tag" sortable="custom">
-        <template v-slot="scope">
-          {{modules[scope.row.tag] || scope.row.tag}}
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="模块" width="120" prop="tag" sortable="custom">-->
+<!--        <template v-slot="scope">-->
+<!--          {{modules[scope.row.tag] || scope.row.tag}}-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column prop="message" label="信息"/>
       <el-table-column prop="id" label="添加时间" width="160" sortable="custom">
         <template v-slot="scope">

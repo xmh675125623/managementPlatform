@@ -11,7 +11,7 @@
 			`type`,
 			`device_name`,
 			`device_mark`,
-			`manage_protocol`
+			`manage_protocol`,
 			`ip_address`,
 			`manage_port`,
 			`access_url`,

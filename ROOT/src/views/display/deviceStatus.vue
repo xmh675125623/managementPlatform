@@ -13,7 +13,9 @@ export default {
   },
   mounted () {
     // this.frameSrc = 'https://' + util.cookies.get('hostGrafana') + '/grafana/?orgId=1&var-interval=$__auto_interval_interval'
-    this.frameSrc = 'https://' + util.cookies.get('hostGrafana') + '/dashboards/app/dashboards#/view/4a4bde20-4760-11ea-949c-bbb5a9feecbf'
+    this.frameSrc = 'https://' +
+      util.cookies.get('hostGrafana') +
+      '/dashboards/app/dashboards#/view/4a4bde20-4760-11ea-949c-bbb5a9feecbf?embed=true&_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3Anow-1h%2Cto%3Anow))&show-query-input=true&show-time-filter=true'
   },
   methods: {
   }

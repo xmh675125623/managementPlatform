@@ -20,7 +20,7 @@ export default {
   mounted () {
     this.frameSrc = 'https://' +
       util.cookies.get('hostKibana') +
-      '/dashboards/app/dashboards#/view/a33e0a50-afcd-11ea-993f-b7d8522a8bed'
+      '/dashboards/app/dashboards#/view/a33e0a50-afcd-11ea-993f-b7d8522a8bed?embed=true&_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3Anow-1h%2Cto%3Anow))&show-query-input=true&show-time-filter=true'
   },
   methods: {
   }

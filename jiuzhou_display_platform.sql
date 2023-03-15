@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 192.168.0.84
+ Source Server         : 192.168.0.10
  Source Server Type    : MySQL
  Source Server Version : 80029
- Source Host           : 192.168.0.84:3306
+ Source Host           : 192.168.0.10:3306
  Source Schema         : jiuzhou_management_platform
 
  Target Server Type    : MySQL
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 09/03/2023 16:25:09
+ Date: 15/03/2023 10:53:48
 */
 
 SET NAMES utf8mb4;
@@ -26,7 +26,7 @@ CREATE TABLE `audit_event_level`  (
   `event_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '事件名称',
   `event_level` int(0) NULL DEFAULT NULL COMMENT '事件等级',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of audit_event_level
@@ -50,7 +50,7 @@ CREATE TABLE `audit_modbus_function_code`  (
   `code` int(0) NULL DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of audit_modbus_function_code
@@ -116,7 +116,7 @@ CREATE TABLE `audit_whitelist_rule_template`  (
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类型',
   `template` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '白名单规则模板' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '白名单规则模板' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of audit_whitelist_rule_template
@@ -179,7 +179,7 @@ CREATE TABLE `firewall_asset`  (
   `update_time` datetime(0) NULL DEFAULT NULL,
   `update_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资产表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '资产表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_asset
@@ -281,7 +281,7 @@ CREATE TABLE `firewall_device_ethernet`  (
   `mask` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '网口子网掩码',
   `gateway` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '网口网关',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '防火墙设备网口信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '防火墙设备网口信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_device_ethernet
@@ -357,7 +357,7 @@ CREATE TABLE `firewall_log_0005b7e89c97_20190311`  (
   `context` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '描述',
   `add_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '审计日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '审计日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_log_0005b7e89c97_20190311
@@ -390,7 +390,7 @@ CREATE TABLE `firewall_log_0005b7e89c9d_20190310`  (
   `context` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '描述',
   `add_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '审计日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '审计日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_log_0005b7e89c9d_20190310
@@ -452,7 +452,7 @@ CREATE TABLE `firewall_log_b0518efff72b_20190422`  (
   INDEX `level`(`level`) USING BTREE,
   INDEX `source_ip`(`source_ip`) USING BTREE,
   INDEX `target_ip`(`target_ip`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '审计日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '审计日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_log_b0518efff72b_20190422
@@ -516,7 +516,7 @@ CREATE TABLE `firewall_mac_scan`  (
   `mac_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `add_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 191 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 192 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_mac_scan
@@ -748,7 +748,7 @@ CREATE TABLE `firewall_report_counter`  (
   `count_title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '计数题目',
   `count_num` bigint(0) NULL DEFAULT NULL COMMENT '数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_report_counter
@@ -787,7 +787,7 @@ CREATE TABLE `firewall_rule_custom`  (
   `dport` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '目的端口',
   `sport` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '源端口',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10813 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户自定义规则' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10814 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户自定义规则' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_rule_custom
@@ -1636,7 +1636,7 @@ CREATE TABLE `firewall_rule_modbus_tcp`  (
   `write_addrs` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '写地址',
   `write_values` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '写值列表',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'modbus_tcp规则' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'modbus_tcp规则' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_rule_modbus_tcp
@@ -1670,7 +1670,7 @@ CREATE TABLE `firewall_rule_s7`  (
   `function_group_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `sub_function_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_rule_s7
@@ -1691,7 +1691,7 @@ CREATE TABLE `firewall_rule_temp`  (
   `rule_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '规则名称',
   `insert_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1136 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '规则库' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1137 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '规则库' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_rule_temp
@@ -1880,7 +1880,7 @@ CREATE TABLE `firewall_session_control`  (
   `update_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `tcp_port` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'tcp端口',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_session_control
@@ -1906,7 +1906,7 @@ CREATE TABLE `firewall_session_keep`  (
   `update_time` datetime(0) NULL DEFAULT NULL,
   `update_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_session_keep
@@ -1959,7 +1959,7 @@ CREATE TABLE `firewall_strategy`  (
   `update_time` datetime(0) NULL DEFAULT NULL,
   `update_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`strategy_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 833 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '策略表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 834 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '策略表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_strategy
@@ -2799,7 +2799,7 @@ CREATE TABLE `firewall_strategy_group`  (
   `update_time` datetime(0) NULL DEFAULT NULL,
   `update_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of firewall_strategy_group
@@ -2838,7 +2838,7 @@ CREATE TABLE `iec104_asdu_constant`  (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 135 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 136 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of iec104_asdu_constant
@@ -2947,7 +2947,7 @@ CREATE TABLE `plat_admin_user`  (
 -- Records of plat_admin_user
 -- ----------------------------
 INSERT INTO `plat_admin_user` VALUES (-1, 'jiuzhou_root', '574948BF773600B0E91E562DA7364195', 'c4ca4238a0b923820dcc509a6f75849b', 1, 'ROOT管理员', NULL, NULL, NULL, NULL, 'ROOT管理员与超级管理员一样的权限，不对外开放，用于超级管理员忘记密码或登录次数限制时使用', 0, 0, '2020-09-20 10:07:54', NULL, '2020-09-14 10:00:16');
-INSERT INTO `plat_admin_user` VALUES (1, 'admin', 'F3018AA3E291B9C5D2E4C2C9AE99884B', 'c4ca4238a0b923820dcc509a6f75849b', 1, '超级管理员', '2018-01-01 00:00:00', '系统初始', '2018-01-01 00:00:00', '系统初始', NULL, 0, 0, '2023-03-09 14:10:05', NULL, '2023-02-24 13:43:46');
+INSERT INTO `plat_admin_user` VALUES (1, 'admin', 'F3018AA3E291B9C5D2E4C2C9AE99884B', 'c4ca4238a0b923820dcc509a6f75849b', 1, '超级管理员', '2018-01-01 00:00:00', '系统初始', '2018-01-01 00:00:00', '系统初始', NULL, 0, 0, '2023-03-15 10:53:21', NULL, '2023-02-24 13:43:46');
 INSERT INTO `plat_admin_user` VALUES (10000, 'CCC', '4EB8E718662FB0DFA4503AC36CFB35E5', '833344d5e1432da82ef02e1301477ce8', 1, 'CCC', '2019-03-21 22:05:46', '超级管理员', '2020-07-21 13:49:06', '超级管理员', 'aa', 0, 0, '2019-03-21 22:12:56', NULL, '2021-04-06 22:12:44');
 INSERT INTO `plat_admin_user` VALUES (10001, 'DDD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL);
 INSERT INTO `plat_admin_user` VALUES (10002, 'EEE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, NULL, NULL);
@@ -2977,7 +2977,7 @@ CREATE TABLE `plat_data_dictionary_dic`  (
   `dic_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类型code',
   `dic_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类型名称',
   PRIMARY KEY (`dic_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典类型' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典类型' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_data_dictionary_dic
@@ -3025,7 +3025,7 @@ CREATE TABLE `plat_device`  (
   `gateway` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '默认网关',
   `insert_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_device
@@ -3066,7 +3066,7 @@ CREATE TABLE `plat_function`  (
   `update_time` datetime(0) NULL DEFAULT NULL,
   `update_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 207 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单功能表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 214 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单功能表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_function
@@ -3194,7 +3194,7 @@ INSERT INTO `plat_function` VALUES (192, NULL, '报表', NULL, NULL, '/firewall/
 INSERT INTO `plat_function` VALUES (193, NULL, '日志报表', NULL, NULL, '/firewall/report/log_report', NULL, 192, 3, 0, 1, 0, NULL, 1, NULL, NULL, NULL, NULL);
 INSERT INTO `plat_function` VALUES (194, '防火墙日志报表生成', NULL, NULL, 'firewall.report_log_report.search', NULL, NULL, 193, 4, 0, 0, 1, NULL, 1, NULL, NULL, NULL, NULL);
 INSERT INTO `plat_function` VALUES (195, '防火墙日志报表导出', NULL, NULL, 'firewall.report_log_report.export', NULL, NULL, 193, 4, 0, 0, 1, NULL, 2, NULL, NULL, NULL, NULL);
-INSERT INTO `plat_function` VALUES (196, NULL, '设备管理', NULL, NULL, '/device', NULL, 0, 1, 0, 1, 0, NULL, 3, NULL, NULL, NULL, NULL);
+INSERT INTO `plat_function` VALUES (196, NULL, '设备管理', NULL, NULL, '/device', NULL, 0, 1, 1, 1, 0, NULL, 3, NULL, NULL, NULL, NULL);
 INSERT INTO `plat_function` VALUES (197, NULL, '设备管理', NULL, NULL, '/device/device', NULL, 196, 2, 0, 1, 0, NULL, 1, NULL, NULL, NULL, NULL);
 INSERT INTO `plat_function` VALUES (198, NULL, '设备列表', NULL, NULL, '/device/device/list', NULL, 197, 3, 0, 1, 0, NULL, 1, NULL, NULL, NULL, NULL);
 INSERT INTO `plat_function` VALUES (199, '设备列表查询', NULL, NULL, 'plat.device.list', NULL, NULL, 198, 4, 0, 0, 0, NULL, 1, NULL, NULL, NULL, NULL);
@@ -3212,6 +3212,7 @@ INSERT INTO `plat_function` VALUES (210, NULL, '数据流量图', NULL, NULL, '/
 INSERT INTO `plat_function` VALUES (211, NULL, '流量统计', NULL, NULL, '/display/flow_statistics', NULL, 203, 2, 0, 1, 0, NULL, 8, NULL, NULL, NULL, NULL);
 INSERT INTO `plat_function` VALUES (212, NULL, '网络连接', NULL, NULL, '/display/network_connections', NULL, 203, 2, 0, 1, 0, NULL, 9, NULL, NULL, NULL, NULL);
 INSERT INTO `plat_function` VALUES (213, NULL, '网络服务-动作/响应', NULL, NULL, '/display/network_service_action_response', NULL, 203, 2, 0, 1, 0, NULL, 10, NULL, NULL, NULL, NULL);
+INSERT INTO `plat_function` VALUES (214, NULL, '平台硬件资源监控', NULL, NULL, '/display/device_monitor', NULL, 203, 2, 0, 1, 0, NULL, 11, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for plat_ip_whitelist
@@ -3242,7 +3243,7 @@ CREATE TABLE `plat_operate_log_202011`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 158 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 159 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202011
@@ -3422,7 +3423,7 @@ CREATE TABLE `plat_operate_log_202012`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 136 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 137 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202012
@@ -3580,7 +3581,7 @@ CREATE TABLE `plat_operate_log_202101`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202101
@@ -3639,7 +3640,7 @@ CREATE TABLE `plat_operate_log_202104`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1340 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1341 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202104
@@ -5001,7 +5002,7 @@ CREATE TABLE `plat_operate_log_202105`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202105
@@ -5033,7 +5034,7 @@ CREATE TABLE `plat_operate_log_202106`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202106
@@ -5073,7 +5074,7 @@ CREATE TABLE `plat_operate_log_202107`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 263 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 264 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202107
@@ -5358,7 +5359,7 @@ CREATE TABLE `plat_operate_log_202109`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202109
@@ -5383,7 +5384,7 @@ CREATE TABLE `plat_operate_log_202111`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202111
@@ -5465,7 +5466,7 @@ CREATE TABLE `plat_operate_log_202112`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 93 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 94 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202112
@@ -5580,7 +5581,7 @@ CREATE TABLE `plat_operate_log_202201`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202201
@@ -5625,7 +5626,7 @@ CREATE TABLE `plat_operate_log_202203`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202203
@@ -5634,6 +5635,74 @@ INSERT INTO `plat_operate_log_202203` VALUES (1, '登录', -10000, '用户登录
 INSERT INTO `plat_operate_log_202203` VALUES (2, '功能请求', 5, '用户查询', NULL, 1, '超级管理员', '验证通过', '192.168.0.14', '2022-03-14 13:33:08');
 INSERT INTO `plat_operate_log_202203` VALUES (3, '功能请求', 15, '设置查询', NULL, 1, '超级管理员', '验证通过', '192.168.0.14', '2022-03-14 13:33:13');
 INSERT INTO `plat_operate_log_202203` VALUES (4, '功能请求', 26, '日志查看', NULL, 1, '超级管理员', '验证通过', '192.168.0.14', '2022-03-14 13:33:18');
+
+-- ----------------------------
+-- Table structure for plat_operate_log_202212
+-- ----------------------------
+DROP TABLE IF EXISTS `plat_operate_log_202212`;
+CREATE TABLE `plat_operate_log_202212`  (
+  `id` bigint(0) NOT NULL AUTO_INCREMENT,
+  `type` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `function_id` int(0) NULL DEFAULT NULL COMMENT '功能id',
+  `function_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '功能名称',
+  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '描述',
+  `user_id` int(0) NULL DEFAULT NULL COMMENT '用户id',
+  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作者',
+  `auth_result` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否通过验证',
+  `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
+  `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of plat_operate_log_202212
+-- ----------------------------
+INSERT INTO `plat_operate_log_202212` VALUES (1, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2022-12-29 12:10:06');
+INSERT INTO `plat_operate_log_202212` VALUES (2, '功能请求', 15, '设置查询', '用户登录信息验证失败，未通过验证', 0, NULL, '验证失败', '172.18.0.4', '2022-12-29 13:07:00');
+INSERT INTO `plat_operate_log_202212` VALUES (3, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2022-12-29 13:07:05');
+INSERT INTO `plat_operate_log_202212` VALUES (4, '功能请求', 15, '设置查询', NULL, 1, '超级管理员', '验证通过', '172.18.0.4', '2022-12-29 13:07:07');
+INSERT INTO `plat_operate_log_202212` VALUES (5, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2022-12-29 13:38:02');
+INSERT INTO `plat_operate_log_202212` VALUES (6, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2022-12-30 16:01:52');
+
+-- ----------------------------
+-- Table structure for plat_operate_log_202301
+-- ----------------------------
+DROP TABLE IF EXISTS `plat_operate_log_202301`;
+CREATE TABLE `plat_operate_log_202301`  (
+  `id` bigint(0) NOT NULL AUTO_INCREMENT,
+  `type` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `function_id` int(0) NULL DEFAULT NULL COMMENT '功能id',
+  `function_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '功能名称',
+  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '描述',
+  `user_id` int(0) NULL DEFAULT NULL COMMENT '用户id',
+  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作者',
+  `auth_result` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否通过验证',
+  `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
+  `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of plat_operate_log_202301
+-- ----------------------------
+INSERT INTO `plat_operate_log_202301` VALUES (1, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-03 09:20:02');
+INSERT INTO `plat_operate_log_202301` VALUES (2, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.9', '2023-01-09 08:55:39');
+INSERT INTO `plat_operate_log_202301` VALUES (3, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-13 15:12:18');
+INSERT INTO `plat_operate_log_202301` VALUES (4, '功能请求', 22, '个人信息查询', NULL, 1, '超级管理员', '验证通过', '172.18.0.4', '2023-01-13 15:12:33');
+INSERT INTO `plat_operate_log_202301` VALUES (5, '功能请求', 23, '个人信息修改', '编辑前\n[账号：admin][密码：F3018AA3E291B9C5D2E4C2C9AE99884B][操作密码：c4ca4238a0b923820dcc509a6f75849b][角色：超级管理员][用户名：超级管理员][备注：null]\n编辑后\n[账号：admin][密码：F3018AA3E291B9C5D2E4C2C9AE99884B][操作密码：c4ca4238a0b923820dcc509a6f75849b][角色：超级管理员][用户名：超级管理员][备注：null]', 1, '超级管理员', '验证通过', '172.18.0.4', '2023-01-13 15:12:46');
+INSERT INTO `plat_operate_log_202301` VALUES (6, '功能请求', 22, '个人信息查询', '用户登录信息验证失败，未通过验证', 0, NULL, '验证失败', '172.18.0.4', '2023-01-13 15:12:46');
+INSERT INTO `plat_operate_log_202301` VALUES (7, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-13 15:12:50');
+INSERT INTO `plat_operate_log_202301` VALUES (8, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-13 15:14:43');
+INSERT INTO `plat_operate_log_202301` VALUES (9, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-13 15:42:19');
+INSERT INTO `plat_operate_log_202301` VALUES (10, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-13 15:45:31');
+INSERT INTO `plat_operate_log_202301` VALUES (11, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-13 15:46:20');
+INSERT INTO `plat_operate_log_202301` VALUES (12, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-13 15:52:44');
+INSERT INTO `plat_operate_log_202301` VALUES (13, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-13 15:53:19');
+INSERT INTO `plat_operate_log_202301` VALUES (14, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-13 16:45:30');
+INSERT INTO `plat_operate_log_202301` VALUES (15, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-13 16:45:35');
+INSERT INTO `plat_operate_log_202301` VALUES (16, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.4', '2023-01-16 09:24:19');
+INSERT INTO `plat_operate_log_202301` VALUES (17, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证失败', '172.18.0.5', '2023-01-30 09:10:43');
+INSERT INTO `plat_operate_log_202301` VALUES (18, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.5', '2023-01-30 09:10:51');
 
 -- ----------------------------
 -- Table structure for plat_operate_log_202302
@@ -5651,7 +5720,7 @@ CREATE TABLE `plat_operate_log_202302`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202302
@@ -5685,7 +5754,7 @@ CREATE TABLE `plat_operate_log_202303`  (
   `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地址',
   `add_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户界面操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_operate_log_202303
@@ -5702,6 +5771,14 @@ INSERT INTO `plat_operate_log_202303` VALUES (9, '功能请求', 199, '设备列
 INSERT INTO `plat_operate_log_202303` VALUES (10, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.20.0.7', '2023-03-09 09:28:16');
 INSERT INTO `plat_operate_log_202303` VALUES (11, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.20.0.7', '2023-03-09 11:03:10');
 INSERT INTO `plat_operate_log_202303` VALUES (12, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.20.0.7', '2023-03-09 14:10:05');
+INSERT INTO `plat_operate_log_202303` VALUES (13, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.2', '2023-03-13 10:34:53');
+INSERT INTO `plat_operate_log_202303` VALUES (14, '功能请求', 199, '设备列表查询', NULL, 1, '超级管理员', '验证通过', '172.18.0.2', '2023-03-13 10:34:58');
+INSERT INTO `plat_operate_log_202303` VALUES (15, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.2', '2023-03-13 10:35:37');
+INSERT INTO `plat_operate_log_202303` VALUES (16, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.2', '2023-03-13 13:02:54');
+INSERT INTO `plat_operate_log_202303` VALUES (17, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.2', '2023-03-14 10:15:32');
+INSERT INTO `plat_operate_log_202303` VALUES (18, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.2', '2023-03-14 13:08:50');
+INSERT INTO `plat_operate_log_202303` VALUES (19, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.2', '2023-03-14 17:26:39');
+INSERT INTO `plat_operate_log_202303` VALUES (20, '登录', -10000, '用户登录', '用户名：admin 密码：F3018AA3E291B9C5D2E4C2C9AE99884B ', 0, NULL, '验证成功', '172.18.0.2', '2023-03-15 10:53:21');
 
 -- ----------------------------
 -- Table structure for plat_role
@@ -5719,7 +5796,7 @@ CREATE TABLE `plat_role`  (
   `update_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_role
@@ -5740,7 +5817,7 @@ CREATE TABLE `plat_role_function`  (
   `add_time` datetime(0) NULL DEFAULT NULL,
   `add_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色功能表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色功能表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of plat_role_function
@@ -5807,7 +5884,7 @@ CREATE TABLE `s7_function_code`  (
   `func` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 65 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 66 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of s7_function_code
@@ -5923,7 +6000,7 @@ CREATE TABLE `test_insert`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `val` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 199 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 200 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of test_insert

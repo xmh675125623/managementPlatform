@@ -21,6 +21,7 @@ export default {
     { path: 'data_flow_chart', name: 'data_flow_chart', component: _import('display/dataFlowChart.vue'), meta: { ...meta, title: '数据流量图' } },
     { path: 'flow_statistics', name: 'flow_statistics', component: _import('display/flowStatistics.vue'), meta: { ...meta, title: '流量统计' } },
     { path: 'network_connections', name: 'network_connections', component: _import('display/networkConnections.vue'), meta: { ...meta, title: '网络连接' } },
-    { path: 'network_service_action_response', name: 'network_service_action_response', component: _import('display/networkServiceActionResponse.vue'), meta: { ...meta, title: '网络服务-动作/响应' } }
+    { path: 'network_service_action_response', name: 'network_service_action_response', component: _import('display/networkServiceActionResponse.vue'), meta: { ...meta, title: '网络服务-动作/响应' } },
+    { path: 'device_monitor', name: 'device_monitor', component: _import('display/deviceMonitor.vue'), meta: { ...meta, title: '平台硬件资源监控' } }
   ]
 }
